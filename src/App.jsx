@@ -1,13 +1,13 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext, useContext } from "react";
 import {
   BookOpen, Calendar, Users, MessageSquare, Bell, ExternalLink,
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Leaf
+  CheckCircle, ArrowRight, Leaf, Moon, Sun
 } from "lucide-react";
 
-const COLORS = {
+const LIGHT_COLORS = {
   sage: "#7B8F6B",
   sageDark: "#5A6B4D",
   sageLight: "#A8B89A",
@@ -22,6 +22,24 @@ const COLORS = {
   moss: "#4A5E3C",
   mist: "#E8EDE4",
 };
+
+const DARK_COLORS = {
+  sage: "#8CA17C",
+  sageDark: "#7B9468",
+  sageLight: "#6B8B5A",
+  cream: "#1B1D1B",
+  creamDark: "#2A2E2A",
+  warmWhite: "#232623",
+  charcoal: "#E2DED6",
+  softBlack: "#ECE8E0",
+  warmGray: "#9E9890",
+  accent: "#D4A57A",
+  accentLight: "#C49568",
+  moss: "#7B9F68",
+  mist: "#2A3528",
+};
+
+const ThemeContext = createContext(LIGHT_COLORS);
 
 const EIXOS = {
   "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
@@ -81,6 +99,7 @@ function FadeIn({ children, delay = 0, className = "" }) {
 }
 
 function NavItem({ icon: Icon, label, active, onClick }) {
+  const colors = useContext(ThemeContext);
   return (
     <button
       onClick={onClick}
@@ -89,11 +108,11 @@ function NavItem({ icon: Icon, label, active, onClick }) {
         borderRadius: "10px", border: "none", cursor: "pointer", width: "100%",
         textAlign: "left", fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
         fontWeight: active ? 600 : 400,
-        background: active ? COLORS.mist : "transparent",
-        color: active ? COLORS.moss : COLORS.warmGray,
+        background: active ? colors.mist : "transparent",
+        color: active ? colors.moss : colors.warmGray,
         transition: "all 0.25s ease",
       }}
-      onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = COLORS.cream; }}
+      onMouseEnter={(e) => { if (!active) e.currentTarget.style.background = colors.cream; }}
       onMouseLeave={(e) => { if (!active) e.currentTarget.style.background = "transparent"; }}
     >
       <Icon size={18} />
@@ -119,11 +138,12 @@ function EixoTag({ eixo }) {
 }
 
 function HeroSection() {
+  const colors = useContext(ThemeContext);
   return (
     <FadeIn>
-      <div style={{
+      <div className="hero-section" style={{
         position: "relative", borderRadius: "20px", overflow: "hidden",
-        background: `linear-gradient(135deg, ${COLORS.moss} 0%, ${COLORS.sage} 50%, ${COLORS.sageLight} 100%)`,
+        background: `linear-gradient(135deg, ${colors.moss} 0%, ${colors.sage} 50%, ${colors.sageLight} 100%)`,
         padding: "48px 40px", color: "white", marginBottom: "32px",
       }}>
         <div style={{
@@ -166,9 +186,10 @@ function HeroSection() {
 }
 
 function QuickAccess() {
+  const colors = useContext(ThemeContext);
   const cards = [
-    { icon: Globe, label: "Notion", desc: "Contatos, cronograma e links dos encontros", color: COLORS.charcoal },
-    { icon: FileText, label: "Google Drive", desc: "Textos, cartilhas e livros por eixo temático", color: COLORS.sage },
+    { icon: Globe, label: "Notion", desc: "Contatos, cronograma e links dos encontros", color: colors.charcoal },
+    { icon: FileText, label: "Google Drive", desc: "Textos, cartilhas e livros por eixo temático", color: colors.sage },
   ];
   return (
     <FadeIn delay={0.1}>
@@ -179,7 +200,7 @@ function QuickAccess() {
             style={{
               display: "flex", alignItems: "center", gap: "16px",
               padding: "20px 24px", borderRadius: "16px", cursor: "pointer",
-              background: COLORS.warmWhite, border: `1px solid ${COLORS.creamDark}`,
+              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
               transition: "all 0.3s ease",
             }}
             onMouseEnter={(e) => {
@@ -199,14 +220,14 @@ function QuickAccess() {
               <c.icon size={22} color={c.color} />
             </div>
             <div style={{ flex: 1 }}>
-              <div style={{ fontSize: "15px", fontWeight: 600, color: COLORS.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
+              <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
                 {c.label}
               </div>
-              <div style={{ fontSize: "13px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                 {c.desc}
               </div>
             </div>
-            <ExternalLink size={16} color={COLORS.warmGray} style={{ opacity: 0.5 }} />
+            <ExternalLink size={16} color={colors.warmGray} style={{ opacity: 0.5 }} />
           </div>
         ))}
       </div>
@@ -215,19 +236,20 @@ function QuickAccess() {
 }
 
 function MuralAvisos() {
+  const colors = useContext(ThemeContext);
   return (
     <FadeIn delay={0.15}>
       <div style={{
         borderRadius: "16px", overflow: "hidden", marginBottom: "32px",
-        background: COLORS.warmWhite, border: `1px solid ${COLORS.creamDark}`,
+        background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
       }}>
         <div style={{
           padding: "16px 24px", display: "flex", alignItems: "center", gap: "10px",
-          borderBottom: `1px solid ${COLORS.creamDark}`,
-          background: COLORS.cream,
+          borderBottom: `1px solid ${colors.creamDark}`,
+          background: colors.cream,
         }}>
-          <Bell size={16} color={COLORS.sage} />
-          <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: COLORS.sage, fontFamily: "'DM Sans', sans-serif" }}>
+          <Bell size={16} color={colors.sage} />
+          <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: colors.sage, fontFamily: "'DM Sans', sans-serif" }}>
             Mural de Avisos
           </span>
         </div>
@@ -235,25 +257,25 @@ function MuralAvisos() {
           <div style={{
             display: "flex", alignItems: "flex-start", gap: "16px",
             padding: "20px", borderRadius: "12px",
-            background: `linear-gradient(135deg, ${COLORS.sage}08, ${COLORS.sage}15)`,
-            border: `1px solid ${COLORS.sage}20`,
+            background: `linear-gradient(135deg, ${colors.sage}08, ${colors.sage}15)`,
+            border: `1px solid ${colors.sage}20`,
             marginBottom: "16px",
           }}>
             <div style={{
               width: "40px", height: "40px", borderRadius: "10px",
-              background: COLORS.sage, display: "flex", alignItems: "center",
+              background: colors.sage, display: "flex", alignItems: "center",
               justifyContent: "center", flexShrink: 0,
             }}>
               <Sparkles size={18} color="white" />
             </div>
             <div>
-              <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: COLORS.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+              <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
                 Próximo Encontro
               </div>
-              <div style={{ fontSize: "18px", fontWeight: 600, color: COLORS.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "6px" }}>
+              <div style={{ fontSize: "18px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "6px" }}>
                 Psicoterapia Online
               </div>
-              <div style={{ fontSize: "13px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
+              <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
                 Leitura: <em>Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação</em> — Carmelita Gomes, Marcelo de Araújo
               </div>
             </div>
@@ -261,10 +283,10 @@ function MuralAvisos() {
           <div style={{
             display: "flex", alignItems: "center", gap: "10px",
             padding: "14px 16px", borderRadius: "10px",
-            background: COLORS.accent + "12", border: `1px solid ${COLORS.accent}25`,
+            background: colors.accent + "12", border: `1px solid ${colors.accent}25`,
           }}>
-            <AlertTriangle size={16} color={COLORS.accent} />
-            <span style={{ fontSize: "13px", color: COLORS.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
+            <AlertTriangle size={16} color={colors.accent} />
+            <span style={{ fontSize: "13px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
               Não se esqueça de assinar a lista de presença durante o encontro!
             </span>
           </div>
@@ -275,6 +297,7 @@ function MuralAvisos() {
 }
 
 function CronogramaSection() {
+  const colors = useContext(ThemeContext);
   const [expanded, setExpanded] = useState(null);
   const [filterEixo, setFilterEixo] = useState(null);
   const filtered = filterEixo ? CRONOGRAMA.filter((c) => c.eixo === filterEixo) : CRONOGRAMA;
@@ -284,10 +307,10 @@ function CronogramaSection() {
       <div style={{ marginBottom: "32px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
           <div>
-            <h2 style={{ fontSize: "22px", fontWeight: 600, color: COLORS.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
+            <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
               Cronograma 2026.1
             </h2>
-            <p style={{ fontSize: "13px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
               Segundas-feiras às 19h — Formato Online
             </p>
           </div>
@@ -297,9 +320,9 @@ function CronogramaSection() {
           <button
             onClick={() => setFilterEixo(null)}
             style={{
-              padding: "6px 14px", borderRadius: "20px", border: `1px solid ${!filterEixo ? COLORS.sage : COLORS.creamDark}`,
-              background: !filterEixo ? COLORS.sage + "15" : "transparent",
-              color: !filterEixo ? COLORS.sage : COLORS.warmGray,
+              padding: "6px 14px", borderRadius: "20px", border: `1px solid ${!filterEixo ? colors.sage : colors.creamDark}`,
+              background: !filterEixo ? colors.sage + "15" : "transparent",
+              color: !filterEixo ? colors.sage : colors.warmGray,
               fontSize: "12px", fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
               transition: "all 0.2s",
             }}
@@ -312,9 +335,9 @@ function CronogramaSection() {
               onClick={() => setFilterEixo(name)}
               style={{
                 padding: "6px 14px", borderRadius: "20px",
-                border: `1px solid ${filterEixo === name ? color : COLORS.creamDark}`,
+                border: `1px solid ${filterEixo === name ? color : colors.creamDark}`,
                 background: filterEixo === name ? color + "15" : "transparent",
-                color: filterEixo === name ? color : COLORS.warmGray,
+                color: filterEixo === name ? color : colors.warmGray,
                 fontSize: "12px", fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
                 transition: "all 0.2s",
               }}
@@ -333,8 +356,8 @@ function CronogramaSection() {
                 key={i}
                 style={{
                   borderRadius: "12px", overflow: "hidden",
-                  background: isHoliday ? COLORS.cream : COLORS.warmWhite,
-                  border: `1px solid ${COLORS.creamDark}`,
+                  background: isHoliday ? colors.cream : colors.warmWhite,
+                  border: `1px solid ${colors.creamDark}`,
                   opacity: isHoliday ? 0.6 : 1,
                   transition: "all 0.25s",
                 }}
@@ -349,34 +372,34 @@ function CronogramaSection() {
                   <div style={{
                     width: "52px", textAlign: "center", flexShrink: 0,
                   }}>
-                    <div style={{ fontSize: "18px", fontWeight: 700, color: COLORS.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1 }}>
+                    <div style={{ fontSize: "18px", fontWeight: 700, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1 }}>
                       {item.data.split("/")[0]}
                     </div>
-                    <div style={{ fontSize: "11px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                    <div style={{ fontSize: "11px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                       /{item.data.split("/")[1]}
                     </div>
                   </div>
-                  <div style={{ width: "3px", height: "32px", borderRadius: "2px", background: item.eixo ? EIXOS[item.eixo].color + "40" : COLORS.creamDark, flexShrink: 0 }} />
+                  <div style={{ width: "3px", height: "32px", borderRadius: "2px", background: item.eixo ? EIXOS[item.eixo].color + "40" : colors.creamDark, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "15px", fontWeight: 500, color: COLORS.charcoal, fontFamily: "'DM Sans', sans-serif" }}>
+                    <div style={{ fontSize: "15px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif" }}>
                       {item.tema}
                     </div>
                     {item.eixo && <div style={{ marginTop: "4px" }}><EixoTag eixo={item.eixo} /></div>}
                   </div>
                   {item.part && (
-                    <div style={{
+                    <div className="palestrante-badge" style={{
                       display: "flex", alignItems: "center", gap: "4px",
                       padding: "4px 10px", borderRadius: "20px",
-                      background: COLORS.accent + "15", flexShrink: 0,
+                      background: colors.accent + "15", flexShrink: 0,
                     }}>
-                      <Users size={12} color={COLORS.accent} />
-                      <span style={{ fontSize: "11px", color: COLORS.accent, fontWeight: 500, fontFamily: "'DM Sans', sans-serif" }}>Palestrante</span>
+                      <Users size={12} color={colors.accent} />
+                      <span style={{ fontSize: "11px", color: colors.accent, fontWeight: 500, fontFamily: "'DM Sans', sans-serif" }}>Palestrante</span>
                     </div>
                   )}
                   {!isHoliday && (
                     <ChevronDown
                       size={16}
-                      color={COLORS.warmGray}
+                      color={colors.warmGray}
                       style={{
                         transform: isOpen ? "rotate(180deg)" : "rotate(0)",
                         transition: "transform 0.25s", flexShrink: 0,
@@ -385,27 +408,27 @@ function CronogramaSection() {
                   )}
                 </div>
                 {isOpen && (
-                  <div style={{
+                  <div className="cronograma-detail" style={{
                     padding: "0 20px 16px 88px",
-                    borderTop: `1px solid ${COLORS.creamDark}`,
+                    borderTop: `1px solid ${colors.creamDark}`,
                     paddingTop: "16px",
                   }}>
                     {item.bib && (
                       <div style={{ marginBottom: item.part ? "12px" : 0 }}>
-                        <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: COLORS.sage, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
+                        <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: colors.sage, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
                           Bibliografia
                         </div>
-                        <div style={{ fontSize: "13px", color: COLORS.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>
+                        <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>
                           {item.bib}
                         </div>
                       </div>
                     )}
                     {item.part && (
                       <div>
-                        <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: COLORS.accent, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
+                        <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: colors.accent, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
                           Participação Especial
                         </div>
-                        <div style={{ fontSize: "13px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                        <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                           {item.part}
                         </div>
                       </div>
@@ -422,10 +445,11 @@ function CronogramaSection() {
 }
 
 function DiretoriaSection() {
+  const colors = useContext(ThemeContext);
   return (
     <FadeIn delay={0.25}>
       <div style={{ marginBottom: "32px" }}>
-        <h2 style={{ fontSize: "22px", fontWeight: 600, color: COLORS.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "20px" }}>
+        <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "20px" }}>
           Nossa Diretoria
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: "16px" }}>
@@ -434,7 +458,7 @@ function DiretoriaSection() {
               <div
                 style={{
                   padding: "24px", borderRadius: "16px",
-                  background: COLORS.warmWhite, border: `1px solid ${COLORS.creamDark}`,
+                  background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
                   transition: "all 0.3s",
                 }}
                 onMouseEnter={(e) => {
@@ -448,24 +472,24 @@ function DiretoriaSection() {
               >
                 <div style={{
                   width: "44px", height: "44px", borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${COLORS.sage}30, ${COLORS.sage}10)`,
+                  background: `linear-gradient(135deg, ${colors.sage}30, ${colors.sage}10)`,
                   display: "flex", alignItems: "center", justifyContent: "center",
                   marginBottom: "14px",
                 }}>
-                  <span style={{ fontSize: "16px", fontWeight: 600, color: COLORS.sage, fontFamily: "'DM Sans', sans-serif" }}>
+                  <span style={{ fontSize: "16px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif" }}>
                     {d.nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
                   </span>
                 </div>
-                <div style={{ fontSize: "15px", fontWeight: 600, color: COLORS.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
+                <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
                   {d.nome}
                 </div>
-                <div style={{ fontSize: "12px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "14px" }}>
+                <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "14px" }}>
                   RA: {d.ra}
                 </div>
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                   <a href={`mailto:${d.email}`} style={{
                     display: "flex", alignItems: "center", gap: "8px",
-                    fontSize: "12px", color: COLORS.sage, textDecoration: "none",
+                    fontSize: "12px", color: colors.sage, textDecoration: "none",
                     fontFamily: "'DM Sans', sans-serif",
                   }}>
                     <Mail size={13} />
@@ -473,7 +497,7 @@ function DiretoriaSection() {
                   </a>
                   <a href={`tel:${d.tel.replace(/\D/g, "")}`} style={{
                     display: "flex", alignItems: "center", gap: "8px",
-                    fontSize: "12px", color: COLORS.sage, textDecoration: "none",
+                    fontSize: "12px", color: colors.sage, textDecoration: "none",
                     fontFamily: "'DM Sans', sans-serif",
                   }}>
                     <Phone size={13} />
@@ -490,34 +514,35 @@ function DiretoriaSection() {
 }
 
 function ContatoSection() {
+  const colors = useContext(ThemeContext);
   const [sent, setSent] = useState(false);
   return (
     <FadeIn delay={0.3}>
       <div style={{
         borderRadius: "16px", overflow: "hidden", marginBottom: "32px",
-        background: COLORS.warmWhite, border: `1px solid ${COLORS.creamDark}`,
+        background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
       }}>
         <div style={{
           padding: "16px 24px", display: "flex", alignItems: "center", gap: "10px",
-          borderBottom: `1px solid ${COLORS.creamDark}`, background: COLORS.cream,
+          borderBottom: `1px solid ${colors.creamDark}`, background: colors.cream,
         }}>
-          <MessageSquare size={16} color={COLORS.sage} />
-          <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: COLORS.sage, fontFamily: "'DM Sans', sans-serif" }}>
+          <MessageSquare size={16} color={colors.sage} />
+          <span style={{ fontSize: "13px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: colors.sage, fontFamily: "'DM Sans', sans-serif" }}>
             Fale com a Diretoria
           </span>
         </div>
         <div style={{ padding: "24px" }}>
-          <p style={{ fontSize: "14px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "20px", lineHeight: 1.6 }}>
+          <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "20px", lineHeight: 1.6 }}>
             Tem uma ideia de tema, indicação de palestrante ou quer deixar uma avaliação? O envio pode ser anônimo.
           </p>
           {sent ? (
             <div style={{
               display: "flex", alignItems: "center", gap: "12px",
               padding: "20px", borderRadius: "12px",
-              background: COLORS.sage + "12",
+              background: colors.sage + "12",
             }}>
-              <CheckCircle size={20} color={COLORS.sage} />
-              <span style={{ fontSize: "14px", color: COLORS.sage, fontWeight: 500, fontFamily: "'DM Sans', sans-serif" }}>
+              <CheckCircle size={20} color={colors.sage} />
+              <span style={{ fontSize: "14px", color: colors.sage, fontWeight: 500, fontFamily: "'DM Sans', sans-serif" }}>
                 Mensagem enviada com sucesso! Obrigado pela contribuição.
               </span>
             </div>
@@ -526,47 +551,47 @@ function ContatoSection() {
               <input
                 placeholder="Nome (opcional para anonimato)"
                 style={{
-                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${COLORS.creamDark}`,
-                  background: COLORS.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
-                  color: COLORS.charcoal, outline: "none", transition: "border 0.2s",
+                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${colors.creamDark}`,
+                  background: colors.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+                  color: colors.charcoal, outline: "none", transition: "border 0.2s",
                 }}
-                onFocus={(e) => e.target.style.borderColor = COLORS.sage}
-                onBlur={(e) => e.target.style.borderColor = COLORS.creamDark}
+                onFocus={(e) => e.target.style.borderColor = colors.sage}
+                onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <input
                 placeholder="Assunto"
                 style={{
-                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${COLORS.creamDark}`,
-                  background: COLORS.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
-                  color: COLORS.charcoal, outline: "none", transition: "border 0.2s",
+                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${colors.creamDark}`,
+                  background: colors.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+                  color: colors.charcoal, outline: "none", transition: "border 0.2s",
                 }}
-                onFocus={(e) => e.target.style.borderColor = COLORS.sage}
-                onBlur={(e) => e.target.style.borderColor = COLORS.creamDark}
+                onFocus={(e) => e.target.style.borderColor = colors.sage}
+                onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <textarea
                 placeholder="Sua mensagem..."
                 rows={4}
                 style={{
-                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${COLORS.creamDark}`,
-                  background: COLORS.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
-                  color: COLORS.charcoal, outline: "none", resize: "vertical",
+                  padding: "12px 16px", borderRadius: "10px", border: `1px solid ${colors.creamDark}`,
+                  background: colors.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+                  color: colors.charcoal, outline: "none", resize: "vertical",
                   transition: "border 0.2s",
                 }}
-                onFocus={(e) => e.target.style.borderColor = COLORS.sage}
-                onBlur={(e) => e.target.style.borderColor = COLORS.creamDark}
+                onFocus={(e) => e.target.style.borderColor = colors.sage}
+                onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <button
                 onClick={() => setSent(true)}
                 style={{
                   display: "flex", alignItems: "center", justifyContent: "center",
                   gap: "8px", padding: "12px 24px", borderRadius: "10px",
-                  background: COLORS.sage, color: "white", border: "none",
+                  background: colors.sage, color: "white", border: "none",
                   fontSize: "14px", fontWeight: 500, cursor: "pointer",
                   fontFamily: "'DM Sans', sans-serif", transition: "all 0.25s",
                   alignSelf: "flex-start",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = COLORS.moss}
-                onMouseLeave={(e) => e.currentTarget.style.background = COLORS.sage}
+                onMouseEnter={(e) => e.currentTarget.style.background = colors.moss}
+                onMouseLeave={(e) => e.currentTarget.style.background = colors.sage}
               >
                 <Send size={15} />
                 Enviar
@@ -582,6 +607,15 @@ function ContatoSection() {
 export default function LapsicApp() {
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    try { return localStorage.getItem("lapsic-dark-mode") === "true"; } catch { return false; }
+  });
+
+  useEffect(() => {
+    try { localStorage.setItem("lapsic-dark-mode", darkMode); } catch { /* ignore */ }
+  }, [darkMode]);
+
+  const colors = darkMode ? DARK_COLORS : LIGHT_COLORS;
 
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
@@ -598,25 +632,28 @@ export default function LapsicApp() {
   };
 
   return (
-    <>
+    <ThemeContext.Provider value={colors}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: ${COLORS.cream}; }
-        ::selection { background: ${COLORS.sage}40; }
+        body { background: ${colors.cream}; transition: background 0.3s ease; }
+        ::selection { background: ${colors.sage}40; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: ${COLORS.sage}30; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb { background: ${colors.sage}30; border-radius: 3px; }
         @media (max-width: 768px) {
           .sidebar { display: none !important; }
           .sidebar.open { display: flex !important; position: fixed; z-index: 100;
-            top: 0; left: 0; bottom: 0; width: 260px; box-shadow: 4px 0 24px rgba(0,0,0,0.1); }
+            top: 0; left: 0; bottom: 0; width: 260px; box-shadow: 4px 0 24px rgba(0,0,0,0.15); }
           .mobile-toggle { display: flex !important; }
-          .main-content { margin-left: 0 !important; }
+          .main-content { margin-left: 0 !important; padding: 20px 16px !important; padding-top: 72px !important; }
+          .cronograma-detail { padding-left: 20px !important; }
+          .hero-section { padding: 32px 24px !important; }
+          .palestrante-badge span { display: none; }
         }
       `}</style>
 
-      <div style={{ display: "flex", minHeight: "100vh", background: COLORS.cream }}>
+      <div style={{ display: "flex", minHeight: "100vh", background: colors.cream, transition: "background 0.3s ease" }}>
         {/* Overlay */}
         {mobileNav && (
           <div
@@ -629,8 +666,8 @@ export default function LapsicApp() {
         <aside
           className={`sidebar ${mobileNav ? "open" : ""}`}
           style={{
-            width: "240px", flexShrink: 0, background: COLORS.warmWhite,
-            borderRight: `1px solid ${COLORS.creamDark}`,
+            width: "240px", flexShrink: 0, background: colors.warmWhite,
+            borderRight: `1px solid ${colors.creamDark}`,
             padding: "24px 16px", display: "flex", flexDirection: "column",
             position: "fixed", top: 0, bottom: 0, left: 0,
           }}
@@ -638,16 +675,16 @@ export default function LapsicApp() {
           <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "32px", paddingLeft: "8px" }}>
             <div style={{
               width: "36px", height: "36px", borderRadius: "10px",
-              background: COLORS.sage, display: "flex", alignItems: "center",
+              background: colors.sage, display: "flex", alignItems: "center",
               justifyContent: "center",
             }}>
               <Leaf size={18} color="white" />
             </div>
             <div>
-              <div style={{ fontSize: "15px", fontWeight: 700, color: COLORS.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
+              <div style={{ fontSize: "15px", fontWeight: 700, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
                 LAPSIC
               </div>
-              <div style={{ fontSize: "10px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
+              <div style={{ fontSize: "10px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
                 Espaço do Ligante
               </div>
             </div>
@@ -665,14 +702,30 @@ export default function LapsicApp() {
             ))}
           </nav>
 
+          <button
+            onClick={() => setDarkMode(!darkMode)}
+            style={{
+              display: "flex", alignItems: "center", gap: "10px", padding: "10px 16px",
+              borderRadius: "10px", border: "none", cursor: "pointer", width: "100%",
+              textAlign: "left", fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+              fontWeight: 400, background: "transparent", color: colors.warmGray,
+              transition: "all 0.25s ease", marginTop: "4px",
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.background = colors.cream}
+            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+          >
+            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+            <span>{darkMode ? "Modo Claro" : "Modo Escuro"}</span>
+          </button>
+
           <div style={{
-            padding: "16px", borderRadius: "12px", background: COLORS.cream,
+            padding: "16px", borderRadius: "12px", background: colors.cream,
             marginTop: "16px",
           }}>
-            <div style={{ fontSize: "12px", fontWeight: 600, color: COLORS.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+            <div style={{ fontSize: "12px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
               Semestre 2026.1
             </div>
-            <div style={{ fontSize: "11px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+            <div style={{ fontSize: "11px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
               Segundas, 19h — Online
             </div>
           </div>
@@ -685,12 +738,12 @@ export default function LapsicApp() {
           style={{
             display: "none", position: "fixed", top: "16px", left: "16px", zIndex: 101,
             width: "44px", height: "44px", borderRadius: "12px",
-            background: COLORS.warmWhite, border: `1px solid ${COLORS.creamDark}`,
+            background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
             alignItems: "center", justifyContent: "center", cursor: "pointer",
             boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
           }}
         >
-          {mobileNav ? <X size={20} color={COLORS.charcoal} /> : <Menu size={20} color={COLORS.charcoal} />}
+          {mobileNav ? <X size={20} color={colors.charcoal} /> : <Menu size={20} color={colors.charcoal} />}
         </button>
 
         {/* Main Content */}
@@ -720,15 +773,15 @@ export default function LapsicApp() {
           <FadeIn delay={0.35}>
             <div style={{
               textAlign: "center", padding: "24px 0", marginTop: "16px",
-              borderTop: `1px solid ${COLORS.creamDark}`,
+              borderTop: `1px solid ${colors.creamDark}`,
             }}>
-              <p style={{ fontSize: "12px", color: COLORS.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              <p style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                 LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1
               </p>
             </div>
           </FadeIn>
         </main>
       </div>
-    </>
+    </ThemeContext.Provider>
   );
 }
