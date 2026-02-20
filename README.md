@@ -1,22 +1,150 @@
 # LAPSIC | Espaço do Ligante
 
-Site da Liga Acadêmica de Psicologia Clínica (LAPSIC) — Dashboard do Ligante com cronograma, diretoria e mural de avisos.
+Site da **Liga Acadêmica de Psicologia Clínica (LAPSIC)** — um painel exclusivo para os ligantes com cronograma dos encontros, informações da diretoria, mural de avisos e canal de contato.
 
-## Stack
+---
 
-- React 19 + Vite
-- Lucide Icons
-- Deploy: Vercel
+## O que é este site?
 
-## Desenvolvimento
+O **Espaço do Ligante** é o portal online da LAPSIC, pensado para reunir em um único lugar tudo que o ligante precisa saber sobre o semestre: quando são os encontros, o que vai ser discutido, quem são os responsáveis pela organização e como entrar em contato com a diretoria.
+
+O site funciona como um **painel de controle visual** — é possível navegar pelas seções usando o menu lateral (ou o botão de menu no celular), e ele se adapta tanto ao computador quanto ao celular. Há também um botão para alternar entre o **modo claro** e o **modo escuro**.
+
+---
+
+## Seções do site
+
+### 🏠 Início
+A página inicial exibe:
+- Um banner de boas-vindas com o nome da liga e uma mensagem de apresentação.
+- **Acesso Rápido**: dois atalhos para o **Notion** (contatos, cronograma e links dos encontros) e o **Google Drive** (textos, cartilhas e livros por eixo temático).
+- **Mural de Avisos**: informa o próximo encontro (tema e leitura indicada) e lembretes importantes, como assinar a lista de presença.
+
+### 📅 Cronograma
+Lista todos os encontros do semestre **2026.1**, realizados às **segundas-feiras às 19h no formato online**. Cada linha exibe:
+- A **data** do encontro.
+- O **tema** a ser discutido.
+- O **eixo temático** ao qual o tema pertence (veja abaixo).
+- Um badge indicando quando há **palestrante convidado**.
+
+Ao clicar em um encontro, aparecem detalhes como a **bibliografia sugerida** e, quando aplicável, quem é o **participante especial**.
+
+É possível **filtrar os encontros por eixo temático** usando os botões no topo da lista:
+- **Ramificações da Clínica** — temas como psicoterapia online, infantil, luto, atendimento emergencial.
+- **Psicopatologia e Fármacos** — temas como autodiagnóstico, medicalização, discussão de caso.
+- **Gestão e Burocracias da Clínica** — temas como gestão, contratos, finanças, marketing.
+
+### 👥 Diretoria
+Mostra os quatro membros da diretoria atual com nome, RA, e-mail e telefone. Os links de e-mail e telefone são clicáveis para facilitar o contato direto.
+
+### 💬 Contato
+Formulário para enviar mensagens à diretoria com campos para nome (opcional, para anonimato), assunto e mensagem. Ideal para sugerir temas, indicar palestrantes ou deixar avaliações. Ao enviar, uma mensagem de confirmação é exibida.
+
+---
+
+## Como atualizar o conteúdo
+
+Todo o conteúdo editável está concentrado no arquivo **`src/App.jsx`**, nas primeiras linhas. Não é necessário conhecimento técnico avançado para fazer alterações simples.
+
+### Atualizar o cronograma
+
+Localize o trecho que começa com `const CRONOGRAMA = [` no arquivo `src/App.jsx`. Cada linha representa um encontro e segue este formato:
+
+```js
+{ data: "23/02", tema: "Apresentação da Liga", bib: null, part: null, eixo: null },
+```
+
+| Campo  | O que é                                                          |
+|--------|------------------------------------------------------------------|
+| `data` | Data do encontro no formato `"DD/MM"`                           |
+| `tema` | Título do encontro                                               |
+| `bib`  | Leitura indicada (ou `null` se não houver)                       |
+| `part` | Nome do palestrante convidado (ou `null` se não houver)          |
+| `eixo` | Um dos três eixos temáticos (ou `null` para encontros gerais)    |
+
+Os três eixos válidos são exatamente:
+- `"Ramificações da Clínica"`
+- `"Psicopatologia e Fármacos"`
+- `"Gestão e Burocracias da Clínica"`
+
+### Atualizar a diretoria
+
+Localize o trecho `const DIRETORIA = [` e edite os dados de cada membro:
+
+```js
+{ nome: "Nome Completo", ra: "00000000", email: "email@exemplo.com", tel: "(11) 90000-0000" },
+```
+
+### Atualizar o mural de avisos
+
+O mural de avisos está na função `MuralAvisos()`. Ali você pode alterar o texto do próximo encontro e os lembretes exibidos na página inicial.
+
+---
+
+## Como melhorar o site
+
+A seguir, algumas ideias de melhorias organizadas por dificuldade:
+
+### Melhorias simples (sem código)
+- **Atualizar o cronograma** a cada semestre com as novas datas, temas e bibliografias.
+- **Atualizar os dados da diretoria** quando houver mudança de gestão.
+- **Manter o mural de avisos atualizado** com o próximo encontro e lembretes relevantes.
+
+### Melhorias de funcionalidade
+- **Conectar o formulário de contato a um serviço real** (ex.: [Formspree](https://formspree.io), [EmailJS](https://www.emailjs.com)) para que as mensagens sejam de fato enviadas à diretoria, em vez de apenas simular o envio.
+- **Adicionar links reais** para o Notion e o Google Drive nos cards de acesso rápido (atualmente são apenas visuais).
+- **Adicionar o link do encontro online** (ex.: Google Meet) em cada item do cronograma, para que o ligante possa entrar diretamente pela plataforma.
+- **Página de materiais/biblioteca**: criar uma seção dedicada para listar todos os textos e leituras, organizados por eixo.
+- **Notificações de lembrete**: enviar e-mail ou notificação no dia do encontro com o tema e o link de acesso.
+
+### Melhorias visuais
+- **Adicionar foto ou avatar** aos cartões da diretoria para tornar o contato mais pessoal.
+- **Indicar o encontro atual ou o próximo** de forma mais destacada no cronograma (ex.: marcando com uma cor diferente ou um badge "Próximo").
+- **Adicionar um favicon personalizado** com o logo da LAPSIC no lugar do ícone padrão do Vite.
+- **Personalizar a paleta de cores** para refletir a identidade visual da liga — os valores de cor ficam no início do arquivo `src/App.jsx` (objetos `LIGHT_COLORS` e `DARK_COLORS`).
+
+### Melhorias de acessibilidade
+- Garantir que todos os botões e links possuam texto descritivo para leitores de tela.
+- Melhorar o contraste de cores no modo claro para facilitar a leitura em ambientes com muita luz.
+
+---
+
+## Rodando o projeto localmente
+
+Você precisa ter o [Node.js](https://nodejs.org) instalado. Depois, no terminal:
 
 ```bash
+# Instala as dependências
 npm install
+
+# Inicia o servidor local (acesse em http://localhost:5173)
 npm run dev
 ```
 
-## Build
+Para gerar a versão final pronta para publicação:
 
 ```bash
 npm run build
 ```
+
+---
+
+## Publicação
+
+O site é publicado automaticamente na **[Vercel](https://vercel.com)** a cada novo envio para a branch principal do repositório. Nenhuma configuração adicional é necessária após o deploy inicial.
+
+---
+
+## Tecnologias utilizadas
+
+| Tecnologia | Finalidade |
+|---|---|
+| [React 19](https://react.dev) | Construção da interface |
+| [Vite](https://vitejs.dev) | Ferramenta de desenvolvimento e build |
+| [Lucide React](https://lucide.dev) | Ícones da interface |
+| [Google Fonts](https://fonts.google.com) | Fontes DM Sans e Playfair Display |
+| [Vercel](https://vercel.com) | Hospedagem e deploy automático |
+
+---
+
+*LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1*
