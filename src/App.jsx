@@ -40,6 +40,7 @@ const DARK_COLORS = {
 };
 
 const ThemeContext = createContext(LIGHT_COLORS);
+ThemeContext.displayName = "ThemeContext";
 
 const EIXOS = {
   "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
