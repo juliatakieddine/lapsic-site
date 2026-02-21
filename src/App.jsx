@@ -80,8 +80,7 @@ const REPOSITORIO_FILES = [
       { name: "psi infantil.pdf", title: "A Psicoterapia Infantil no Setting Clínico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "atendimento emergencial.pdf", title: "Implicações do Pronto-Atendimento Psicológico", type: "pdf", size: "890 KB", upload: "20/02/2026" },
       { name: "luto.pdf", title: "Morte e Luto à Luz da Psicoterapia", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", title: "Regulamento Ligas Acadêmicas Estudantis (LAE)", type: "pdf", size: "500 KB", upload: "21/02/2026" }
+      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   },
   {
