@@ -37,6 +37,9 @@ Ao clicar em um encontro, aparecem detalhes como a **bibliografia sugerida** e, 
 ### 👥 Diretoria
 Mostra os quatro membros da diretoria atual com nome, RA, e-mail e telefone. Os links de e-mail e telefone são clicáveis para facilitar o contato direto.
 
+### 📚 Materiais Complementares
+Uma seção dedicada para agrupar as Resoluções Técnicas e publicações formativas do Conselho Regional de Psicologia que servirão de base para a formação do Ligante, organizados como recursos extras não fixados a encontros específicos.
+
 ### 💬 Contato
 Formulário para enviar mensagens à diretoria com campos para nome (opcional, para anonimato), assunto e mensagem. Ideal para sugerir temas, indicar palestrantes ou deixar avaliações. Ao enviar, uma mensagem de confirmação é exibida.
 
@@ -58,7 +61,10 @@ Localize o trecho que começa com `const CRONOGRAMA = [` no arquivo `src/App.jsx
 |--------|------------------------------------------------------------------|
 | `data` | Data do encontro no formato `"DD/MM"`                           |
 | `tema` | Título do encontro                                               |
-| `bib`  | Leitura indicada (ou `null` se não houver)                       |
+| `bib`  | Leitura indicada, ou título de livro principal (ou `null` se não houver) |
+| `bibAbnt` | Referência dos Autores da leitura para destaque no layout        |
+| `videos` | Elemento Array opcional no formato `[{ title: "Nome", url: "Link" }]`  |
+| `filePreview` | Nome do PDF correspondente em `/public/docs/` para abrir em nova aba     |
 | `part` | Nome do palestrante convidado (ou `null` se não houver)          |
 | `eixo` | Um dos três eixos temáticos (ou `null` para encontros gerais)    |
 
@@ -92,9 +98,7 @@ A seguir, algumas ideias de melhorias organizadas por dificuldade:
 
 ### Melhorias de funcionalidade
 - **Conectar o formulário de contato a um serviço real** (ex.: [Formspree](https://formspree.io), [EmailJS](https://www.emailjs.com)) para que as mensagens sejam de fato enviadas à diretoria, em vez de apenas simular o envio.
-- **Adicionar links reais** para o Notion e o Google Drive nos cards de acesso rápido (atualmente são apenas visuais).
-- **Adicionar o link do encontro online** (ex.: Google Meet) em cada item do cronograma, para que o ligante possa entrar diretamente pela plataforma.
-- **Página de materiais/biblioteca**: criar uma seção dedicada para listar todos os textos e leituras, organizados por eixo.
+- **Popular a aba Materiais Complementares**: Subir arquivos fixos sobre atuação profissional ligados aos órgãos reguladores.
 - **Notificações de lembrete**: enviar e-mail ou notificação no dia do encontro com o tema e o link de acesso.
 
 ### Melhorias visuais
