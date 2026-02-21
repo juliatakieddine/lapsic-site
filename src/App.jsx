@@ -4,7 +4,7 @@ import {
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library
+  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram
 } from "lucide-react";
 
 const LIGHT_COLORS = {
@@ -66,7 +66,7 @@ const CRONOGRAMA = [
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "27/04", tema: "Discussão de Caso", bib: "Diagnosis - Documentário Netflix (Temporada 1, Episódio 1)", bibAbnt: "Busque exatamente por 'Diagnosis' na barra de pesquisa da sua conta Netflix.", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos", videos: [{ title: "Reflexão sobre Diagnóstico (TikTok 1)", url: "https://vt.tiktok.com/ZSaTAuexN/" }, { title: "Autodiagnóstico (TikTok 2)", url: "https://vt.tiktok.com/ZSaTAysPh/" }] },
   { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão", bibAbnt: "Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "1. Contratos psicológicos: uma revisão da literatura. 2. Reflexões sobre o contrato terapêutico como instrumento de autorregulação do terapeuta.", bibAbnt: "1. Letícia Fantinato Menegon e Tania Casado. 2. Gladys Costa de Moraes.", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica", videos: [{ title: "Modelos de Contratos (Link do CRP)", url: "https://www.crp-01.org.br/page_3952/Modelos%20de%20Contratos?utm_source=chatgpt.com" }] },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "1. Contratos psicológicos: uma revisão da literatura. 2. Reflexões sobre o contrato terapêutico como instrumento de autorregulação do terapeuta.", bibAbnt: "1. Letícia Fantinato Menegon e Tania Casado. 2. Gladys Costa de Moraes.", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica", videos: [{ title: "Modelos de Contratos (Link do CRP)", url: "https://www.crp-01.org.br/page_3952/Modelos%20de%20Contratos?utm_source=chatgpt.com", isLink: true }] },
   { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias de Precificação e Cobrança de Psicoterapeutas", bibAbnt: "Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "1. Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais. 2. O PAPEL DO MARKETING NA GESTÃO DE SERVIÇOS DE SAÚDE: O CASO DO GRUPO DA CLÍNICA SANTA MADALENA.", bibAbnt: "1. Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre. 2. António Morão, Carlos Brito, Sónia Nogueira, Rui Dias e Rosa Galvão.", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
@@ -217,6 +217,25 @@ function HeroSection() {
           }}>
             Que alegria ter você com a gente. Este espaço foi pensado e organizado para ser o seu principal guia durante a nossa jornada. Aqui, você encontrará todos os materiais dos nossos encontros, bibliografias complementares, cartilhas de apoio e muito mais. Explore, estude e sinta-se em casa. A Liga é feita por todos nós!
           </p>
+          <div style={{ marginTop: "24px", display: "flex", gap: "12px" }}>
+            <a
+              href="https://instagram.com/lapsic.mackenzie"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                display: "flex", alignItems: "center", gap: "8px", padding: "10px 20px",
+                borderRadius: "12px", background: "rgba(255,255,255,0.15)", color: "white",
+                textDecoration: "none", fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+                border: "1px solid rgba(255,255,255,0.2)", backdropFilter: "blur(10px)",
+                transition: "all 0.2s"
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.25)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
+            >
+              <Instagram size={18} />
+              @lapsic.mackenzie
+            </a>
+          </div>
         </div>
       </div>
     </FadeIn>
@@ -398,7 +417,6 @@ function CronogramaSection() {
               Cronograma 2026.1
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Segundas-feiras às 19h — Formato Online. <br />
               <span style={{ fontStyle: "italic" }}>Os encontros abaixo estão categorizados e divididos pelos 3 grandes Eixos Temáticos.</span>
             </p>
           </div>
@@ -473,9 +491,10 @@ function CronogramaSection() {
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: "15px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                       {item.tema}
-                      {item.videoUrl && (
+                      {item.videos && item.videos.length > 0 && (
                         <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", background: colors.accent + "15", color: colors.accent, padding: "2px 8px", borderRadius: "10px" }}>
-                          <PlayCircle size={12} /> Vídeo disponivel
+                          {item.videos.some(v => v.isLink) ? <ExternalLink size={12} /> : <PlayCircle size={12} />}
+                          {item.videos.some(v => v.isLink) ? "Link disponível" : "Vídeo disponível"}
                         </span>
                       )}
                     </div>
@@ -528,7 +547,7 @@ function CronogramaSection() {
                                 onMouseEnter={e => e.currentTarget.style.background = colors.accent + "30"}
                                 onMouseLeave={e => e.currentTarget.style.background = colors.accent + "15"}
                               >
-                                <PlayCircle size={14} /> {vid.title}
+                                {vid.isLink ? <ExternalLink size={14} /> : <PlayCircle size={14} />} {vid.title}
                               </a>
                             ))}
                           </div>
@@ -568,7 +587,7 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
               Repositório de Arquivos
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Acesso direto aos materiais e cartilhas da Liga Acadêmica, organizados por Eixo de aprendizado.
+              Acesso direto aos materiais e cartilhas da Liga Acadêmica, organizados por Eixo Temático.
             </p>
           </div>
         </div>
