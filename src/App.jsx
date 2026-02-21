@@ -55,16 +55,16 @@ const EIXOS = {
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: null, part: null, eixo: null },
+  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: null, part: null, eixo: "Ramificações da Clínica", isDocs: true },
   { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videoUrl: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario", videoTitle: "Crianças do Movimento" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Crianças do Movimento", url: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario" }] },
   { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Autodiagnóstico Psiquiátrico em Jovens Adultos", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos", videoUrl: "https://vt.tiktok.com/ZSaTAuexN/", videoTitle: "Diagnóstico TikTok" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Autodiagnóstico Psiquiátrico em Jovens Adultos", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
   { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas Práticas de Cuidado", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
   { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da Recusa à Demanda de Diagnóstico", bibAbnt: "Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
-  { data: "27/04", tema: "Discussão de Caso", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "27/04", tema: "Discussão de Caso", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos", videos: [{ title: "Diagnosis (Ep. 1) - Netflix", url: "https://www.netflix.com/br/title/80201543" }, { title: "Reflexão sobre Diagnóstico (TikTok 1)", url: "https://vt.tiktok.com/ZSaTAuexN/" }, { title: "Autodiagnóstico (TikTok 2)", url: "https://vt.tiktok.com/ZSaTAysPh/" }] },
   { data: "04/05", tema: "Gestão da Clínica", bib: "A Clínica Psicológica: Legislação e Gestão", bibAbnt: "Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Contratos Psicológicos: Uma Revisão", bibAbnt: "Letícia Fantinato Menegon e Tania Casado", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Valor da Consulta: Precificação e Cobrança", bibAbnt: "Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
@@ -279,7 +279,11 @@ function MuralAvisos({ goToRepositorioEixo }) {
               </div>
               {nextMeeting.bib && (
                 <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px" }}>
-                  Leitura: <em>{nextMeeting.bib}</em>
+                  {nextMeeting.isDocs ? (
+                    <em>{nextMeeting.bib}</em>
+                  ) : (
+                    <>Leitura: <em>{nextMeeting.bib}</em></>
+                  )}
                   {nextMeeting.bibAbnt && (
                     <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8 }}>
                       {nextMeeting.bibAbnt}
@@ -287,13 +291,13 @@ function MuralAvisos({ goToRepositorioEixo }) {
                   )}
                 </div>
               )}
-              {(!nextMeeting.bib && !nextMeeting.videoUrl && !nextMeeting.filePreview) && (
+              {(!nextMeeting.bib && (!nextMeeting.videos || nextMeeting.videos.length === 0) && !nextMeeting.filePreview) && (
                 <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px", fontStyle: "italic" }}>
                   Não há materiais de leitura ou vídeos para o próximo encontro!
                 </div>
               )}
 
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: (!nextMeeting.bib && !nextMeeting.videoUrl && !nextMeeting.filePreview) ? 0 : "16px" }}>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: (!nextMeeting.bib && (!nextMeeting.videos || nextMeeting.videos.length === 0) && !nextMeeting.filePreview) ? 0 : "16px" }}>
                 {nextMeeting.bib && (
                   <button
                     onClick={() => goToRepositorioEixo(nextMeeting.eixo)}
@@ -311,9 +315,10 @@ function MuralAvisos({ goToRepositorioEixo }) {
                     Ver no Repositório
                   </button>
                 )}
-                {nextMeeting.videoUrl && (
+                {nextMeeting.videos && nextMeeting.videos.map((vid, idx) => (
                   <a
-                    href={nextMeeting.videoUrl}
+                    key={idx}
+                    href={vid.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     style={{
@@ -328,9 +333,9 @@ function MuralAvisos({ goToRepositorioEixo }) {
                     onMouseLeave={(e) => e.currentTarget.style.background = colors.accent + "20"}
                   >
                     <PlayCircle size={14} />
-                    {nextMeeting.videoTitle || "Assistir Vídeo"}
+                    {vid.title}
                   </a>
-                )}
+                ))}
               </div>
             </div>
             {nextMeeting.filePreview && (
@@ -504,13 +509,17 @@ function CronogramaSection() {
                             </div>
                           )}
                         </div>
-                        {item.videoUrl && (
-                          <a href={item.videoUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", color: colors.accent, textDecoration: "none", fontWeight: 500, background: colors.accent + "15", padding: "6px 12px", borderRadius: "16px", marginTop: "4px", transition: "all 0.2s" }}
-                            onMouseEnter={e => e.currentTarget.style.background = colors.accent + "30"}
-                            onMouseLeave={e => e.currentTarget.style.background = colors.accent + "15"}
-                          >
-                            <PlayCircle size={14} /> {item.videoTitle || "Assistir Vídeo"}
-                          </a>
+                        {item.videos && (
+                          <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "12px" }}>
+                            {item.videos.map((vid, idx) => (
+                              <a key={idx} href={vid.url} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", color: colors.accent, textDecoration: "none", fontWeight: 500, background: colors.accent + "15", padding: "6px 12px", borderRadius: "16px", transition: "all 0.2s" }}
+                                onMouseEnter={e => e.currentTarget.style.background = colors.accent + "30"}
+                                onMouseLeave={e => e.currentTarget.style.background = colors.accent + "15"}
+                              >
+                                <PlayCircle size={14} /> {vid.title}
+                              </a>
+                            ))}
+                          </div>
                         )}
                       </div>
                     )}
