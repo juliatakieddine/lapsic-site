@@ -55,12 +55,12 @@ const EIXOS = {
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: "Cronograma de atividades.pdf", part: null, eixo: null },
+  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "PSICOTERAPIA ONLINE: DEMANDA CRESCENTE E SUGESTÕES PARA REGULAMENTAÇÃO - Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura - Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura - Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videoUrl: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario", videoTitle: "Crianças do Movimento" },
   { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas - Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "MORTE E LUTO: O ENFRENTAMENTO DO FENÔMENO DA TERMINALIDADE À LUZ DA PSICOTERAPIA - Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", bibAbnt: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists - Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", bibAbnt: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists - Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos", videoUrl: "https://vt.tiktok.com/ZSaTAuexN/", videoTitle: "Diagnóstico TikTok" },
   { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade", bibAbnt: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura - Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
   { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização - Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
@@ -100,12 +100,6 @@ const REPOSITORIO_FILES = [
       { name: "DissertaoJssica.pdf", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
       { name: "RGSA+120+PORT+n10.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "rel-latraps.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
-    ]
-  },
-  {
-    folder: "Geral",
-    files: [
-      { name: "Cronograma de atividades.pdf", type: "pdf", size: "120 KB", upload: "20/02/2026" }
     ]
   }
 ];
@@ -288,7 +282,7 @@ function MuralAvisos({ goToRepositorio }) {
                   Leitura: <em>{nextMeeting.bib}</em>
                   {nextMeeting.bibAbnt && (
                     <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8 }}>
-                      ABNT: {nextMeeting.bibAbnt}
+                      {nextMeeting.bibAbnt}
                     </div>
                   )}
                 </div>
@@ -504,7 +498,7 @@ function CronogramaSection() {
                           {item.bib}
                           {item.bibAbnt && (
                             <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8, lineHeight: 1.4 }}>
-                              ABNT: {item.bibAbnt}
+                              {item.bibAbnt}
                             </div>
                           )}
                         </div>
@@ -609,45 +603,56 @@ function RepositorioSection() {
             </div>
 
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {REPOSITORIO_FILES[activeFolder].files.map((file, i) => (
-                <div
-                  key={i}
-                  style={{
-                    padding: "16px", borderRadius: "12px",
-                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    transition: "all 0.2s"
-                  }}
-                  onMouseEnter={e => e.currentTarget.style.background = colors.cream}
-                  onMouseLeave={e => e.currentTarget.style.background = colors.warmWhite}
-                >
-                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                    <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: colors.accent + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                      <FileText size={20} color={colors.accent} />
-                    </div>
-                    <div>
-                      <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-                        {file.name}
-                      </div>
-                      <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px" }}>
-                        <span>{file.size}</span>
-                        <span>•</span>
-                        <span>Adicionado em {file.upload}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <button style={{
-                    width: "36px", height: "36px", borderRadius: "50%", background: "transparent", border: `1px solid ${colors.creamDark}`,
-                    display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: colors.sage, transition: "all 0.2s"
-                  }}
-                    title="Baixar Arquivo"
-                    onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; }}
-                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; }}
+              {REPOSITORIO_FILES[activeFolder].files.map((file, i) => {
+                const urlPath = REPOSITORIO_FILES[activeFolder].folder === "Ramificações da Clínica"
+                  ? "Ramificações da Clínica"
+                  : REPOSITORIO_FILES[activeFolder].folder === "Psicopatologia e Fármacos"
+                    ? "Psicopatologia e seus desdrobramentos"
+                    : "Gestão e burocracia de clínica";
+
+                return (
+                  <a
+                    key={i}
+                    href={`/docs/Bibliografia-20260221T025803Z-1-001/Bibliografia/${urlPath}/${file.name}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
+                      background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                      display: "flex", alignItems: "center", justifyContent: "space-between",
+                      transition: "all 0.2s"
+                    }}
+                    onMouseEnter={e => e.currentTarget.style.background = colors.cream}
+                    onMouseLeave={e => e.currentTarget.style.background = colors.warmWhite}
                   >
-                    <Download size={16} />
-                  </button>
-                </div>
-              ))}
+                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: colors.accent + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                        <FileText size={20} color={colors.accent} />
+                      </div>
+                      <div>
+                        <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+                          {file.name}
+                        </div>
+                        <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px" }}>
+                          <span>{file.size}</span>
+                          <span>•</span>
+                          <span>Adicionado em {file.upload}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div style={{
+                      width: "36px", height: "36px", borderRadius: "50%", background: "transparent", border: `1px solid ${colors.creamDark}`,
+                      display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: colors.sage, transition: "all 0.2s"
+                    }}
+                      title="Abrir Arquivo"
+                      onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; }}
+                    >
+                      <Download size={16} />
+                    </div>
+                  </a>
+                );
+              })}
             </div>
           </div>
         )}
