@@ -61,7 +61,7 @@ const CRONOGRAMA = [
   { data: "16/03", tema: "Atendimento Emergencial", bib: "1. Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas.\n\n2. Primeiros Socorros Psicológicos: relato de intervenção em crise em Santa Maria.", bibAbnt: "1. Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro.\n\n2. Thiago Garcia da Silva, Patricia Gaspar Mello, Karine Silveira, Laura Wolffenbüttel, Beatriz Lobo, Carla Hervê Moram Bicca, Rodrigo Grassi-Oliveira, Christian Haag Kristensen.", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "MORTE E LUTO: O ENFRENTAMENTO DO FENÔMENO DA TERMINALIDADE À LUZ DA PSICOTERAPIA", bibAbnt: "Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
   { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
   { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "27/04", tema: "Discussão de Caso", bib: "Diagnosis - Documentário Netflix (Temporada 1, Episódio 1)", bibAbnt: "Busque exatamente por 'Diagnosis' na barra de pesquisa da sua conta Netflix.", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos", videos: [{ title: "Reflexão sobre Diagnóstico (TikTok 1)", url: "https://vt.tiktok.com/ZSaTAuexN/" }, { title: "Autodiagnóstico (TikTok 2)", url: "https://vt.tiktok.com/ZSaTAysPh/" }] },
@@ -77,27 +77,30 @@ const REPOSITORIO_FILES = [
     folder: "Ramificações da Clínica",
     files: [
       { name: "Psicoterapia Online.pdf", title: "Psicoterapia Online: Demanda Crescente e Regulamentação", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
+      { name: "psi infantil.pdf", title: "A Psicoterapia Infantil no Setting Clínico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "atendimento emergencial.pdf", title: "Implicações do Pronto-Atendimento Psicológico", type: "pdf", size: "890 KB", upload: "20/02/2026" },
-      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "luto.pdf", title: "Morte e Luto à Luz da Psicoterapia", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "psi infantil.pdf", title: "A Psicoterapia Infantil no Setting Clínico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
+      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", title: "Regulamento Ligas Acadêmicas Estudantis (LAE)", type: "pdf", size: "500 KB", upload: "21/02/2026" }
     ]
   },
   {
     folder: "Psicopatologia e Fármacos",
     files: [
-      { name: "bibliografia - psicopatologia e medicalização.docx", title: "Da Recusa à Demanda de Diagnóstico", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
-      { name: "increasing self - sutodiagnóstico.pdf", title: "Autodiagnóstico Psiquiátrico em Jovens Adultos", type: "pdf", size: "1.8 MB", upload: "20/02/2026" }
+      { name: "bibliografia - psicopatologia e medicalização.docx", title: "Bibliografia Base: Psicopatologia e Medicalização", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
+      { name: "Da recusa à demanda de diagnóstico- novos arranjos da medicalização.pdf", title: "Da Recusa à Demanda de Diagnóstico", type: "pdf", size: "1.2 MB", upload: "21/02/2026" },
+      { name: "increasing self - sutodiagnóstico.pdf", title: "Autodiagnóstico Psiquiátrico em Jovens Adultos", type: "pdf", size: "1.8 MB", upload: "20/02/2026" },
+      { name: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", title: "Interdisciplinaridade em Saúde Mental", type: "pdf", size: "2.1 MB", upload: "21/02/2026" }
     ]
   },
   {
     folder: "Gestão e Burocracias da Clínica",
     files: [
       { name: "13561_2018_Article_213.pdf", title: "Plataformização do Trabalho na Psicologia Clínica", type: "pdf", size: "4.5 MB", upload: "20/02/2026" },
-      { name: "Admin,+1920-5174-1-RV-34-43.pdf", title: "O Papel do Marketing na Gestão de Saúde", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
+      { name: "Admin,+1920-5174-1-RV-34-43.pdf", title: "Contratos Psicológicos: Uma Revisão da Literatura", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
       { name: "Bibliografia - Gestão e burocracia de clínica.docx", title: "A Clínica Psicológica: Legislação e Gestão", type: "docx", size: "950 KB", upload: "20/02/2026" },
       { name: "DissertaoJssica.pdf", title: "Valor da Consulta: Precificação e Cobrança", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
-      { name: "RGSA+120+PORT+n10.pdf", title: "Contratos Psicológicos: Uma Revisão", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "RGSA+120+PORT+n10.pdf", title: "O Papel do Marketing na Gestão de Saúde", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "rel-latraps.pdf", title: "Modelos e Reflexões sobre Contrato Terapêutico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   }
