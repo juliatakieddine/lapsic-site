@@ -217,7 +217,29 @@ function HeroSection() {
           }}>
             Que alegria ter você com a gente. Este espaço foi pensado e organizado para ser o seu principal guia durante a nossa jornada. Aqui, você encontrará todos os materiais dos nossos encontros, bibliografias complementares, cartilhas de apoio e muito mais. Explore, estude e sinta-se em casa. A Liga é feita por todos nós!
           </p>
-          <div style={{ marginTop: "24px", display: "flex", gap: "12px" }}>
+          <div style={{ marginTop: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
+            <a
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => { 
+                if(e.currentTarget.getAttribute('href') === '#') {
+                  e.preventDefault(); 
+                  alert('O link do Google Meet será disponibilizado em breve pela diretoria!');
+                }
+              }}
+              style={{
+                display: "flex", alignItems: "center", gap: "8px", padding: "10px 20px",
+                borderRadius: "12px", background: "white", color: colors.sage,
+                textDecoration: "none", fontSize: "14px", fontWeight: 700, fontFamily: "'DM Sans', sans-serif",
+                boxShadow: "0 4px 12px rgba(0,0,0,0.1)", transition: "all 0.2s"
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.transform = "none"; }}
+            >
+              <Video size={18} />
+              Entrar no Meet
+            </a>
             <a
               href="https://instagram.com/lapsic.mackenzie"
               target="_blank"
