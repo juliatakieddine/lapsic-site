@@ -870,7 +870,6 @@ function ContatoSection() {
 }
 
 export default function LapsicApp() {
-  const colors = tokens;
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
@@ -888,6 +887,8 @@ export default function LapsicApp() {
       document.body.style.color = "#333333";
     }
   }, [darkMode]);
+
+  const colors = darkMode ? DARK_COLORS : LIGHT_COLORS;
 
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
