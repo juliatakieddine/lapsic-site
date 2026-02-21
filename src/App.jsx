@@ -4,7 +4,7 @@ import {
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Leaf, Moon, Sun
+  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive
 } from "lucide-react";
 
 const LIGHT_COLORS = {
@@ -42,6 +42,12 @@ const DARK_COLORS = {
 const ThemeContext = createContext(LIGHT_COLORS);
 ThemeContext.displayName = "ThemeContext";
 
+const PsiIcon = ({ size = 24, color = "currentColor", style }) => (
+  <span style={{ fontSize: size, color: color, fontFamily: "'Playfair Display', serif", lineHeight: 1, fontWeight: 500, ...style }}>
+    Ψ
+  </span>
+);
+
 const EIXOS = {
   "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
   "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill },
@@ -49,21 +55,59 @@ const EIXOS = {
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: null, part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação — Carmelita Gomes, Marcelo de Araújo", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico — Rosa Angela Cortez et al. + Vídeo", part: null, eixo: "Ramificações da Clínica" },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência — Airle Miranda de Souza et al.", part: null, eixo: "Ramificações da Clínica" },
-  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade à Luz da Psicoterapia — Tamires Freitas, Monica Dominici", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults — Neumann et al.", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental — Eduardo Giacomini, Maria Lucia Frizon", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização — Mariana Ferreira Pombo", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
-  { data: "20/04", tema: "Feriado (sem encontro)", bib: null, part: null, eixo: null },
-  { data: "27/04", tema: "Discussão de Caso", bib: "Episódio 1 — Documentário Diagnóstico (Netflix) + Vídeos complementares", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão — Cleonice Barros et al.", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Contratos psicológicos: uma revisão da literatura — Menegon, Casado + Reflexões sobre o contrato terapêutico — Gladys C. Moraes", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias — Jéssica Florinda", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Plataformização do Trabalho na Psicologia Clínica — Matheus Viana et al. + O Papel do Marketing na Gestão de Serviços de Saúde — António Morão et al.", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, part: null, eixo: null },
+  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", filePreview: "Estatuto_LAPSIC_2026.pdf", part: null, eixo: null },
+  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação — Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia_Online_Gomes.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico — Rosa Angela Cortez et al.", videoUrl: "https://youtube.com/watch?v=dQw4w9WgXcQ", videoTitle: "Vídeo Complementar: Práticas na Clínica Infantil", filePreview: "Psicoterapia_Infantil_Cortez.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência — Airle Miranda de Souza et al.", filePreview: "Atendimento_Emergencial_Souza.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade à Luz da Psicoterapia — Tamires Freitas, Monica Dominici", filePreview: "Luto_Terminalidade_Freitas.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults — Neumann et al.", filePreview: "Self_Diagnoses_Neumann.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental — Eduardo Giacomini, Maria Lucia Frizon", filePreview: "Interdisciplinaridade_Giacomini.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização — Mariana Ferreira Pombo", filePreview: "Medicalizacao_Pombo.pdf", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
+  { data: "20/04", tema: "Feriado (sem encontro)", bib: null, filePreview: null, part: null, eixo: null },
+  { data: "27/04", tema: "Discussão de Caso", bib: "Episódio 1 — Documentário Diagnóstico (Netflix)", videoUrl: "https://netflix.com", videoTitle: "Assistir Episódio (Netflix)", filePreview: "Roteiro_Discussao_Caso.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão — Cleonice Barros et al.", filePreview: "Gestao_Clinica_Barros.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Contratos psicológicos: uma revisão da literatura — Menegon, Casado + Reflexões sobre o contrato terapêutico — Gladys C. Moraes", filePreview: "Contratos_Psicologicos.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias — Jéssica Florinda", filePreview: "Valor_Consulta_Florinda.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Plataformização do Trabalho na Psicologia Clínica — Matheus Viana et al. + O Papel do Marketing na Gestão de Serviços de Saúde — António Morão et al.", filePreview: "Marketing_Saude_Viana.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, filePreview: null, part: null, eixo: null },
+];
+
+const REPOSITORIO_FILES = [
+  {
+    folder: "Ramificações da Clínica",
+    files: [
+      { name: "Psicoterapia_Online_Gomes.pdf", type: "pdf", size: "1.2 MB", upload: "01/02/2026" },
+      { name: "Psicoterapia_Infantil_Cortez.pdf", type: "pdf", size: "2.4 MB", upload: "01/02/2026" },
+      { name: "Atendimento_Emergencial_Souza.pdf", type: "pdf", size: "890 KB", upload: "01/02/2026" },
+      { name: "Luto_Terminalidade_Freitas.pdf", type: "pdf", size: "1.5 MB", upload: "01/02/2026" }
+    ]
+  },
+  {
+    folder: "Psicopatologia e Fármacos",
+    files: [
+      { name: "Self_Diagnoses_Neumann.pdf", type: "pdf", size: "3.1 MB", upload: "05/02/2026" },
+      { name: "Interdisciplinaridade_Giacomini.pdf", type: "pdf", size: "1.8 MB", upload: "05/02/2026" },
+      { name: "Medicalizacao_Pombo.pdf", type: "pdf", size: "2.2 MB", upload: "05/02/2026" },
+      { name: "Roteiro_Discussao_Caso.pdf", type: "pdf", size: "400 KB", upload: "10/02/2026" }
+    ]
+  },
+  {
+    folder: "Gestão e Burocracias da Clínica",
+    files: [
+      { name: "Gestao_Clinica_Barros.pdf", type: "pdf", size: "4.5 MB", upload: "12/02/2026" },
+      { name: "Contratos_Psicologicos.pdf", type: "pdf", size: "1.1 MB", upload: "12/02/2026" },
+      { name: "Valor_Consulta_Florinda.pdf", type: "pdf", size: "950 KB", upload: "12/02/2026" },
+      { name: "Marketing_Saude_Viana.pdf", type: "pdf", size: "2.8 MB", upload: "12/02/2026" }
+    ]
+  },
+  {
+    folder: "Materiais Complementares e Especiais",
+    files: [
+      { name: "Estatuto_LAPSIC_2026.pdf", type: "pdf", size: "5.0 MB", upload: "20/01/2026" },
+      { name: "Manual_Tecnico_CFP.pdf", type: "pdf", size: "8.2 MB", upload: "20/01/2026" },
+      { name: "Apresentacao_Liga_2026.pdf", type: "pdf", size: "2.1 MB", upload: "20/01/2026" }
+    ]
+  }
 ];
 
 const DIRETORIA = [
@@ -162,7 +206,7 @@ function HeroSection() {
         }} />
         <div style={{ position: "relative", zIndex: 1 }}>
           <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "12px" }}>
-            <Leaf size={16} style={{ opacity: 0.8 }} />
+            <PsiIcon size={18} style={{ opacity: 0.9 }} />
             <span style={{ fontSize: "12px", letterSpacing: "2.5px", textTransform: "uppercase", opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>
               LAPSIC — Liga Acadêmica de Psicologia Clínica
             </span>
@@ -175,10 +219,10 @@ function HeroSection() {
             <span style={{ fontWeight: 600, fontStyle: "italic" }}>Espaço do Ligante</span>
           </h1>
           <p style={{
-            fontSize: "15px", opacity: 0.85, maxWidth: "480px", lineHeight: 1.6,
+            fontSize: "15px", opacity: 0.85, maxWidth: "560px", lineHeight: 1.6,
             fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
           }}>
-            A clínica se faz na escuta, no estudo contínuo e na troca de saberes. Este é o seu espaço de construção conjunta.
+            Que alegria ter você com a gente. Este espaço foi pensado e organizado para ser o seu principal guia durante a nossa jornada. Aqui, você encontrará todos os materiais dos nossos encontros, bibliografias complementares, cartilhas de apoio e muito mais. Explore, estude e sinta-se em casa. A Liga é feita por todos nós!
           </p>
         </div>
       </div>
@@ -186,58 +230,21 @@ function HeroSection() {
   );
 }
 
-function QuickAccess() {
+function MuralAvisos({ goToRepositorio }) {
   const colors = useContext(ThemeContext);
-  const cards = [
-    { icon: Globe, label: "Notion", desc: "Contatos, cronograma e links dos encontros", color: colors.charcoal },
-    { icon: FileText, label: "Google Drive", desc: "Textos, cartilhas e livros por eixo temático", color: colors.sage },
-  ];
-  return (
-    <FadeIn delay={0.1}>
-      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: "16px", marginBottom: "32px" }}>
-        {cards.map((c, i) => (
-          <div
-            key={i}
-            style={{
-              display: "flex", alignItems: "center", gap: "16px",
-              padding: "20px 24px", borderRadius: "16px", cursor: "pointer",
-              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-              transition: "all 0.3s ease",
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = "translateY(-2px)";
-              e.currentTarget.style.boxShadow = "0 8px 24px rgba(0,0,0,0.06)";
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = "translateY(0)";
-              e.currentTarget.style.boxShadow = "none";
-            }}
-          >
-            <div style={{
-              width: "48px", height: "48px", borderRadius: "12px",
-              background: c.color + "12", display: "flex", alignItems: "center",
-              justifyContent: "center", flexShrink: 0,
-            }}>
-              <c.icon size={22} color={c.color} />
-            </div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
-                {c.label}
-              </div>
-              <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                {c.desc}
-              </div>
-            </div>
-            <ExternalLink size={16} color={colors.warmGray} style={{ opacity: 0.5 }} />
-          </div>
-        ))}
-      </div>
-    </FadeIn>
-  );
-}
 
-function MuralAvisos() {
-  const colors = useContext(ThemeContext);
+  const today = new Date();
+  let nextMeeting = CRONOGRAMA.find(c => {
+    if (!c.data || c.tema.includes("Feriado")) return false;
+    const [d, m] = c.data.split("/");
+    const date = new Date(today.getFullYear(), parseInt(m) - 1, parseInt(d), 23, 59, 59);
+    return date >= today;
+  });
+
+  if (!nextMeeting) {
+    nextMeeting = CRONOGRAMA.find(c => c.data === "23/02") || CRONOGRAMA[0];
+  }
+
   return (
     <FadeIn delay={0.15}>
       <div style={{
@@ -260,7 +267,7 @@ function MuralAvisos() {
             padding: "20px", borderRadius: "12px",
             background: `linear-gradient(135deg, ${colors.sage}08, ${colors.sage}15)`,
             border: `1px solid ${colors.sage}20`,
-            marginBottom: "16px",
+            marginBottom: "16px", flexWrap: "wrap"
           }}>
             <div style={{
               width: "40px", height: "40px", borderRadius: "10px",
@@ -269,17 +276,74 @@ function MuralAvisos() {
             }}>
               <Sparkles size={18} color="white" />
             </div>
-            <div>
+            <div style={{ flex: 1, minWidth: "200px" }}>
               <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "1px", textTransform: "uppercase", color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-                Próximo Encontro
+                Próximo Encontro: {nextMeeting.data}
               </div>
               <div style={{ fontSize: "18px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "6px" }}>
-                Psicoterapia Online
+                {nextMeeting.tema}
               </div>
-              <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
-                Leitura: <em>Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação</em> — Carmelita Gomes, Marcelo de Araújo
+              {nextMeeting.bib && (
+                <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px" }}>
+                  Leitura: <em>{nextMeeting.bib}</em>
+                </div>
+              )}
+
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                <button
+                  onClick={goToRepositorio}
+                  style={{
+                    display: "flex", alignItems: "center", gap: "8px",
+                    padding: "8px 16px", borderRadius: "8px",
+                    background: colors.sage, color: "white", border: "none",
+                    fontSize: "13px", fontWeight: 500, cursor: "pointer",
+                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
+                  }}
+                  onMouseEnter={(e) => e.currentTarget.style.background = colors.moss}
+                  onMouseLeave={(e) => e.currentTarget.style.background = colors.sage}
+                >
+                  <Folder size={14} />
+                  Ver no Repositório
+                </button>
+                {nextMeeting.videoUrl && (
+                  <a
+                    href={nextMeeting.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: "flex", alignItems: "center", gap: "8px",
+                      padding: "8px 16px", borderRadius: "8px",
+                      background: colors.accent + "20", color: colors.accent,
+                      border: "none", textDecoration: "none",
+                      fontSize: "13px", fontWeight: 500, cursor: "pointer",
+                      fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = colors.accent + "30"}
+                    onMouseLeave={(e) => e.currentTarget.style.background = colors.accent + "20"}
+                  >
+                    <PlayCircle size={14} />
+                    {nextMeeting.videoTitle || "Assistir Vídeo"}
+                  </a>
+                )}
               </div>
             </div>
+            {nextMeeting.filePreview && (
+              <div style={{
+                padding: "16px", borderRadius: "8px", background: colors.warmWhite,
+                border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column",
+                alignItems: "center", gap: "8px", minWidth: "140px", cursor: "pointer", transition: "all 0.2s"
+              }}
+                onClick={goToRepositorio}
+                onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.sage; e.currentTarget.style.transform = "translateY(-2px)" }}
+                onMouseLeave={(e) => { e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none" }}
+              >
+                <FileText size={28} color={colors.sage} />
+                <span style={{ fontSize: "11px", textAlign: "center", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", wordBreak: "break-word" }}>
+                  {nextMeeting.filePreview}
+                </span>
+                <span style={{ fontSize: "10px", color: colors.sage, fontWeight: 600 }}>PREVIEW</span>
+              </div>
+            )}
           </div>
           <div style={{
             display: "flex", alignItems: "center", gap: "10px",
@@ -288,7 +352,7 @@ function MuralAvisos() {
           }}>
             <AlertTriangle size={16} color={colors.accent} />
             <span style={{ fontSize: "13px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
-              Não se esqueça de assinar a lista de presença durante o encontro!
+              Não se esqueça de preencher o Forms de presença que será enviado durante o encontro!
             </span>
           </div>
         </div>
@@ -369,6 +433,8 @@ function CronogramaSection() {
                     display: "flex", alignItems: "center", gap: "16px",
                     padding: "16px 20px", cursor: isHoliday ? "default" : "pointer",
                   }}
+                  onMouseEnter={(e) => { if (!isHoliday) e.currentTarget.style.background = colors.cream + "80" }}
+                  onMouseLeave={(e) => { if (!isHoliday) e.currentTarget.style.background = "transparent" }}
                 >
                   <div style={{
                     width: "52px", textAlign: "center", flexShrink: 0,
@@ -382,8 +448,13 @@ function CronogramaSection() {
                   </div>
                   <div style={{ width: "3px", height: "32px", borderRadius: "2px", background: item.eixo ? EIXOS[item.eixo].color + "40" : colors.creamDark, flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
-                    <div style={{ fontSize: "15px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif" }}>
+                    <div style={{ fontSize: "15px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                       {item.tema}
+                      {item.videoUrl && (
+                        <span style={{ display: "flex", alignItems: "center", gap: "4px", fontSize: "11px", background: colors.accent + "15", color: colors.accent, padding: "2px 8px", borderRadius: "10px" }}>
+                          <PlayCircle size={12} /> Vídeo disponivel
+                        </span>
+                      )}
                     </div>
                     {item.eixo && <div style={{ marginTop: "4px" }}><EixoTag eixo={item.eixo} /></div>}
                   </div>
@@ -417,15 +488,23 @@ function CronogramaSection() {
                     {item.bib && (
                       <div style={{ marginBottom: item.part ? "12px" : 0 }}>
                         <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: colors.sage, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
-                          Bibliografia
+                          Bibliografia e Materiais
                         </div>
-                        <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif" }}>
+                        <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif", marginBottom: item.videoUrl ? "8px" : "0" }}>
                           {item.bib}
                         </div>
+                        {item.videoUrl && (
+                          <a href={item.videoUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", color: colors.accent, textDecoration: "none", fontWeight: 500, background: colors.accent + "15", padding: "6px 12px", borderRadius: "16px", marginTop: "4px", transition: "all 0.2s" }}
+                            onMouseEnter={e => e.currentTarget.style.background = colors.accent + "30"}
+                            onMouseLeave={e => e.currentTarget.style.background = colors.accent + "15"}
+                          >
+                            <PlayCircle size={14} /> {item.videoTitle || "Assistir Vídeo"}
+                          </a>
+                        )}
                       </div>
                     )}
                     {item.part && (
-                      <div>
+                      <div style={{ marginTop: "12px" }}>
                         <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: colors.accent, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
                           Participação Especial
                         </div>
@@ -440,6 +519,123 @@ function CronogramaSection() {
             );
           })}
         </div>
+      </div>
+    </FadeIn>
+  );
+}
+
+function RepositorioSection() {
+  const colors = useContext(ThemeContext);
+  const [activeFolder, setActiveFolder] = useState(null);
+
+  return (
+    <FadeIn delay={0.2}>
+      <div style={{ marginBottom: "32px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
+          <div>
+            <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
+              Repositório de Arquivos
+            </h2>
+            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              Acesso direto aos materiais e cartilhas da Liga Acadêmica
+            </p>
+          </div>
+        </div>
+
+        {activeFolder === null ? (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px" }}>
+            {REPOSITORIO_FILES.map((folder, i) => (
+              <div
+                key={i}
+                onClick={() => setActiveFolder(i)}
+                style={{
+                  padding: "20px", borderRadius: "16px", cursor: "pointer",
+                  background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                  display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s"
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "translateY(-2px)";
+                  e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`;
+                  e.currentTarget.style.borderColor = colors.sage;
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "none";
+                  e.currentTarget.style.boxShadow = "none";
+                  e.currentTarget.style.borderColor = colors.creamDark;
+                }}
+              >
+                <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                  <Folder size={24} color={colors.sage} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>
+                    {folder.folder}
+                  </div>
+                  <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                    {folder.files.length} arquivos disponíveis
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
+              <button
+                onClick={() => setActiveFolder(null)}
+                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}
+              >
+                <ChevronDown size={16} style={{ transform: "rotate(90deg)" }} /> Voltar às Pastas
+              </button>
+              <span style={{ color: colors.creamDark }}>/</span>
+              <span style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif" }}>
+                {REPOSITORIO_FILES[activeFolder].folder}
+              </span>
+            </div>
+
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {REPOSITORIO_FILES[activeFolder].files.map((file, i) => (
+                <div
+                  key={i}
+                  style={{
+                    padding: "16px", borderRadius: "12px",
+                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    transition: "all 0.2s"
+                  }}
+                  onMouseEnter={e => e.currentTarget.style.background = colors.cream}
+                  onMouseLeave={e => e.currentTarget.style.background = colors.warmWhite}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: colors.accent + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+                      <FileText size={20} color={colors.accent} />
+                    </div>
+                    <div>
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+                        {file.name}
+                      </div>
+                      <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px" }}>
+                        <span>{file.size}</span>
+                        <span>•</span>
+                        <span>Adicionado em {file.upload}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <button style={{
+                    width: "36px", height: "36px", borderRadius: "50%", background: "transparent", border: `1px solid ${colors.creamDark}`,
+                    display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: colors.sage, transition: "all 0.2s"
+                  }}
+                    title="Baixar Arquivo"
+                    onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; }}
+                  >
+                    <Download size={16} />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </FadeIn>
   );
@@ -621,6 +817,7 @@ export default function LapsicApp() {
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
     { id: "cronograma", icon: Calendar, label: "Cronograma" },
+    { id: "repositorio", icon: Folder, label: "Repositório de Arquivos" },
     { id: "diretoria", icon: Users, label: "Diretoria" },
     { id: "contato", icon: MessageSquare, label: "Contato" },
   ];
@@ -679,7 +876,7 @@ export default function LapsicApp() {
               background: colors.sage, display: "flex", alignItems: "center",
               justifyContent: "center",
             }}>
-              <Leaf size={18} color="white" />
+              <PsiIcon size={20} color="white" />
             </div>
             <div>
               <div style={{ fontSize: "15px", fontWeight: 700, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
@@ -752,21 +949,23 @@ export default function LapsicApp() {
           className="main-content"
           style={{
             flex: 1, marginLeft: "240px", padding: "32px",
-            maxWidth: "900px",
+            maxWidth: "960px",
           }}
         >
-          <div id="section-home">
+          <div id="section-home" style={{ display: section === "home" ? "block" : "none" }}>
             <HeroSection />
-            <QuickAccess />
-            <MuralAvisos />
+            <MuralAvisos goToRepositorio={() => scrollToSection("repositorio")} />
           </div>
-          <div id="section-cronograma">
+          <div id="section-cronograma" style={{ display: section === "cronograma" ? "block" : "none" }}>
             <CronogramaSection />
           </div>
-          <div id="section-diretoria">
+          <div id="section-repositorio" style={{ display: section === "repositorio" ? "block" : "none" }}>
+            <RepositorioSection />
+          </div>
+          <div id="section-diretoria" style={{ display: section === "diretoria" ? "block" : "none" }}>
             <DiretoriaSection />
           </div>
-          <div id="section-contato">
+          <div id="section-contato" style={{ display: section === "contato" ? "block" : "none" }}>
             <ContatoSection />
           </div>
 
