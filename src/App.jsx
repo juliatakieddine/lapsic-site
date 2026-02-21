@@ -938,7 +938,8 @@ function LoginScreen({ onLogin }) {
 
   const handleEnter = (e) => {
     e.preventDefault();
-    if (AUTHORIZED_EMAILS.includes(email.toLowerCase().trim())) {
+    const cleanEmail = email.toLowerCase().trim();
+    if (AUTHORIZED_EMAILS.includes(cleanEmail) || cleanEmail.endsWith("@mackenzista.com.br")) {
       onLogin();
     } else {
       setError("E-mail não autorizado.");
