@@ -4,7 +4,7 @@ import {
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram
+  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram, Shield, Cloud
 } from "lucide-react";
 
 const LIGHT_COLORS = {
@@ -989,7 +989,7 @@ function LoginScreen({ onLogin }) {
     e.preventDefault();
     const cleanEmail = email.toLowerCase().trim();
     if (AUTHORIZED_EMAILS.includes(cleanEmail) || cleanEmail.endsWith("@mackenzista.com.br")) {
-      onLogin();
+      onLogin(cleanEmail);
     } else {
       setError("E-mail não autorizado.");
     }
@@ -1037,6 +1037,37 @@ function LoginScreen({ onLogin }) {
   );
 }
 
+function AdminDriveSection() {
+  const colors = useContext(ThemeContext);
+  return (
+    <FadeIn delay={0.2}>
+      <div style={{ marginBottom: "32px", background: colors.warmWhite, padding: "32px", borderRadius: "16px", border: `2px dashed ${colors.sage}`, position: "relative", overflow: "hidden" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+          <Shield size={28} color={colors.sage} />
+          <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif" }}>
+            Módulo da Diretoria (RLS Ativo) 
+          </h2>
+        </div>
+        <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "24px" }}>
+          **Modo de Edição Protegido.** Você está visualizando esta página pois seu e-mail foi reconhecido com privilégios de Diretoria (Row Level Security). <br />
+          Para inserir novos arquivos no site com facilidade máxima (sem precisar mexer no código ou no GitHub), você pode arrastar e soltar materiais diretamente na <strong>Pasta Central do Drive da Liga</strong> mostrada abaixo. O sistema lerá e sincronizará automaticamente.
+        </p>
+
+        <div style={{ padding: "24px", background: colors.cream, borderRadius: "12px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "200px" }}>
+          <Cloud size={48} color={colors.sage} style={{ marginBottom: "16px" }} />
+          <h3 style={{ fontSize: "16px", color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", fontWeight: 600, marginBottom: "8px" }}>Arraste seus Arquivos (Wrapper)</h3>
+          <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", maxWidth: "400px", marginBottom: "20px" }}>
+             Insira a URL de compartilhamento da pasta principal do Google Drive da LAPSIC no código para que a área de Drop & Drag (Iframe) do Google seja injetada nativamente aqui.
+          </p>
+          <a href="https://drive.google.com/" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", borderRadius: "8px", background: colors.sage, color: "white", textDecoration: "none", fontSize: "13px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "background 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = colors.moss} onMouseLeave={e => e.currentTarget.style.background = colors.sage}>
+            Abrir Espaço do Drive da LAPSIC
+          </a>
+        </div>
+      </div>
+    </FadeIn>
+  );
+}
+
 export default function LapsicApp() {
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
@@ -1044,6 +1075,9 @@ export default function LapsicApp() {
     return localStorage.getItem("lapsic-darkmode") === "true";
   });
   const [activeFolder, setActiveFolder] = useState(null);
+  const [userEmail, setUserEmail] = useState(() => {
+    return localStorage.getItem("lapsic-email") || "";
+  });
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("lapsic-auth") === "true";
   });
@@ -1061,6 +1095,8 @@ export default function LapsicApp() {
 
   const colors = darkMode ? DARK_COLORS : LIGHT_COLORS;
 
+  const isDirector = AUTHORIZED_EMAILS.includes(userEmail);
+
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
     { id: "cronograma", icon: Calendar, label: "Cronograma" },
@@ -1069,6 +1105,10 @@ export default function LapsicApp() {
     { id: "diretoria", icon: Users, label: "Diretoria" },
     { id: "contato", icon: MessageSquare, label: "Contato" },
   ];
+
+  if (isDirector) {
+    navItems.push({ id: "admin", icon: Shield, label: "Área da Diretoria" });
+  }
 
   const scrollToSection = (id) => {
     setSection(id);
@@ -1092,8 +1132,10 @@ export default function LapsicApp() {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (email) => {
     localStorage.setItem("lapsic-auth", "true");
+    localStorage.setItem("lapsic-email", email);
+    setUserEmail(email);
     setIsAuthenticated(true);
   };
 
@@ -1242,6 +1284,11 @@ export default function LapsicApp() {
             <div id="section-contato">
               <ContatoSection />
             </div>
+            {isDirector && (
+              <div id="section-admin" style={{ marginTop: "64px" }}>
+                <AdminDriveSection />
+              </div>
+            )}
 
             {/* Footer */}
             <FadeIn delay={0.35}>
