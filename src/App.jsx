@@ -1045,23 +1045,54 @@ function AdminDriveSection() {
         <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
           <Shield size={28} color={colors.sage} />
           <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif" }}>
-            Módulo da Diretoria (RLS Ativo) 
+            Painel da Diretoria
           </h2>
         </div>
-        <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "24px" }}>
-          **Modo de Edição Protegido.** Você está visualizando esta página pois seu e-mail foi reconhecido com privilégios de Diretoria (Row Level Security). <br />
-          Para inserir novos arquivos no site com facilidade máxima (sem precisar mexer no código ou no GitHub), você pode arrastar e soltar materiais diretamente na <strong>Pasta Central do Drive da Liga</strong> mostrada abaixo. O sistema lerá e sincronizará automaticamente.
+        <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "32px" }}>
+          Bem-vindo(a) à área restrita da Diretoria da Liga. Para atualizar os conteúdos do site de forma simples e imediata, basta inserir os arquivos diretamente nas pastas do Google Drive correspondentes abaixo. O site refletirá as novidades automaticamente!
         </p>
 
-        <div style={{ padding: "24px", background: colors.cream, borderRadius: "12px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", textAlign: "center", minHeight: "200px" }}>
-          <Cloud size={48} color={colors.sage} style={{ marginBottom: "16px" }} />
-          <h3 style={{ fontSize: "16px", color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", fontWeight: 600, marginBottom: "8px" }}>Arraste seus Arquivos (Wrapper)</h3>
-          <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", maxWidth: "400px", marginBottom: "20px" }}>
-             Insira a URL de compartilhamento da pasta principal do Google Drive da LAPSIC no código para que a área de Drop & Drag (Iframe) do Google seja injetada nativamente aqui.
-          </p>
-          <a href="https://drive.google.com/" target="_blank" rel="noopener noreferrer" style={{ padding: "10px 20px", borderRadius: "8px", background: colors.sage, color: "white", textDecoration: "none", fontSize: "13px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "background 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = colors.moss} onMouseLeave={e => e.currentTarget.style.background = colors.sage}>
-            Abrir Espaço do Drive da LAPSIC
-          </a>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px" }}>
+          {/* Card 1: Repositório */}
+          <div style={{ padding: "24px", background: colors.cream, borderRadius: "16px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+              <Folder size={22} color={colors.sage} />
+              <h3 style={{ fontSize: "18px", color: colors.charcoal, fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>1. Repositório de Arquivos</h3>
+            </div>
+            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "20px", flex: 1 }}>
+              Adicione textos, artigos e PDFs relacionados aos nossos encontros semanais. Escolha o Eixo Temático correto para manter tudo organizado para os ligantes:
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+              {Object.entries(EIXOS).map(([name, { color, icon: Icon }]) => (
+                <a key={name} href="#" onClick={(e) => { e.preventDefault(); alert('Em breve: Link para a pasta do Drive do eixo ' + name); }} style={{
+                  display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px",
+                  borderRadius: "10px", background: "white", color: color, textDecoration: "none",
+                  fontSize: "13px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+                  border: `1px solid ${color}40`, transition: "all 0.2s"
+                }} onMouseEnter={e => { e.currentTarget.style.background = color + "10"; }} onMouseLeave={e => { e.currentTarget.style.background = "white"; }}>
+                  <Icon size={16} /> Abrir Pasta: {name}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Card 2: Materiais */}
+          <div style={{ padding: "24px", background: colors.cream, borderRadius: "16px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
+              <Library size={22} color={colors.sage} />
+              <h3 style={{ fontSize: "18px", color: colors.charcoal, fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>2. Materiais Complementares</h3>
+            </div>
+            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "20px", flex: 1 }}>
+              Insira fluxogramas, cartilhas, mapas mentais e outros recursos visuais extracurriculares que servem de apoio para os alunos fora do cronograma fixo.
+            </p>
+            <a href="#" onClick={(e) => { e.preventDefault(); alert('Em breve: Link para a pasta Banco de Materiais'); }} style={{
+              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "12px 20px",
+              borderRadius: "10px", background: colors.sage, color: "white", textDecoration: "none",
+              fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
+            }} onMouseEnter={e => { e.currentTarget.style.background = colors.moss; }} onMouseLeave={e => { e.currentTarget.style.background = colors.sage; }}>
+              <Cloud size={18} /> Acessar Banco de Materiais
+            </a>
+          </div>
         </div>
       </div>
     </FadeIn>
