@@ -49,9 +49,9 @@ const PsiIcon = ({ size = 24, color = "currentColor", style }) => (
 );
 
 const EIXOS = {
-  "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
-  "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill },
-  "Gestão e Burocracias da Clínica": { color: "#6B7B8F", icon: Briefcase },
+  "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain, driveLink: "https://drive.google.com/drive/folders/11bSB80E5bVkextxafBG77bD-QpSs4T1r?usp=drive_link" },
+  "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill, driveLink: "https://drive.google.com/drive/folders/1XFr13RZGVGDAEAYmLREMYxs1PM0QUDKS?usp=drive_link" },
+  "Gestão e Burocracias da Clínica": { color: "#6B7B8F", icon: Briefcase, driveLink: "https://drive.google.com/drive/folders/1dyBa6jrcpi1zMxhOOnqwHbfOc41FLaM-?usp=drive_link" },
 };
 
 const CRONOGRAMA = [
@@ -1063,8 +1063,8 @@ function AdminDriveSection() {
               Adicione textos, artigos e PDFs relacionados aos nossos encontros semanais. Escolha o Eixo Temático correto para manter tudo organizado para os ligantes:
             </p>
             <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {Object.entries(EIXOS).map(([name, { color, icon: Icon }]) => (
-                <a key={name} href="#" onClick={(e) => { e.preventDefault(); alert('Em breve: Link para a pasta do Drive do eixo ' + name); }} style={{
+              {Object.entries(EIXOS).map(([name, { color, icon: Icon, driveLink }]) => (
+                <a key={name} href={driveLink} target="_blank" rel="noopener noreferrer" style={{
                   display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px",
                   borderRadius: "10px", background: "white", color: color, textDecoration: "none",
                   fontSize: "13px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
@@ -1085,7 +1085,7 @@ function AdminDriveSection() {
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "20px", flex: 1 }}>
               Insira fluxogramas, cartilhas, mapas mentais e outros recursos visuais extracurriculares que servem de apoio para os alunos fora do cronograma fixo.
             </p>
-            <a href="#" onClick={(e) => { e.preventDefault(); alert('Em breve: Link para a pasta Banco de Materiais'); }} style={{
+            <a href="https://drive.google.com/drive/folders/1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs?usp=drive_link" target="_blank" rel="noopener noreferrer" style={{
               display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "12px 20px",
               borderRadius: "10px", background: colors.sage, color: "white", textDecoration: "none",
               fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
