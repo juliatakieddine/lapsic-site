@@ -55,21 +55,21 @@ const EIXOS = {
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", filePreview: "Cronograma de atividades.pdf", part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
-  { data: "20/04", tema: "Feriado (sem encontro)", bib: null, filePreview: null, part: null, eixo: null },
-  { data: "27/04", tema: "Discussão de Caso", bib: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "04/05", tema: "Gestão da Clínica", bib: "Bibliografia Base", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Artigo Revista", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Dissertação Jéssica", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Artigo Scielo", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, filePreview: null, part: null, eixo: null },
+  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: "Cronograma de atividades.pdf", part: null, eixo: null },
+  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "PSICOTERAPIA ONLINE: DEMANDA CRESCENTE E SUGESTÕES PARA REGULAMENTAÇÃO - Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura - Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas - Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "MORTE E LUTO: O ENFRENTAMENTO DO FENÔMENO DA TERMINALIDADE À LUZ DA PSICOTERAPIA - Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", bibAbnt: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists - Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade", bibAbnt: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura - Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização - Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
+  { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
+  { data: "27/04", tema: "Discussão de Caso", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "04/05", tema: "Gestão da Clínica", bib: "Bibliografia Base", bibAbnt: "A clínica psicológica: legislação, estruturação e gestão - Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Artigo Revista", bibAbnt: "Contratos psicológicos: uma revisão da literatura - Letícia Fantinato Menegon e Tania Casado", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Dissertação Jéssica", bibAbnt: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias de Precificação e Cobrança de Psicoterapeutas - Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Artigo Scielo", bibAbnt: "Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais - Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
 ];
 
 const REPOSITORIO_FILES = [
@@ -286,6 +286,11 @@ function MuralAvisos({ goToRepositorio }) {
               {nextMeeting.bib && (
                 <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px" }}>
                   Leitura: <em>{nextMeeting.bib}</em>
+                  {nextMeeting.bibAbnt && (
+                    <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8 }}>
+                      ABNT: {nextMeeting.bibAbnt}
+                    </div>
+                  )}
                 </div>
               )}
               {(!nextMeeting.bib && !nextMeeting.videoUrl && !nextMeeting.filePreview) && (
@@ -497,6 +502,11 @@ function CronogramaSection() {
                         </div>
                         <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif", marginBottom: item.videoUrl ? "8px" : "0" }}>
                           {item.bib}
+                          {item.bibAbnt && (
+                            <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8, lineHeight: 1.4 }}>
+                              ABNT: {item.bibAbnt}
+                            </div>
+                          )}
                         </div>
                         {item.videoUrl && (
                           <a href={item.videoUrl} target="_blank" rel="noopener noreferrer" style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontSize: "12px", color: colors.accent, textDecoration: "none", fontWeight: 500, background: colors.accent + "15", padding: "6px 12px", borderRadius: "16px", marginTop: "4px", transition: "all 0.2s" }}
