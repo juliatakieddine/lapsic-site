@@ -14,6 +14,9 @@ O site funciona como um **painel de controle visual** — é possível navegar p
 
 ## Seções do site
 
+### 🔒 Login (Acesso Restrito)
+Todo o portal é protegido por uma tela de verificação. Apenas a diretoria e membros com e-mails na lista de autorizados, ou usuários em posse do e-mail institucional `@mackenzista.com.br` podem acessar as informações, garantindo a privacidade da Liga de forma automatizada.
+
 ### 🏠 Início
 A página inicial exibe:
 - Um banner de boas-vindas com o nome da liga e uma mensagem de apresentação.
@@ -48,6 +51,10 @@ Formulário para enviar mensagens à diretoria com campos para nome (opcional, p
 ## Como atualizar o conteúdo
 
 Todo o conteúdo editável está concentrado no arquivo **`src/App.jsx`**, nas primeiras linhas. Não é necessário conhecimento técnico avançado para fazer alterações simples.
+
+### Autorizar novos alunos (Login)
+
+No arquivo `src/App.jsx`, localize a constante `AUTHORIZED_EMAILS`. Adicione o e-mail do aluno nesta lista. (Lembre-se: Ligantes portando e-mails com sufixo `@mackenzista.com.br` são autorizados de forma automática sem precisar de inclusão manual nesta array).
 
 ### Atualizar o cronograma
 
