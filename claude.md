@@ -28,4 +28,5 @@ Houve interrupção de conexão ao final.
 - Links visíveis para vídeos.
    - **Repositório Iterativo:** Array de `REPOSITORIO_FILES` configurados com index matching local vinculados a `public/docs/`.
    - **Estruturas Base:** Array `CRONOGRAMA` no uso primário para renderizar ABNT tags extraídas de PDFs ou títulos de leitura dinâmicos.
+   - **Hotfix (Fase 6):** Corrigido crash de runtime na Vercel recarregando variação dinâmica entre `DARK_COLORS` e `LIGHT_COLORS`.
 - Sumário explicativo para estudante de psicologia.

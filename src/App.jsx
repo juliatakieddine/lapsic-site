@@ -4,7 +4,7 @@ import {
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive
+  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library
 } from "lucide-react";
 
 const LIGHT_COLORS = {
@@ -52,10 +52,11 @@ const EIXOS = {
   "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
   "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill },
   "Gestão e Burocracias da Clínica": { color: "#6B7B8F", icon: Briefcase },
+  "Materiais Complementares": { color: "#9F8265", icon: Library },
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: null, part: null, eixo: "Ramificações da Clínica", isDocs: true },
+  { data: "23/02", tema: "Apresentação da Liga", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Crianças do Movimento", url: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario" }] },
   { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
@@ -76,7 +77,6 @@ const REPOSITORIO_FILES = [
   {
     folder: "Ramificações da Clínica",
     files: [
-      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", title: "Diretrizes para Ligas Acadêmicas (Mackenzie)", type: "pdf", size: "1.2 MB", upload: "20/02/2026" },
       { name: "Psicoterapia Online.pdf", title: "Psicoterapia Online: Demanda Crescente e Regulamentação", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
       { name: "atendimento emergencial.pdf", title: "Implicações do Pronto-Atendimento Psicológico", type: "pdf", size: "890 KB", upload: "20/02/2026" },
       { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
@@ -101,6 +101,10 @@ const REPOSITORIO_FILES = [
       { name: "RGSA+120+PORT+n10.pdf", title: "Contratos Psicológicos: Uma Revisão", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "rel-latraps.pdf", title: "Modelos e Reflexões sobre Contrato Terapêutico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
+  },
+  {
+    folder: "Materiais Complementares",
+    files: []
   }
 ];
 
