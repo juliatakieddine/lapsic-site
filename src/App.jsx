@@ -52,7 +52,6 @@ const EIXOS = {
   "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain },
   "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill },
   "Gestão e Burocracias da Clínica": { color: "#6B7B8F", icon: Briefcase },
-  "Materiais Complementares": { color: "#9F8265", icon: Library },
 };
 
 const CRONOGRAMA = [
@@ -101,10 +100,6 @@ const REPOSITORIO_FILES = [
       { name: "RGSA+120+PORT+n10.pdf", title: "Contratos Psicológicos: Uma Revisão", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
       { name: "rel-latraps.pdf", title: "Modelos e Reflexões sobre Contrato Terapêutico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
-  },
-  {
-    folder: "Materiais Complementares",
-    files: []
   }
 ];
 
@@ -677,6 +672,43 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
   );
 }
 
+function MateriaisSection() {
+  const colors = useContext(ThemeContext);
+
+  return (
+    <FadeIn delay={0.2}>
+      <div style={{ marginBottom: "32px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+          <div>
+            <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
+              Materiais Complementares
+            </h2>
+            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              Manuais, Resoluções Técnicas e publicações formativas do Conselho Regional de Psicologia
+            </p>
+          </div>
+        </div>
+
+        <div style={{
+          padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
+          border: `1px dashed ${colors.creamDark}`, textAlign: "center",
+          display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
+        }}>
+          <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <Library size={32} color={colors.sage} />
+          </div>
+          <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "400px" }}>
+            Nenhum material complementar foi disponibilizado ainda.
+          </div>
+          <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>
+            Os documentos serão exibidos aqui ao decorrer do semestre.
+          </div>
+        </div>
+      </div>
+    </FadeIn>
+  );
+}
+
 function DiretoriaSection() {
   const colors = useContext(ThemeContext);
   return (
@@ -898,6 +930,7 @@ export default function LapsicApp() {
     { id: "home", icon: BookOpen, label: "Início" },
     { id: "cronograma", icon: Calendar, label: "Cronograma" },
     { id: "repositorio", icon: Folder, label: "Repositório de Arquivos" },
+    { id: "materiais", icon: Library, label: "Materiais Complementares" },
     { id: "diretoria", icon: Users, label: "Diretoria" },
     { id: "contato", icon: MessageSquare, label: "Contato" },
   ];
@@ -1056,6 +1089,9 @@ export default function LapsicApp() {
           </div>
           <div id="section-repositorio" style={{ marginBottom: "64px" }}>
             <RepositorioSection activeFolder={activeFolder} setActiveFolder={setActiveFolder} />
+          </div>
+          <div id="section-materiais" style={{ marginBottom: "64px" }}>
+            <MateriaisSection />
           </div>
           <div id="section-diretoria" style={{ marginBottom: "64px" }}>
             <DiretoriaSection />
