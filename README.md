@@ -15,16 +15,21 @@ O site funciona como um **painel de controle visual** — é possível navegar p
 ## Seções do site
 
 ### 🔒 Login (Acesso Restrito)
+
 Todo o portal é protegido por uma tela de verificação. Apenas a diretoria e membros com e-mails na lista de autorizados, ou usuários em posse do e-mail institucional `@mackenzista.com.br` podem acessar as informações, garantindo a privacidade da Liga de forma automatizada.
 
 ### 🏠 Início
+
 A página inicial exibe:
+
 - Um banner de boas-vindas com o nome da liga e uma mensagem de apresentação.
 - **Acesso Rápido**: dois atalhos para o **Notion** (contatos, cronograma e links dos encontros) e o **Google Drive** (textos, cartilhas e livros por eixo temático).
 - **Mural de Avisos**: informa o próximo encontro (tema e leitura indicada) e lembretes importantes, como assinar a lista de presença.
 
 ### 📅 Cronograma
+
 Lista todos os encontros do semestre **2026.1**, realizados às **segundas-feiras às 19h no formato online**. Cada linha exibe:
+
 - A **data** do encontro.
 - O **tema** a ser discutido.
 - O **eixo temático** ao qual o tema pertence (veja abaixo).
@@ -33,30 +38,49 @@ Lista todos os encontros do semestre **2026.1**, realizados às **segundas-feira
 Ao clicar em um encontro, aparecem detalhes como a **bibliografia sugerida** e, quando aplicável, quem é o **participante especial**.
 
 É possível **filtrar os encontros por eixo temático** usando os botões no topo da lista:
+
 - **Ramificações da Clínica** — temas como psicoterapia online, infantil, luto, atendimento emergencial.
 - **Psicopatologia e Fármacos** — temas como autodiagnóstico, medicalização, discussão de caso.
 - **Gestão e Burocracias da Clínica** — temas como gestão, contratos, finanças, marketing.
 
 ### 👥 Diretoria
+
 Mostra os quatro membros da diretoria atual com nome, RA, e-mail e telefone. Os links de e-mail e telefone são clicáveis para facilitar o contato direto.
 
 ### 📚 Materiais Complementares
+
 Uma seção dedicada para agrupar as Resoluções Técnicas e publicações formativas do Conselho Regional de Psicologia que servirão de base para a formação do Ligante, organizados como recursos extras não fixados a encontros específicos.
 
 ### 💬 Contato
+
 Formulário para enviar mensagens à diretoria com campos para nome (opcional, para anonimato), assunto e mensagem. Ideal para sugerir temas, indicar palestrantes ou deixar avaliações. Ao enviar, uma mensagem de confirmação é exibida.
 
 ---
 
-## Como atualizar o conteúdo
+### Como atualizar o conteúdo
 
-Todo o conteúdo editável está concentrado no arquivo **`src/App.jsx`**, nas primeiras linhas. Não é necessário conhecimento técnico avançado para fazer alterações simples.
+Não é necessário conhecimento de código para alimentar os materiais do site!
 
-### Autorizar novos alunos (Login)
+Todo o sistema foi projetado com **integração nativa à nuvem**. A plataforma lê o seu Google Drive em tempo real. Isso significa que, se a Diretoria quiser disponibilizar um texto, uma cartilha ou remover um PDF desatualizado, vocês não precisam entrar no código fonte.
 
-No arquivo `src/App.jsx`, localize a constante `AUTHORIZED_EMAILS`. Adicione o e-mail do aluno nesta lista. (Lembre-se: Ligantes portando e-mails com sufixo `@mackenzista.com.br` são autorizados de forma automática sem precisar de inclusão manual nesta array).
+### Alimentando o Site pelo Google Drive (Área da Diretoria)
 
-### Atualizar o cronograma
+Quando um diretor autorizado faz o Login (usando seu próprio e-mail registrado), o site libera uma aba secreta no menu esquerdo chamada **🛡️ Painel da Diretoria**.
+Nesta tela, vocês encontrarão atalhos diretos para as Gavetas Oficiais da Liga no Google Drive:
+
+1. **Repositório de Arquivos:** Dividido nos 3 respectivos Eixos Temáticos.
+2. **Materiais Complementares:** Para biblioteca geral e extra.
+
+Tudo o que for jogado ou removido dentro das devidas pastas nesses atalhos vai refletir **automaticamente** para os alunos na parte pública do site!
+
+### Autorizar novos administradores / diretoria
+
+Caso um novo Presidente ou Diretor assuma a gestão no futuro, é necessário adicioná-lo no código para que ele possa enxergar o botão secreto do "Painel da Diretoria".
+No arquivo **`src/App.jsx`**, localize a lista `AUTHORIZED_EMAILS` (por volta da linha 970) e adicione o e-mail responsável pela nova liderança e remova os antigos.
+
+### Alterando o cronograma de encontros
+
+Se for uma mudança na Grade Escrita (alteração de Tema, Data, Palestrante no Mural), abra o arquivo **`src/App.jsx`** e procure pela lista chamada `CRONOGRAMA` (por volta da linha 57). Ali você pode trocar livremente aspas e textos sem medo.
 
 Localize o trecho que começa com `const CRONOGRAMA = [` no arquivo `src/App.jsx`. Cada linha representa um encontro e segue este formato:
 
@@ -64,18 +88,19 @@ Localize o trecho que começa com `const CRONOGRAMA = [` no arquivo `src/App.jsx
 { data: "23/02", tema: "Apresentação da Liga", bib: null, part: null, eixo: null },
 ```
 
-| Campo  | O que é                                                          |
-|--------|------------------------------------------------------------------|
-| `data` | Data do encontro no formato `"DD/MM"`                           |
-| `tema` | Título do encontro                                               |
-| `bib`  | Leitura indicada, ou título de livro principal (ou `null` se não houver) |
-| `bibAbnt` | Referência dos Autores da leitura para destaque no layout        |
-| `videos` | Elemento Array opcional no formato `[{ title: "Nome", url: "Link" }]`  |
+| Campo         | O que é                                                                  |
+| ------------- | ------------------------------------------------------------------------ |
+| `data`        | Data do encontro no formato `"DD/MM"`                                    |
+| `tema`        | Título do encontro                                                       |
+| `bib`         | Leitura indicada, ou título de livro principal (ou `null` se não houver) |
+| `bibAbnt`     | Referência dos Autores da leitura para destaque no layout                |
+| `videos`      | Elemento Array opcional no formato `[{ title: "Nome", url: "Link" }]`    |
 | `filePreview` | Nome do PDF correspondente em `/public/docs/` para abrir em nova aba     |
-| `part` | Nome do palestrante convidado (ou `null` se não houver)          |
-| `eixo` | Um dos três eixos temáticos (ou `null` para encontros gerais)    |
+| `part`        | Nome do palestrante convidado (ou `null` se não houver)                  |
+| `eixo`        | Um dos três eixos temáticos (ou `null` para encontros gerais)            |
 
 Os três eixos válidos são exatamente:
+
 - `"Ramificações da Clínica"`
 - `"Psicopatologia e Fármacos"`
 - `"Gestão e Burocracias da Clínica"`
@@ -99,22 +124,26 @@ O mural de avisos está na função `MuralAvisos()`. Ali você pode alterar o te
 A seguir, algumas ideias de melhorias organizadas por dificuldade:
 
 ### Melhorias simples (sem código)
+
 - **Atualizar o cronograma** a cada semestre com as novas datas, temas e bibliografias.
 - **Atualizar os dados da diretoria** quando houver mudança de gestão.
 - **Manter o mural de avisos atualizado** com o próximo encontro e lembretes relevantes.
 
 ### Melhorias de funcionalidade
+
 - **Conectar o formulário de contato a um serviço real** (ex.: [Formspree](https://formspree.io), [EmailJS](https://www.emailjs.com)) para que as mensagens sejam de fato enviadas à diretoria, em vez de apenas simular o envio.
 - **Popular a aba Materiais Complementares**: Subir arquivos fixos sobre atuação profissional ligados aos órgãos reguladores.
 - **Notificações de lembrete**: enviar e-mail ou notificação no dia do encontro com o tema e o link de acesso.
 
 ### Melhorias visuais
+
 - **Adicionar foto ou avatar** aos cartões da diretoria para tornar o contato mais pessoal.
 - **Indicar o encontro atual ou o próximo** de forma mais destacada no cronograma (ex.: marcando com uma cor diferente ou um badge "Próximo").
 - **Adicionar um favicon personalizado** com o logo da LAPSIC no lugar do ícone padrão do Vite.
 - **Personalizar a paleta de cores** para refletir a identidade visual da liga — os valores de cor ficam no início do arquivo `src/App.jsx` (objetos `LIGHT_COLORS` e `DARK_COLORS`).
 
 ### Melhorias de acessibilidade
+
 - Garantir que todos os botões e links possuam texto descritivo para leitores de tela.
 - Melhorar o contraste de cores no modo claro para facilitar a leitura em ambientes com muita luz.
 
@@ -148,14 +177,14 @@ O site é publicado automaticamente na **[Vercel](https://vercel.com)** a cada n
 
 ## Tecnologias utilizadas
 
-| Tecnologia | Finalidade |
-|---|---|
-| [React 19](https://react.dev) | Construção da interface |
-| [Vite](https://vitejs.dev) | Ferramenta de desenvolvimento e build |
-| [Lucide React](https://lucide.dev) | Ícones da interface |
-| [Google Fonts](https://fonts.google.com) | Fontes DM Sans e Playfair Display |
-| [Vercel](https://vercel.com) | Hospedagem e deploy automático |
+| Tecnologia                               | Finalidade                            |
+| ---------------------------------------- | ------------------------------------- |
+| [React 19](https://react.dev)            | Construção da interface               |
+| [Vite](https://vitejs.dev)               | Ferramenta de desenvolvimento e build |
+| [Lucide React](https://lucide.dev)       | Ícones da interface                   |
+| [Google Fonts](https://fonts.google.com) | Fontes DM Sans e Playfair Display     |
+| [Vercel](https://vercel.com)             | Hospedagem e deploy automático        |
 
 ---
 
-*LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1*
+_LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1_

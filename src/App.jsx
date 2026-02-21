@@ -4,7 +4,7 @@ import {
   Mail, Phone, ChevronDown, ChevronRight, Clock, MapPin,
   Sparkles, Send, Eye, FileText, Video, Globe, Menu, X,
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
-  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram, Shield, Cloud
+  CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram, Shield, Cloud, LogOut
 } from "lucide-react";
 
 const LIGHT_COLORS = {
@@ -1173,6 +1173,13 @@ export default function LapsicApp() {
     setIsAuthenticated(true);
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem("lapsic-auth");
+    localStorage.removeItem("lapsic-email");
+    setUserEmail("");
+    setIsAuthenticated(false);
+  };
+
   return (
     <ThemeContext.Provider value={colors}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
@@ -1261,6 +1268,22 @@ export default function LapsicApp() {
             >
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
               <span>{darkMode ? "Modo Claro" : "Modo Escuro"}</span>
+            </button>
+
+            <button
+              onClick={handleLogout}
+              style={{
+                display: "flex", alignItems: "center", gap: "10px", padding: "10px 16px",
+                borderRadius: "10px", border: "none", cursor: "pointer", width: "100%",
+                textAlign: "left", fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 400, background: "transparent", color: colors.warmGray,
+                transition: "all 0.25s ease", marginTop: "4px",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = colors.cream; e.currentTarget.style.color = "#c92a2a"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.warmGray; }}
+            >
+              <LogOut size={18} />
+              <span>Sair (Logout)</span>
             </button>
 
             <div style={{
