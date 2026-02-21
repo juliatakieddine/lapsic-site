@@ -1,6 +1,9 @@
 # Contexto Gemini
 
-Este arquivo serve para alinhar o agente Gemini com relação ao repositório LAPSIC e o andamento das tarefas.
+Es- Integrado `lucide-react` para iconografia unificada.
+- Trocados botões estáticos para envio por Google Forms encapsulado localmente.
+- Link de vídeos embutidos perfeitamente aos avisos mensais.
+- Documentos repositório expõem `title` semânticos sobre `name` estritos de arquivos, além de mapeamento global com `public/docs/`.o das tarefas.
 
 ## Objetivos Atuais:
 1. Trabalhar no `App.jsx` (ou semelhantes) no diretório frontend (`lapsic-site`).
@@ -9,6 +12,7 @@ Este arquivo serve para alinhar o agente Gemini com relação ao repositório LA
    - Atualizar texto de "Bem-vindo".
    - Acentuações estruturais PT-BR corretas.
    - Implementar e aprimorar um `Dark Mode` persistente.
+   - A estrutura de dados base agora usa as propriedades `bib` para título e `bibAbnt` restrito a nome de *autores* (`CRONOGRAMA`), e as files do `REPOSITORIO_FILES` dependem do índice no mapeamento (ex: `folder: "Ramificações da Clínica"` atende pelo clique do Mural de forma automática usando a elevação de estado em `LapsicApp`).
    - Remover links "desnecessários" para Notion e GDrive (focar no portal).
    - Ajustar o "Mural de Avisos" (Data do próximo encontro e preview de arquivos).
    - Criar uma aba "Repositório de Arquivos".

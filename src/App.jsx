@@ -56,19 +56,19 @@ const EIXOS = {
 
 const CRONOGRAMA = [
   { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", bibAbnt: null, filePreview: null, part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "PSICOTERAPIA ONLINE: DEMANDA CRESCENTE E SUGESTÕES PARA REGULAMENTAÇÃO - Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura - Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videoUrl: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario", videoTitle: "Crianças do Movimento" },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas - Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "MORTE E LUTO: O ENFRENTAMENTO DO FENÔMENO DA TERMINALIDADE À LUZ DA PSICOTERAPIA - Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", bibAbnt: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists - Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos", videoUrl: "https://vt.tiktok.com/ZSaTAuexN/", videoTitle: "Diagnóstico TikTok" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade", bibAbnt: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura - Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização - Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
+  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videoUrl: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario", videoTitle: "Crianças do Movimento" },
+  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Autodiagnóstico Psiquiátrico em Jovens Adultos", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos", videoUrl: "https://vt.tiktok.com/ZSaTAuexN/", videoTitle: "Diagnóstico TikTok" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas Práticas de Cuidado", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da Recusa à Demanda de Diagnóstico", bibAbnt: "Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "27/04", tema: "Discussão de Caso", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "04/05", tema: "Gestão da Clínica", bib: "Bibliografia Base", bibAbnt: "A clínica psicológica: legislação, estruturação e gestão - Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Artigo Revista", bibAbnt: "Contratos psicológicos: uma revisão da literatura - Letícia Fantinato Menegon e Tania Casado", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Dissertação Jéssica", bibAbnt: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias de Precificação e Cobrança de Psicoterapeutas - Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Artigo Scielo", bibAbnt: "Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais - Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "04/05", tema: "Gestão da Clínica", bib: "A Clínica Psicológica: Legislação e Gestão", bibAbnt: "Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Contratos Psicológicos: Uma Revisão", bibAbnt: "Letícia Fantinato Menegon e Tania Casado", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Valor da Consulta: Precificação e Cobrança", bibAbnt: "Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Plataformização do Trabalho na Psicologia Clínica", bibAbnt: "Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
 ];
 
@@ -76,30 +76,30 @@ const REPOSITORIO_FILES = [
   {
     folder: "Ramificações da Clínica",
     files: [
-      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", type: "pdf", size: "1.2 MB", upload: "20/02/2026" },
-      { name: "Psicoterapia Online.pdf", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
-      { name: "atendimento emergencial.pdf", type: "pdf", size: "890 KB", upload: "20/02/2026" },
-      { name: "grupal.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "luto.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "psi infantil.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
+      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", title: "Diretrizes para Ligas Acadêmicas (Mackenzie)", type: "pdf", size: "1.2 MB", upload: "20/02/2026" },
+      { name: "Psicoterapia Online.pdf", title: "Psicoterapia Online: Demanda Crescente e Regulamentação", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
+      { name: "atendimento emergencial.pdf", title: "Implicações do Pronto-Atendimento Psicológico", type: "pdf", size: "890 KB", upload: "20/02/2026" },
+      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "luto.pdf", title: "Morte e Luto à Luz da Psicoterapia", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "psi infantil.pdf", title: "A Psicoterapia Infantil no Setting Clínico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   },
   {
     folder: "Psicopatologia e Fármacos",
     files: [
-      { name: "bibliografia - psicopatologia e medicalização.docx", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
-      { name: "increasing self - sutodiagnóstico.pdf", type: "pdf", size: "1.8 MB", upload: "20/02/2026" }
+      { name: "bibliografia - psicopatologia e medicalização.docx", title: "Da Recusa à Demanda de Diagnóstico", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
+      { name: "increasing self - sutodiagnóstico.pdf", title: "Autodiagnóstico Psiquiátrico em Jovens Adultos", type: "pdf", size: "1.8 MB", upload: "20/02/2026" }
     ]
   },
   {
     folder: "Gestão e Burocracias da Clínica",
     files: [
-      { name: "13561_2018_Article_213.pdf", type: "pdf", size: "4.5 MB", upload: "20/02/2026" },
-      { name: "Admin,+1920-5174-1-RV-34-43.pdf", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
-      { name: "Bibliografia - Gestão e burocracia de clínica.docx", type: "docx", size: "950 KB", upload: "20/02/2026" },
-      { name: "DissertaoJssica.pdf", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
-      { name: "RGSA+120+PORT+n10.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "rel-latraps.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
+      { name: "13561_2018_Article_213.pdf", title: "Plataformização do Trabalho na Psicologia Clínica", type: "pdf", size: "4.5 MB", upload: "20/02/2026" },
+      { name: "Admin,+1920-5174-1-RV-34-43.pdf", title: "O Papel do Marketing na Gestão de Saúde", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
+      { name: "Bibliografia - Gestão e burocracia de clínica.docx", title: "A Clínica Psicológica: Legislação e Gestão", type: "docx", size: "950 KB", upload: "20/02/2026" },
+      { name: "DissertaoJssica.pdf", title: "Valor da Consulta: Precificação e Cobrança", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
+      { name: "RGSA+120+PORT+n10.pdf", title: "Contratos Psicológicos: Uma Revisão", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "rel-latraps.pdf", title: "Modelos e Reflexões sobre Contrato Terapêutico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   }
 ];
@@ -224,7 +224,7 @@ function HeroSection() {
   );
 }
 
-function MuralAvisos({ goToRepositorio }) {
+function MuralAvisos({ goToRepositorioEixo }) {
   const colors = useContext(ThemeContext);
 
   const today = new Date();
@@ -293,22 +293,24 @@ function MuralAvisos({ goToRepositorio }) {
                 </div>
               )}
 
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                <button
-                  onClick={goToRepositorio}
-                  style={{
-                    display: "flex", alignItems: "center", gap: "8px",
-                    padding: "8px 16px", borderRadius: "8px",
-                    background: colors.sage, color: "white", border: "none",
-                    fontSize: "13px", fontWeight: 500, cursor: "pointer",
-                    fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = colors.moss}
-                  onMouseLeave={(e) => e.currentTarget.style.background = colors.sage}
-                >
-                  <Folder size={14} />
-                  Ver no Repositório
-                </button>
+              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: (!nextMeeting.bib && !nextMeeting.videoUrl && !nextMeeting.filePreview) ? 0 : "16px" }}>
+                {nextMeeting.bib && (
+                  <button
+                    onClick={() => goToRepositorioEixo(nextMeeting.eixo)}
+                    style={{
+                      display: "flex", alignItems: "center", gap: "8px",
+                      padding: "8px 16px", borderRadius: "8px",
+                      background: colors.sage, color: "white", border: "none",
+                      fontSize: "13px", fontWeight: 500, cursor: "pointer",
+                      fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
+                    }}
+                    onMouseEnter={(e) => e.currentTarget.style.background = colors.moss}
+                    onMouseLeave={(e) => e.currentTarget.style.background = colors.sage}
+                  >
+                    <Folder size={14} />
+                    Ver no Repositório
+                  </button>
+                )}
                 {nextMeeting.videoUrl && (
                   <a
                     href={nextMeeting.videoUrl}
@@ -337,7 +339,7 @@ function MuralAvisos({ goToRepositorio }) {
                 border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column",
                 alignItems: "center", gap: "8px", minWidth: "140px", cursor: "pointer", transition: "all 0.2s"
               }}
-                onClick={goToRepositorio}
+                onClick={() => goToRepositorioEixo(nextMeeting.eixo)}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.sage; e.currentTarget.style.transform = "translateY(-2px)" }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none" }}
               >
@@ -533,9 +535,8 @@ function CronogramaSection() {
   );
 }
 
-function RepositorioSection() {
+function RepositorioSection({ activeFolder, setActiveFolder }) {
   const colors = useContext(ThemeContext);
-  const [activeFolder, setActiveFolder] = useState(null);
 
   return (
     <FadeIn delay={0.2}>
@@ -631,9 +632,11 @@ function RepositorioSection() {
                       </div>
                       <div>
                         <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-                          {file.name}
+                          {file.title || file.name}
                         </div>
-                        <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px" }}>
+                        <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
+                          <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{file.name}</span>
+                          <span>•</span>
                           <span>{file.size}</span>
                           <span>•</span>
                           <span>Adicionado em {file.upload}</span>
@@ -858,17 +861,24 @@ function ContatoSection() {
 }
 
 export default function LapsicApp() {
+  const colors = tokens;
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
-    try { return localStorage.getItem("lapsic-dark-mode") === "true"; } catch { return false; }
+    return localStorage.getItem("lapsic-darkmode") === "true";
   });
+  const [activeFolder, setActiveFolder] = useState(null);
 
   useEffect(() => {
-    try { localStorage.setItem("lapsic-dark-mode", darkMode); } catch { /* ignore */ }
+    localStorage.setItem("lapsic-darkmode", darkMode);
+    if (darkMode) {
+      document.body.style.background = "#0F1113";
+      document.body.style.color = "#EAEAEA";
+    } else {
+      document.body.style.background = "#FDFCF0";
+      document.body.style.color = "#333333";
+    }
   }, [darkMode]);
-
-  const colors = darkMode ? DARK_COLORS : LIGHT_COLORS;
 
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
@@ -883,6 +893,21 @@ export default function LapsicApp() {
     setMobileNav(false);
     const el = document.getElementById(`section-${id}`);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const goToRepositorioEixo = (eixoName) => {
+    scrollToSection("repositorio");
+    if (eixoName) {
+      const folderIndex = REPOSITORIO_FILES.findIndex(f => f.folder === eixoName);
+      if (folderIndex !== -1) {
+        setActiveFolder(folderIndex);
+      } else {
+        setActiveFolder(null); // Reset if folder mapping not found
+      }
+    } else {
+      // Direct clicks to Repositorio overall (like 23/02 folder which has no eixo) maps to Ramificacoes as default or stay null
+      setActiveFolder(0);
+    }
   };
 
   return (
@@ -1010,13 +1035,13 @@ export default function LapsicApp() {
         >
           <div id="section-home" style={{ marginBottom: "64px" }}>
             <HeroSection />
-            <MuralAvisos goToRepositorio={() => scrollToSection("repositorio")} />
+            <MuralAvisos goToRepositorioEixo={goToRepositorioEixo} />
           </div>
           <div id="section-cronograma" style={{ marginBottom: "64px" }}>
             <CronogramaSection />
           </div>
           <div id="section-repositorio" style={{ marginBottom: "64px" }}>
-            <RepositorioSection />
+            <RepositorioSection activeFolder={activeFolder} setActiveFolder={setActiveFolder} />
           </div>
           <div id="section-diretoria" style={{ marginBottom: "64px" }}>
             <DiretoriaSection />
