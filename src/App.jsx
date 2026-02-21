@@ -55,20 +55,20 @@ const EIXOS = {
 };
 
 const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", filePreview: "Estatuto_LAPSIC_2026.pdf", part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação — Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia_Online_Gomes.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico — Rosa Angela Cortez et al.", videoUrl: "https://youtube.com/watch?v=dQw4w9WgXcQ", videoTitle: "Vídeo Complementar: Práticas na Clínica Infantil", filePreview: "Psicoterapia_Infantil_Cortez.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência — Airle Miranda de Souza et al.", filePreview: "Atendimento_Emergencial_Souza.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade à Luz da Psicoterapia — Tamires Freitas, Monica Dominici", filePreview: "Luto_Terminalidade_Freitas.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults — Neumann et al.", filePreview: "Self_Diagnoses_Neumann.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental — Eduardo Giacomini, Maria Lucia Frizon", filePreview: "Interdisciplinaridade_Giacomini.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização — Mariana Ferreira Pombo", filePreview: "Medicalizacao_Pombo.pdf", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
+  { data: "23/02", tema: "Apresentação da Liga", bib: "Estatuto da LAPSIC e Diretrizes do Semestre", filePreview: "Cronograma de atividades.pdf", part: null, eixo: null },
+  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, filePreview: null, part: null, eixo: null },
-  { data: "27/04", tema: "Discussão de Caso", bib: "Episódio 1 — Documentário Diagnóstico (Netflix)", videoUrl: "https://netflix.com", videoTitle: "Assistir Episódio (Netflix)", filePreview: "Roteiro_Discussao_Caso.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão — Cleonice Barros et al.", filePreview: "Gestao_Clinica_Barros.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Contratos psicológicos: uma revisão da literatura — Menegon, Casado + Reflexões sobre o contrato terapêutico — Gladys C. Moraes", filePreview: "Contratos_Psicologicos.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias — Jéssica Florinda", filePreview: "Valor_Consulta_Florinda.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Plataformização do Trabalho na Psicologia Clínica — Matheus Viana et al. + O Papel do Marketing na Gestão de Serviços de Saúde — António Morão et al.", filePreview: "Marketing_Saude_Viana.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "27/04", tema: "Discussão de Caso", bib: null, filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "04/05", tema: "Gestão da Clínica", bib: "Bibliografia Base", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "Artigo Revista", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "Dissertação Jéssica", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "Artigo Scielo", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, filePreview: null, part: null, eixo: null },
 ];
 
@@ -76,36 +76,36 @@ const REPOSITORIO_FILES = [
   {
     folder: "Ramificações da Clínica",
     files: [
-      { name: "Psicoterapia_Online_Gomes.pdf", type: "pdf", size: "1.2 MB", upload: "01/02/2026" },
-      { name: "Psicoterapia_Infantil_Cortez.pdf", type: "pdf", size: "2.4 MB", upload: "01/02/2026" },
-      { name: "Atendimento_Emergencial_Souza.pdf", type: "pdf", size: "890 KB", upload: "01/02/2026" },
-      { name: "Luto_Terminalidade_Freitas.pdf", type: "pdf", size: "1.5 MB", upload: "01/02/2026" }
+      { name: "IN_RE_127_2024_Ligas_Acadêmicas_Estudantis_(LAE)_Assinada (1).pdf", type: "pdf", size: "1.2 MB", upload: "20/02/2026" },
+      { name: "Psicoterapia Online.pdf", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
+      { name: "atendimento emergencial.pdf", type: "pdf", size: "890 KB", upload: "20/02/2026" },
+      { name: "grupal.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "luto.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "psi infantil.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   },
   {
     folder: "Psicopatologia e Fármacos",
     files: [
-      { name: "Self_Diagnoses_Neumann.pdf", type: "pdf", size: "3.1 MB", upload: "05/02/2026" },
-      { name: "Interdisciplinaridade_Giacomini.pdf", type: "pdf", size: "1.8 MB", upload: "05/02/2026" },
-      { name: "Medicalizacao_Pombo.pdf", type: "pdf", size: "2.2 MB", upload: "05/02/2026" },
-      { name: "Roteiro_Discussao_Caso.pdf", type: "pdf", size: "400 KB", upload: "10/02/2026" }
+      { name: "bibliografia - psicopatologia e medicalização.docx", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
+      { name: "increasing self - sutodiagnóstico.pdf", type: "pdf", size: "1.8 MB", upload: "20/02/2026" }
     ]
   },
   {
     folder: "Gestão e Burocracias da Clínica",
     files: [
-      { name: "Gestao_Clinica_Barros.pdf", type: "pdf", size: "4.5 MB", upload: "12/02/2026" },
-      { name: "Contratos_Psicologicos.pdf", type: "pdf", size: "1.1 MB", upload: "12/02/2026" },
-      { name: "Valor_Consulta_Florinda.pdf", type: "pdf", size: "950 KB", upload: "12/02/2026" },
-      { name: "Marketing_Saude_Viana.pdf", type: "pdf", size: "2.8 MB", upload: "12/02/2026" }
+      { name: "13561_2018_Article_213.pdf", type: "pdf", size: "4.5 MB", upload: "20/02/2026" },
+      { name: "Admin,+1920-5174-1-RV-34-43.pdf", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
+      { name: "Bibliografia - Gestão e burocracia de clínica.docx", type: "docx", size: "950 KB", upload: "20/02/2026" },
+      { name: "DissertaoJssica.pdf", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
+      { name: "RGSA+120+PORT+n10.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
+      { name: "rel-latraps.pdf", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
     ]
   },
   {
-    folder: "Materiais Complementares e Especiais",
+    folder: "Geral",
     files: [
-      { name: "Estatuto_LAPSIC_2026.pdf", type: "pdf", size: "5.0 MB", upload: "20/01/2026" },
-      { name: "Manual_Tecnico_CFP.pdf", type: "pdf", size: "8.2 MB", upload: "20/01/2026" },
-      { name: "Apresentacao_Liga_2026.pdf", type: "pdf", size: "2.1 MB", upload: "20/01/2026" }
+      { name: "Cronograma de atividades.pdf", type: "pdf", size: "120 KB", upload: "20/02/2026" }
     ]
   }
 ];
@@ -286,6 +286,11 @@ function MuralAvisos({ goToRepositorio }) {
               {nextMeeting.bib && (
                 <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px" }}>
                   Leitura: <em>{nextMeeting.bib}</em>
+                </div>
+              )}
+              {(!nextMeeting.bib && !nextMeeting.videoUrl && !nextMeeting.filePreview) && (
+                <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "12px", fontStyle: "italic" }}>
+                  Não há materiais de leitura ou vídeos para o próximo encontro!
                 </div>
               )}
 
@@ -692,14 +697,14 @@ function DiretoriaSection() {
                     <Mail size={13} />
                     <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.email}</span>
                   </a>
-                  <a href={`tel:${d.tel.replace(/\D/g, "")}`} style={{
+                  <span style={{
                     display: "flex", alignItems: "center", gap: "8px",
                     fontSize: "12px", color: colors.sage, textDecoration: "none",
                     fontFamily: "'DM Sans', sans-serif",
                   }}>
                     <Phone size={13} />
                     {d.tel}
-                  </a>
+                  </span>
                 </div>
               </div>
             </FadeIn>
@@ -713,6 +718,35 @@ function DiretoriaSection() {
 function ContatoSection() {
   const colors = useContext(ThemeContext);
   const [sent, setSent] = useState(false);
+  const [nome, setNome] = useState("");
+  const [assunto, setAssunto] = useState("");
+  const [mensagem, setMensagem] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleEnviar = () => {
+    if (!nome.trim() || !assunto.trim() || !mensagem.trim()) {
+      alert("Por favor, preencha todos os campos.");
+      return;
+    }
+    setLoading(true);
+    const formData = new FormData();
+    formData.append("entry.1067671325", nome);
+    formData.append("entry.845909834", assunto);
+    formData.append("entry.1626190089", mensagem);
+
+    fetch("https://docs.google.com/forms/d/e/1FAIpQLSfMU7fC3c1V6ZR6DhC5dKiZnIS_DNZgvqasNW6T4oTfYahDDQ/formResponse", {
+      method: "POST",
+      mode: "no-cors",
+      body: formData
+    }).then(() => {
+      setSent(true);
+      setLoading(false);
+    }).catch(() => {
+      setSent(true);
+      setLoading(false);
+    });
+  };
+
   return (
     <FadeIn delay={0.3}>
       <div style={{
@@ -746,7 +780,9 @@ function ContatoSection() {
           ) : (
             <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               <input
-                placeholder="Nome (opcional para anonimato)"
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                placeholder="Nome"
                 style={{
                   padding: "12px 16px", borderRadius: "10px", border: `1px solid ${colors.creamDark}`,
                   background: colors.cream, fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
@@ -756,6 +792,8 @@ function ContatoSection() {
                 onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <input
+                value={assunto}
+                onChange={(e) => setAssunto(e.target.value)}
                 placeholder="Assunto"
                 style={{
                   padding: "12px 16px", borderRadius: "10px", border: `1px solid ${colors.creamDark}`,
@@ -766,6 +804,8 @@ function ContatoSection() {
                 onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <textarea
+                value={mensagem}
+                onChange={(e) => setMensagem(e.target.value)}
                 placeholder="Sua mensagem..."
                 rows={4}
                 style={{
@@ -778,20 +818,21 @@ function ContatoSection() {
                 onBlur={(e) => e.target.style.borderColor = colors.creamDark}
               />
               <button
-                onClick={() => setSent(true)}
+                onClick={handleEnviar}
+                disabled={loading}
                 style={{
                   display: "flex", alignItems: "center", justifyContent: "center",
                   gap: "8px", padding: "12px 24px", borderRadius: "10px",
-                  background: colors.sage, color: "white", border: "none",
-                  fontSize: "14px", fontWeight: 500, cursor: "pointer",
+                  background: loading ? colors.warmGray : colors.sage, color: "white", border: "none",
+                  fontSize: "14px", fontWeight: 500, cursor: loading ? "not-allowed" : "pointer",
                   fontFamily: "'DM Sans', sans-serif", transition: "all 0.25s",
                   alignSelf: "flex-start",
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.background = colors.moss}
-                onMouseLeave={(e) => e.currentTarget.style.background = colors.sage}
+                onMouseEnter={(e) => { if (!loading) e.currentTarget.style.background = colors.moss; }}
+                onMouseLeave={(e) => { if (!loading) e.currentTarget.style.background = colors.sage; }}
               >
                 <Send size={15} />
-                Enviar
+                {loading ? "Enviando..." : "Enviar"}
               </button>
             </div>
           )}
@@ -952,20 +993,20 @@ export default function LapsicApp() {
             maxWidth: "960px",
           }}
         >
-          <div id="section-home" style={{ display: section === "home" ? "block" : "none" }}>
+          <div id="section-home" style={{ marginBottom: "64px" }}>
             <HeroSection />
             <MuralAvisos goToRepositorio={() => scrollToSection("repositorio")} />
           </div>
-          <div id="section-cronograma" style={{ display: section === "cronograma" ? "block" : "none" }}>
+          <div id="section-cronograma" style={{ marginBottom: "64px" }}>
             <CronogramaSection />
           </div>
-          <div id="section-repositorio" style={{ display: section === "repositorio" ? "block" : "none" }}>
+          <div id="section-repositorio" style={{ marginBottom: "64px" }}>
             <RepositorioSection />
           </div>
-          <div id="section-diretoria" style={{ display: section === "diretoria" ? "block" : "none" }}>
+          <div id="section-diretoria" style={{ marginBottom: "64px" }}>
             <DiretoriaSection />
           </div>
-          <div id="section-contato" style={{ display: section === "contato" ? "block" : "none" }}>
+          <div id="section-contato">
             <ContatoSection />
           </div>
 
