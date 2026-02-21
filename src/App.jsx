@@ -58,7 +58,7 @@ const CRONOGRAMA = [
   { data: "23/02", tema: "Apresentação da Liga", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "02/03", tema: "Psicoterapia Online", bib: "PSICOTERAPIA ONLINE: DEMANDA CRESCENTE E SUGESTÕES PARA REGULAMENTAÇÃO", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Vídeo Complementar", url: "https://www.youtube.com/watch?v=2qQXsjUqSeQ" }] },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "1. Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas. 2. Primeiros Socorros Psicológicos: relato de intervenção em crise em Santa Maria.", bibAbnt: "1. Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro. 2. Thiago Garcia da Silva, Patricia Gaspar Mello, Karine Silveira, Laura Wolffenbüttel, Beatriz Lobo, Carla Hervê Moram Bicca, Rodrigo Grassi-Oliveira, Christian Haag Kristensen.", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
+  { data: "16/03", tema: "Atendimento Emergencial", bib: "1. Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas.\n\n2. Primeiros Socorros Psicológicos: relato de intervenção em crise em Santa Maria.", bibAbnt: "1. Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro.\n\n2. Thiago Garcia da Silva, Patricia Gaspar Mello, Karine Silveira, Laura Wolffenbüttel, Beatriz Lobo, Carla Hervê Moram Bicca, Rodrigo Grassi-Oliveira, Christian Haag Kristensen.", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "MORTE E LUTO: O ENFRENTAMENTO DO FENÔMENO DA TERMINALIDADE À LUZ DA PSICOTERAPIA", bibAbnt: "Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
   { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
   { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos" },
@@ -66,9 +66,9 @@ const CRONOGRAMA = [
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "27/04", tema: "Discussão de Caso", bib: "Diagnosis - Documentário Netflix (Temporada 1, Episódio 1)", bibAbnt: "Busque exatamente por 'Diagnosis' na barra de pesquisa da sua conta Netflix.", filePreview: null, part: null, eixo: "Psicopatologia e Fármacos", videos: [{ title: "Reflexão sobre Diagnóstico (TikTok 1)", url: "https://vt.tiktok.com/ZSaTAuexN/" }, { title: "Autodiagnóstico (TikTok 2)", url: "https://vt.tiktok.com/ZSaTAysPh/" }] },
   { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão", bibAbnt: "Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "1. Contratos psicológicos: uma revisão da literatura. 2. Reflexões sobre o contrato terapêutico como instrumento de autorregulação do terapeuta.", bibAbnt: "1. Letícia Fantinato Menegon e Tania Casado. 2. Gladys Costa de Moraes.", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica", videos: [{ title: "Modelos de Contratos (Link do CRP)", url: "https://www.crp-01.org.br/page_3952/Modelos%20de%20Contratos?utm_source=chatgpt.com", isLink: true }] },
+  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "1. Contratos psicológicos: uma revisão da literatura.\n\n2. Reflexões sobre o contrato terapêutico como instrumento de autorregulação do terapeuta.", bibAbnt: "1. Letícia Fantinato Menegon e Tania Casado.\n\n2. Gladys Costa de Moraes.", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica", videos: [{ title: "Modelos de Contratos (Link do CRP)", url: "https://www.crp-01.org.br/page_3952/Modelos%20de%20Contratos?utm_source=chatgpt.com", isLink: true }] },
   { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias de Precificação e Cobrança de Psicoterapeutas", bibAbnt: "Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "1. Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais. 2. O PAPEL DO MARKETING NA GESTÃO DE SERVIÇOS DE SAÚDE: O CASO DO GRUPO DA CLÍNICA SANTA MADALENA.", bibAbnt: "1. Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre. 2. António Morão, Carlos Brito, Sónia Nogueira, Rui Dias e Rosa Galvão.", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
+  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "1. Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais.\n\n2. O PAPEL DO MARKETING NA GESTÃO DE SERVIÇOS DE SAÚDE: O CASO DO GRUPO DA CLÍNICA SANTA MADALENA.", bibAbnt: "1. Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre.\n\n2. António Morão, Carlos Brito, Sónia Nogueira, Rui Dias e Rosa Galvão.", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
 ];
 
@@ -104,10 +104,10 @@ const REPOSITORIO_FILES = [
 ];
 
 const DIRETORIA = [
-  { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900" },
-  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276" },
-  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264" },
-  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056" },
+  { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "/diretoria/isabela.jpg" },
+  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276", foto: null },
+  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: null },
+  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: null },
 ];
 
 function FadeIn({ children, delay = 0, className = "" }) {
@@ -532,10 +532,10 @@ function CronogramaSection() {
                         <div style={{ fontSize: "11px", fontWeight: 600, letterSpacing: "0.5px", textTransform: "uppercase", color: colors.sage, marginBottom: "4px", fontFamily: "'DM Sans', sans-serif" }}>
                           Bibliografia e Materiais
                         </div>
-                        <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif", marginBottom: item.videoUrl ? "8px" : "0" }}>
+                        <div style={{ fontSize: "13px", color: colors.warmGray, lineHeight: 1.6, fontFamily: "'DM Sans', sans-serif", marginBottom: item.videoUrl ? "8px" : "0", whiteSpace: "pre-line" }}>
                           {item.bib}
                           {item.bibAbnt && (
-                            <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8, lineHeight: 1.4 }}>
+                            <div style={{ fontSize: "11px", marginTop: "4px", color: colors.warmGray, opacity: 0.8, lineHeight: 1.4, whiteSpace: "pre-line" }}>
                               {item.bibAbnt}
                             </div>
                           )}
@@ -767,16 +767,24 @@ function DiretoriaSection() {
                   e.currentTarget.style.boxShadow = "none";
                 }}
               >
-                <div style={{
-                  width: "44px", height: "44px", borderRadius: "50%",
-                  background: `linear-gradient(135deg, ${colors.sage}30, ${colors.sage}10)`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  marginBottom: "14px",
-                }}>
-                  <span style={{ fontSize: "16px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif" }}>
-                    {d.nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
-                  </span>
-                </div>
+                {d.foto ? (
+                  <img src={d.foto} alt={d.nome} style={{
+                    width: "44px", height: "44px", borderRadius: "50%",
+                    marginBottom: "14px", objectFit: "cover",
+                    border: `1px solid ${colors.sage}30`
+                  }} />
+                ) : (
+                  <div style={{
+                    width: "44px", height: "44px", borderRadius: "50%",
+                    background: `linear-gradient(135deg, ${colors.sage}30, ${colors.sage}10)`,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    marginBottom: "14px",
+                  }}>
+                    <span style={{ fontSize: "16px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif" }}>
+                      {d.nome.split(" ").map((n) => n[0]).slice(0, 2).join("")}
+                    </span>
+                  </div>
+                )}
                 <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
                   {d.nome}
                 </div>
