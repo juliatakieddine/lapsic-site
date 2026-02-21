@@ -56,8 +56,8 @@ const EIXOS = {
 
 const CRONOGRAMA = [
   { data: "23/02", tema: "Apresentação da Liga", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Crianças do Movimento", url: "https://www.youtube.com/results?search_query=crianças+do+movimento+documentario" }] },
+  { data: "02/03", tema: "Psicoterapia Online", bib: "Psicoterapia Online: Demanda Crescente e Sugestões para Regulamentação", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "TERAPIA A DISTÂNCIA: O que esperar?", url: "https://www.youtube.com/watch?v=J9H7L_6hY6I" }] },
+  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Crianças do Movimento", url: "https://www.youtube.com/watch?v=R9_m_5_m_5s" }] },
   { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "Morte e Luto: O Enfrentamento do Fenômeno da Terminalidade", bibAbnt: "Tamires Freitas e Monica Oliveira Dominici", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
   { data: "30/03", tema: "Autodiagnóstico", bib: "Autodiagnóstico Psiquiátrico em Jovens Adultos", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
@@ -255,6 +255,18 @@ function MuralAvisos({ goToRepositorioEixo }) {
           </span>
         </div>
         <div style={{ padding: "24px" }}>
+          {/* DESTAQUE PERMANENTE DO FORMATO */}
+          <div style={{
+            display: "flex", alignItems: "center", justifyContent: "center", gap: "10px",
+            padding: "16px", borderRadius: "12px", background: colors.sage, color: "white",
+            marginBottom: "24px", boxShadow: `0 4px 12px ${colors.sage}40`
+          }}>
+            <Calendar size={18} />
+            <span style={{ fontSize: "15px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
+              Encontros: Segundas-feiras às 19h (Online)
+            </span>
+          </div>
+
           <div style={{
             display: "flex", alignItems: "flex-start", gap: "16px",
             padding: "20px", borderRadius: "12px",
@@ -386,7 +398,8 @@ function CronogramaSection() {
               Cronograma 2026.1
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Segundas-feiras às 19h — Formato Online
+              Segundas-feiras às 19h — Formato Online. <br />
+              <span style={{ fontStyle: "italic" }}>Os encontros abaixo estão categorizados e divididos pelos 3 grandes Eixos Temáticos.</span>
             </p>
           </div>
         </div>
@@ -555,7 +568,7 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
               Repositório de Arquivos
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Acesso direto aos materiais e cartilhas da Liga Acadêmica
+              Acesso direto aos materiais e cartilhas da Liga Acadêmica, organizados por Eixo de aprendizado.
             </p>
           </div>
         </div>
@@ -755,19 +768,25 @@ function DiretoriaSection() {
                   <a href={`mailto:${d.email}`} style={{
                     display: "flex", alignItems: "center", gap: "8px",
                     fontSize: "12px", color: colors.sage, textDecoration: "none",
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                    fontFamily: "'DM Sans', sans-serif", transition: "color 0.2s"
+                  }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
+                    onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
+                  >
                     <Mail size={13} />
                     <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.email}</span>
                   </a>
-                  <span style={{
+                  <a href={`https://wa.me/55${d.tel.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{
                     display: "flex", alignItems: "center", gap: "8px",
                     fontSize: "12px", color: colors.sage, textDecoration: "none",
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
+                    fontFamily: "'DM Sans', sans-serif", cursor: "pointer", transition: "color 0.2s"
+                  }}
+                    onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
+                    onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
+                  >
                     <Phone size={13} />
                     {d.tel}
-                  </span>
+                  </a>
                 </div>
               </div>
             </FadeIn>
@@ -905,6 +924,69 @@ function ContatoSection() {
   );
 }
 
+const AUTHORIZED_EMAILS = [
+  "isabela.kondor2509@gmail.com",
+  "juliataki08@gmail.com",
+  "bruno.a.zanin2006@gmail.com",
+  "mazanatj@gmail.com"
+];
+
+function LoginScreen({ onLogin }) {
+  const colors = useContext(ThemeContext);
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+
+  const handleEnter = (e) => {
+    e.preventDefault();
+    if (AUTHORIZED_EMAILS.includes(email.toLowerCase().trim())) {
+      onLogin();
+    } else {
+      setError("E-mail não autorizado.");
+    }
+  };
+
+  return (
+    <div style={{
+      minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center",
+      background: `linear-gradient(135deg, ${colors.moss} 0%, ${colors.sage} 50%, ${colors.sageLight} 100%)`,
+      padding: "20px"
+    }}>
+      <div style={{
+        background: colors.warmWhite, padding: "40px", borderRadius: "24px",
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)", maxWidth: "400px", width: "100%",
+        textAlign: "center"
+      }}>
+        <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 20px" }}>
+          <PsiIcon size={32} color={colors.sage} />
+        </div>
+        <h1 style={{ fontSize: "28px", fontWeight: 700, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "8px" }}>LAPSIC</h1>
+        <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "32px" }}>Acesso exclusivo ao Espaço do Ligante</p>
+
+        <form onSubmit={handleEnter} style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <input
+            type="email"
+            placeholder="Seu e-mail cadastrado"
+            value={email}
+            onChange={(e) => { setEmail(e.target.value); setError(""); }}
+            style={{ padding: "14px 16px", borderRadius: "12px", border: `1px solid ${error ? colors.accent : colors.creamDark}`, fontSize: "15px", outline: "none", fontFamily: "'DM Sans', sans-serif", background: colors.cream, color: colors.charcoal }}
+          />
+          {error && <span style={{ color: colors.accent, fontSize: "13px", fontWeight: 500, fontFamily: "'DM Sans', sans-serif", textAlign: "left" }}>{error}</span>}
+          <button type="submit" style={{ padding: "14px", borderRadius: "12px", background: colors.sage, color: "white", border: "none", fontSize: "15px", fontWeight: 600, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", transition: "background 0.2s" }} onMouseEnter={e => e.currentTarget.style.background = colors.moss} onMouseLeave={e => e.currentTarget.style.background = colors.sage}>
+            Acessar Plataforma
+          </button>
+        </form>
+
+        <div style={{ marginTop: "24px", paddingTop: "24px", borderTop: `1px solid ${colors.creamDark}` }}>
+          <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
+            Ainda não tem acesso? <br />
+            <a href={`mailto:lapsic.mackenzie@gmail.com?subject=Solicitação de Acesso - Espaço do Ligante&body=Olá Diretoria, gostaria de solicitar acesso ao site da LAPSIC utilizando o e-mail: ${email || "[Seu E-mail]"}`} style={{ color: colors.sage, fontWeight: 600, textDecoration: "none" }}>Solicite à diretoria clicando aqui</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function LapsicApp() {
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
@@ -912,6 +994,9 @@ export default function LapsicApp() {
     return localStorage.getItem("lapsic-darkmode") === "true";
   });
   const [activeFolder, setActiveFolder] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(() => {
+    return localStorage.getItem("lapsic-auth") === "true";
+  });
 
   useEffect(() => {
     localStorage.setItem("lapsic-darkmode", darkMode);
@@ -957,6 +1042,11 @@ export default function LapsicApp() {
     }
   };
 
+  const handleLogin = () => {
+    localStorage.setItem("lapsic-auth", "true");
+    setIsAuthenticated(true);
+  };
+
   return (
     <ThemeContext.Provider value={colors}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
@@ -979,140 +1069,144 @@ export default function LapsicApp() {
         }
       `}</style>
 
-      <div style={{ display: "flex", minHeight: "100vh", background: colors.cream, transition: "background 0.3s ease" }}>
-        {/* Overlay */}
-        {mobileNav && (
-          <div
-            onClick={() => setMobileNav(false)}
-            style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 99 }}
-          />
-        )}
+      {!isAuthenticated ? (
+        <LoginScreen onLogin={handleLogin} />
+      ) : (
+        <div style={{ display: "flex", minHeight: "100vh", background: colors.cream, transition: "background 0.3s ease" }}>
+          {/* Overlay */}
+          {mobileNav && (
+            <div
+              onClick={() => setMobileNav(false)}
+              style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.3)", zIndex: 99 }}
+            />
+          )}
 
-        {/* Sidebar */}
-        <aside
-          className={`sidebar ${mobileNav ? "open" : ""}`}
-          style={{
-            width: "240px", flexShrink: 0, background: colors.warmWhite,
-            borderRight: `1px solid ${colors.creamDark}`,
-            padding: "24px 16px", display: "flex", flexDirection: "column",
-            position: "fixed", top: 0, bottom: 0, left: 0,
-          }}
-        >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "32px", paddingLeft: "8px" }}>
-            <div style={{
-              width: "36px", height: "36px", borderRadius: "10px",
-              background: colors.sage, display: "flex", alignItems: "center",
-              justifyContent: "center",
-            }}>
-              <PsiIcon size={20} color="white" />
-            </div>
-            <div>
-              <div style={{ fontSize: "15px", fontWeight: 700, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
-                LAPSIC
-              </div>
-              <div style={{ fontSize: "10px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
-                Espaço do Ligante
-              </div>
-            </div>
-          </div>
-
-          <nav style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
-            {navItems.map((item) => (
-              <NavItem
-                key={item.id}
-                icon={item.icon}
-                label={item.label}
-                active={section === item.id}
-                onClick={() => scrollToSection(item.id)}
-              />
-            ))}
-          </nav>
-
-          <button
-            onClick={() => setDarkMode(!darkMode)}
+          {/* Sidebar */}
+          <aside
+            className={`sidebar ${mobileNav ? "open" : ""}`}
             style={{
-              display: "flex", alignItems: "center", gap: "10px", padding: "10px 16px",
-              borderRadius: "10px", border: "none", cursor: "pointer", width: "100%",
-              textAlign: "left", fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
-              fontWeight: 400, background: "transparent", color: colors.warmGray,
-              transition: "all 0.25s ease", marginTop: "4px",
+              width: "240px", flexShrink: 0, background: colors.warmWhite,
+              borderRight: `1px solid ${colors.creamDark}`,
+              padding: "24px 16px", display: "flex", flexDirection: "column",
+              position: "fixed", top: 0, bottom: 0, left: 0,
             }}
-            onMouseEnter={(e) => e.currentTarget.style.background = colors.cream}
-            onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
           >
-            {darkMode ? <Sun size={18} /> : <Moon size={18} />}
-            <span>{darkMode ? "Modo Claro" : "Modo Escuro"}</span>
+            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "32px", paddingLeft: "8px" }}>
+              <div style={{
+                width: "36px", height: "36px", borderRadius: "10px",
+                background: colors.sage, display: "flex", alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <PsiIcon size={20} color="white" />
+              </div>
+              <div>
+                <div style={{ fontSize: "15px", fontWeight: 700, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.1 }}>
+                  LAPSIC
+                </div>
+                <div style={{ fontSize: "10px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
+                  Espaço do Ligante
+                </div>
+              </div>
+            </div>
+
+            <nav style={{ display: "flex", flexDirection: "column", gap: "4px", flex: 1 }}>
+              {navItems.map((item) => (
+                <NavItem
+                  key={item.id}
+                  icon={item.icon}
+                  label={item.label}
+                  active={section === item.id}
+                  onClick={() => scrollToSection(item.id)}
+                />
+              ))}
+            </nav>
+
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              style={{
+                display: "flex", alignItems: "center", gap: "10px", padding: "10px 16px",
+                borderRadius: "10px", border: "none", cursor: "pointer", width: "100%",
+                textAlign: "left", fontSize: "14px", fontFamily: "'DM Sans', sans-serif",
+                fontWeight: 400, background: "transparent", color: colors.warmGray,
+                transition: "all 0.25s ease", marginTop: "4px",
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.background = colors.cream}
+              onMouseLeave={(e) => e.currentTarget.style.background = "transparent"}
+            >
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              <span>{darkMode ? "Modo Claro" : "Modo Escuro"}</span>
+            </button>
+
+            <div style={{
+              padding: "16px", borderRadius: "12px", background: colors.cream,
+              marginTop: "16px",
+            }}>
+              <div style={{ fontSize: "12px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+                Semestre 2026.1
+              </div>
+              <div style={{ fontSize: "11px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                Segundas, 19h — Online
+              </div>
+            </div>
+          </aside>
+
+          {/* Mobile Toggle */}
+          <button
+            className="mobile-toggle"
+            onClick={() => setMobileNav(!mobileNav)}
+            style={{
+              display: "none", position: "fixed", top: "16px", left: "16px", zIndex: 101,
+              width: "44px", height: "44px", borderRadius: "12px",
+              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+              alignItems: "center", justifyContent: "center", cursor: "pointer",
+              boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
+            }}
+          >
+            {mobileNav ? <X size={20} color={colors.charcoal} /> : <Menu size={20} color={colors.charcoal} />}
           </button>
 
-          <div style={{
-            padding: "16px", borderRadius: "12px", background: colors.cream,
-            marginTop: "16px",
-          }}>
-            <div style={{ fontSize: "12px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-              Semestre 2026.1
+          {/* Main Content */}
+          <main
+            className="main-content"
+            style={{
+              flex: 1, marginLeft: "240px", padding: "32px",
+              maxWidth: "960px",
+            }}
+          >
+            <div id="section-home" style={{ marginBottom: "64px" }}>
+              <HeroSection />
+              <MuralAvisos goToRepositorioEixo={goToRepositorioEixo} />
             </div>
-            <div style={{ fontSize: "11px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Segundas, 19h — Online
+            <div id="section-cronograma" style={{ marginBottom: "64px" }}>
+              <CronogramaSection />
             </div>
-          </div>
-        </aside>
-
-        {/* Mobile Toggle */}
-        <button
-          className="mobile-toggle"
-          onClick={() => setMobileNav(!mobileNav)}
-          style={{
-            display: "none", position: "fixed", top: "16px", left: "16px", zIndex: 101,
-            width: "44px", height: "44px", borderRadius: "12px",
-            background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-            alignItems: "center", justifyContent: "center", cursor: "pointer",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-          }}
-        >
-          {mobileNav ? <X size={20} color={colors.charcoal} /> : <Menu size={20} color={colors.charcoal} />}
-        </button>
-
-        {/* Main Content */}
-        <main
-          className="main-content"
-          style={{
-            flex: 1, marginLeft: "240px", padding: "32px",
-            maxWidth: "960px",
-          }}
-        >
-          <div id="section-home" style={{ marginBottom: "64px" }}>
-            <HeroSection />
-            <MuralAvisos goToRepositorioEixo={goToRepositorioEixo} />
-          </div>
-          <div id="section-cronograma" style={{ marginBottom: "64px" }}>
-            <CronogramaSection />
-          </div>
-          <div id="section-repositorio" style={{ marginBottom: "64px" }}>
-            <RepositorioSection activeFolder={activeFolder} setActiveFolder={setActiveFolder} />
-          </div>
-          <div id="section-materiais" style={{ marginBottom: "64px" }}>
-            <MateriaisSection />
-          </div>
-          <div id="section-diretoria" style={{ marginBottom: "64px" }}>
-            <DiretoriaSection />
-          </div>
-          <div id="section-contato">
-            <ContatoSection />
-          </div>
-
-          {/* Footer */}
-          <FadeIn delay={0.35}>
-            <div style={{
-              textAlign: "center", padding: "24px 0", marginTop: "16px",
-              borderTop: `1px solid ${colors.creamDark}`,
-            }}>
-              <p style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1
-              </p>
+            <div id="section-repositorio" style={{ marginBottom: "64px" }}>
+              <RepositorioSection activeFolder={activeFolder} setActiveFolder={setActiveFolder} />
             </div>
-          </FadeIn>
-        </main>
-      </div>
+            <div id="section-materiais" style={{ marginBottom: "64px" }}>
+              <MateriaisSection />
+            </div>
+            <div id="section-diretoria" style={{ marginBottom: "64px" }}>
+              <DiretoriaSection />
+            </div>
+            <div id="section-contato">
+              <ContatoSection />
+            </div>
+
+            {/* Footer */}
+            <FadeIn delay={0.35}>
+              <div style={{
+                textAlign: "center", padding: "24px 0", marginTop: "16px",
+                borderTop: `1px solid ${colors.creamDark}`,
+              }}>
+                <p style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                  LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1
+                </p>
+              </div>
+            </FadeIn>
+          </main>
+        </div>
+      )}
     </ThemeContext.Provider>
   );
 }
