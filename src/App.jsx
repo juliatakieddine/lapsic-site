@@ -105,9 +105,9 @@ const REPOSITORIO_FILES = [
 
 const DIRETORIA = [
   { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "/diretoria/isabela.jpg" },
-  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276", foto: null },
-  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: null },
-  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: null },
+  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276", foto: "/diretoria/julia.png" },
+  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: "/diretoria/bruno.png" },
+  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: "/diretoria/marcella.jpg" },
 ];
 
 function FadeIn({ children, delay = 0, className = "" }) {
