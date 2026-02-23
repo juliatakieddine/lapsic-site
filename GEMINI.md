@@ -15,6 +15,10 @@ Para finalização visual:
 1. Trocou-se o Logotipo do "Vite" no Head do site para um **Favicon SVG em verde sálvia** contendo a letra "Ψ" (Psicologia).
 2. Adicionado Botão Funcional de Log-out para zerar o Storage local.
 3. Link Oficial do Google Meet (`https://meet.google.com/mdn-ypng-bvm`) da Diretoria implementado no "HeroBanner" para todos os encontros programados (Segundas-feiras, 19h).
+4. Divisão de Acesso em 3 Camadas:
+   - **Mackenzistas** (`@mackenzista.com.br`): Acesso Padrão Liberado
+   - **Convidados** (`AUTHORIZED_COMMON_EMAILS`): Acesso Padrão Liberado (e.g. `suguidiane@gmail.com`)
+   - **Diretoria** (`AUTHORIZED_EMAILS`): Acesso Padrão + Módulo de Administração Drive
 
 ## Papel
 
