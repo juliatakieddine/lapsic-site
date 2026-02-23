@@ -976,6 +976,13 @@ const AUTHORIZED_EMAILS = [
   "mazanatj@gmail.com"
 ];
 
+// E-mails comuns aprovados pela Diretoria (não possuem acesso à aba de Administração)
+const AUTHORIZED_COMMON_EMAILS = [
+  // Adicione aqui os e-mails de fora do Mackenzie liberados para ligantes convidados
+  "exemplo1@gmail.com",
+  "exemplo2@yahoo.com"
+];
+
 function LoginScreen({ onLogin }) {
   const colors = useContext(ThemeContext);
   const [email, setEmail] = useState("");
@@ -984,7 +991,11 @@ function LoginScreen({ onLogin }) {
   const handleEnter = (e) => {
     e.preventDefault();
     const cleanEmail = email.toLowerCase().trim();
-    if (AUTHORIZED_EMAILS.includes(cleanEmail) || cleanEmail.endsWith("@mackenzista.com.br")) {
+    if (
+      AUTHORIZED_EMAILS.includes(cleanEmail) || 
+      AUTHORIZED_COMMON_EMAILS.includes(cleanEmail) || 
+      cleanEmail.endsWith("@mackenzista.com.br")
+    ) {
       onLogin(cleanEmail);
     } else {
       setError("E-mail não autorizado.");
