@@ -73,10 +73,20 @@ Nesta tela, vocês encontrarão atalhos diretos para as Gavetas Oficiais da Liga
 
 Tudo o que for jogado ou removido dentro das devidas pastas nesses atalhos vai refletir **automaticamente** para os alunos na parte pública do site!
 
+### Autorizar Convidados Externos (Login Comum)
+
+A plataforma possui três camadas de acesso na tela de Login:
+
+1. **Ligantes Mackenzistas:** Qualquer e-mail terminado em `@mackenzista.com.br` entra automaticamente.
+2. **Convidados Externos:** E-mails variados (como `@gmail`, `@yahoo`).
+3. **Diretoria:** Membros da gestão com acesso ao painel de administração.
+
+Para autorizar a entrada de um aluno convidado que não possui o e-mail do Mackenzie, você deve abrir o arquivo **`src/App.jsx`**, localizar a lista `AUTHORIZED_COMMON_EMAILS` (por volta da linha 980) e adicionar o e-mail dele entre aspas (ex: `"suguidiane@gmail.com"`). Essa pessoa terá acesso aos PDFs e Cronogramas, mas o botão de administração permanecerá oculto.
+
 ### Autorizar novos administradores / diretoria
 
 Caso um novo Presidente ou Diretor assuma a gestão no futuro, é necessário adicioná-lo no código para que ele possa enxergar o botão secreto do "Painel da Diretoria".
-No arquivo **`src/App.jsx`**, localize a lista `AUTHORIZED_EMAILS` (por volta da linha 970) e adicione o e-mail responsável pela nova liderança e remova os antigos.
+No arquivo **`src/App.jsx`**, localize a lista `AUTHORIZED_EMAILS` (por volta da linha 972) e adicione o e-mail responsável pela nova liderança e remova os antigos.
 
 ### Alterando o cronograma de encontros
 
