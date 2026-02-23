@@ -979,8 +979,7 @@ const AUTHORIZED_EMAILS = [
 // E-mails comuns aprovados pela Diretoria (não possuem acesso à aba de Administração)
 const AUTHORIZED_COMMON_EMAILS = [
   // Adicione aqui os e-mails de fora do Mackenzie liberados para ligantes convidados
-  "exemplo1@gmail.com",
-  "exemplo2@yahoo.com"
+  "suguidiane@gmail.com"
 ];
 
 function LoginScreen({ onLogin }) {
