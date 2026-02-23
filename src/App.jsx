@@ -221,15 +221,9 @@ function HeroSection() {
           </p>
           <div style={{ marginTop: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <a
-              href="#"
+              href="https://meet.google.com/mdn-ypng-bvm"
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => { 
-                if(e.currentTarget.getAttribute('href') === '#') {
-                  e.preventDefault(); 
-                  alert('O link do Google Meet será disponibilizado em breve pela diretoria!');
-                }
-              }}
               style={{
                 display: "flex", alignItems: "center", gap: "8px", padding: "10px 20px",
                 borderRadius: "12px", background: "white", color: colors.sage,
