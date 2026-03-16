@@ -722,13 +722,79 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
   );
 }
 
+const MATERIAIS_FOLDER_ID = "1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs";
+const DRIVE_API_KEY = "AIzaSyC_61aHyJFzGvZNg7Yg4kcWsn2o3GopCRk";
+
+function getFileIcon(mimeType) {
+  if (!mimeType) return FileText;
+  if (mimeType.includes("pdf")) return FileText;
+  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return FileArchive;
+  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return FileArchive;
+  if (mimeType.includes("document") || mimeType.includes("word")) return FileText;
+  if (mimeType.includes("video")) return Video;
+  if (mimeType.includes("folder")) return Folder;
+  return File;
+}
+
+function getFileTypeLabel(mimeType) {
+  if (!mimeType) return "Arquivo";
+  if (mimeType.includes("pdf")) return "PDF";
+  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return "PPT";
+  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return "XLS";
+  if (mimeType.includes("document") || mimeType.includes("word")) return "DOC";
+  if (mimeType.includes("video")) return "Vídeo";
+  if (mimeType.includes("folder")) return "Pasta";
+  if (mimeType.includes("google-apps.document")) return "Doc";
+  if (mimeType.includes("google-apps.presentation")) return "Slides";
+  if (mimeType.includes("google-apps.spreadsheet")) return "Planilha";
+  return "Arquivo";
+}
+
+function formatDriveDate(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
+
 function MateriaisSection() {
   const colors = useContext(ThemeContext);
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    async function fetchFiles() {
+      try {
+        setLoading(true);
+        setError(null);
+        const fields = "files(id,name,mimeType,modifiedTime,size,webViewLink,iconLink)";
+        const query = `'${MATERIAIS_FOLDER_ID}' in parents and trashed = false`;
+        const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          const errData = await res.json();
+          throw new Error(errData?.error?.message || "Erro ao buscar arquivos");
+        }
+        const data = await res.json();
+        setFiles(data.files || []);
+      } catch (err) {
+        setError(err.message || "Não foi possível carregar os materiais.");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchFiles();
+  }, []);
+
+  const filtered = files.filter(f =>
+    f.name.toLowerCase().includes(search.toLowerCase())
+  );
 
   return (
     <FadeIn delay={0.2}>
       <div style={{ marginBottom: "32px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "20px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
           <div>
             <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
               Materiais Complementares
@@ -737,23 +803,174 @@ function MateriaisSection() {
               Manuais, Resoluções Técnicas e publicações formativas do Conselho Regional de Psicologia
             </p>
           </div>
+          {!loading && !error && files.length > 0 && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: "8px",
+              padding: "8px 14px", borderRadius: "10px",
+              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+            }}>
+              <Search size={14} color={colors.warmGray} />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Buscar material..."
+                style={{
+                  border: "none", outline: "none", fontSize: "13px",
+                  fontFamily: "'DM Sans', sans-serif", background: "transparent",
+                  color: colors.charcoal, width: "160px",
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        <div style={{
-          padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
-          border: `1px dashed ${colors.creamDark}`, textAlign: "center",
-          display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
-        }}>
-          <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <Library size={32} color={colors.sage} />
+        {loading && (
+          <div style={{
+            padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
+            border: `1px solid ${colors.creamDark}`, textAlign: "center",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
+          }}>
+            <div style={{
+              width: "40px", height: "40px", borderRadius: "50%",
+              border: `3px solid ${colors.sage}30`,
+              borderTop: `3px solid ${colors.sage}`,
+              animation: "spin 0.9s linear infinite",
+            }} />
+            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              Carregando materiais do Drive...
+            </div>
           </div>
-          <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "400px" }}>
-            Nenhum material complementar foi disponibilizado ainda.
+        )}
+
+        {!loading && error && (
+          <div style={{
+            padding: "32px", borderRadius: "16px", background: colors.warmWhite,
+            border: `1px solid ${colors.accent}30`, textAlign: "center",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: "12px"
+          }}>
+            <AlertTriangle size={28} color={colors.accent} />
+            <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
+              Não foi possível carregar os materiais
+            </div>
+            <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", maxWidth: "400px" }}>
+              Verifique se a pasta do Drive está compartilhada como "Qualquer pessoa com o link". <br />
+              <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{error}</span>
+            </div>
           </div>
-          <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>
-            Os documentos serão exibidos aqui ao decorrer do semestre.
+        )}
+
+        {!loading && !error && files.length === 0 && (
+          <div style={{
+            padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
+            border: `1px dashed ${colors.creamDark}`, textAlign: "center",
+            display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
+          }}>
+            <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Library size={32} color={colors.sage} />
+            </div>
+            <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "400px" }}>
+              Nenhum material complementar foi disponibilizado ainda.
+            </div>
+            <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>
+              Os documentos serão exibidos aqui ao decorrer do semestre.
+            </div>
           </div>
-        </div>
+        )}
+
+        {!loading && !error && filtered.length === 0 && files.length > 0 && (
+          <div style={{
+            padding: "32px", borderRadius: "16px", background: colors.warmWhite,
+            border: `1px solid ${colors.creamDark}`, textAlign: "center",
+          }}>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+              Nenhum resultado para "<strong>{search}</strong>"
+            </div>
+          </div>
+        )}
+
+        {!loading && !error && filtered.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {filtered.map((file) => {
+              const IconComponent = getFileIcon(file.mimeType);
+              const typeLabel = getFileTypeLabel(file.mimeType);
+              const isFolder = file.mimeType === "application/vnd.google-apps.folder";
+              return (
+                <a
+                  key={file.id}
+                  href={file.webViewLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{
+                    padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
+                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                    display: "flex", alignItems: "center", justifyContent: "space-between",
+                    transition: "all 0.2s", gap: "12px",
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.background = colors.cream;
+                    e.currentTarget.style.borderColor = colors.sage;
+                    e.currentTarget.style.transform = "translateY(-1px)";
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.background = colors.warmWhite;
+                    e.currentTarget.style.borderColor = colors.creamDark;
+                    e.currentTarget.style.transform = "none";
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0,
+                      background: isFolder ? colors.sage + "15" : colors.accent + "15",
+                      display: "flex", alignItems: "center", justifyContent: "center",
+                    }}>
+                      <IconComponent size={20} color={isFolder ? colors.sage : colors.accent} />
+                    </div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div style={{
+                        fontSize: "14px", fontWeight: 500, color: colors.charcoal,
+                        fontFamily: "'DM Sans', sans-serif", marginBottom: "4px",
+                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                      }}>
+                        {file.name}
+                      </div>
+                      <div style={{
+                        fontSize: "12px", color: colors.warmGray,
+                        fontFamily: "'DM Sans', sans-serif",
+                        display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap",
+                      }}>
+                        <span style={{
+                          background: isFolder ? colors.sage + "15" : colors.accent + "15",
+                          color: isFolder ? colors.sage : colors.accent,
+                          padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600,
+                        }}>
+                          {typeLabel}
+                        </span>
+                        {file.modifiedTime && (
+                          <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  <div style={{
+                    width: "36px", height: "36px", borderRadius: "50%",
+                    border: `1px solid ${colors.creamDark}`, flexShrink: 0,
+                    display: "flex", alignItems: "center", justifyContent: "center",
+                    color: colors.sage, transition: "all 0.2s",
+                  }}
+                    onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = colors.sage; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; e.currentTarget.style.borderColor = colors.creamDark; }}
+                  >
+                    <ExternalLink size={15} />
+                  </div>
+                </a>
+              );
+            })}
+            <div style={{ fontSize: "12px", color: colors.warmGray, textAlign: "right", fontFamily: "'DM Sans', sans-serif", paddingTop: "4px", opacity: 0.7 }}>
+              {filtered.length} {filtered.length === 1 ? "material disponível" : "materiais disponíveis"} — sincronizado com o Google Drive
+            </div>
+          </div>
+        )}
       </div>
     </FadeIn>
   );
