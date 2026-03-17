@@ -72,38 +72,44 @@ const CRONOGRAMA = [
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
 ];
 
-const REPOSITORIO_FILES = [
-  {
-    folder: "Ramificações da Clínica",
-    files: [
-      { name: "Psicoterapia Online.pdf", title: "Psicoterapia Online: Demanda Crescente e Regulamentação", type: "pdf", size: "2.4 MB", upload: "20/02/2026" },
-      { name: "psi infantil.pdf", title: "A Psicoterapia Infantil no Setting Clínico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "atendimento emergencial.pdf", title: "Implicações do Pronto-Atendimento Psicológico", type: "pdf", size: "890 KB", upload: "20/02/2026" },
-      { name: "luto.pdf", title: "Morte e Luto à Luz da Psicoterapia", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "grupal.pdf", title: "A Prática da Psicoterapia Grupal", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
-    ]
-  },
-  {
-    folder: "Psicopatologia e Fármacos",
-    files: [
-      { name: "bibliografia - psicopatologia e medicalização.docx", title: "Bibliografia Base: Psicopatologia e Medicalização", type: "docx", size: "3.1 MB", upload: "20/02/2026" },
-      { name: "Da recusa à demanda de diagnóstico- novos arranjos da medicalização.pdf", title: "Da Recusa à Demanda de Diagnóstico", type: "pdf", size: "1.2 MB", upload: "21/02/2026" },
-      { name: "increasing self - sutodiagnóstico.pdf", title: "Autodiagnóstico Psiquiátrico em Jovens Adultos", type: "pdf", size: "1.8 MB", upload: "20/02/2026" },
-      { name: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", title: "Interdisciplinaridade em Saúde Mental", type: "pdf", size: "2.1 MB", upload: "21/02/2026" }
-    ]
-  },
-  {
-    folder: "Gestão e Burocracias da Clínica",
-    files: [
-      { name: "13561_2018_Article_213.pdf", title: "Plataformização do Trabalho na Psicologia Clínica", type: "pdf", size: "4.5 MB", upload: "20/02/2026" },
-      { name: "Admin,+1920-5174-1-RV-34-43.pdf", title: "Contratos Psicológicos: Uma Revisão da Literatura", type: "pdf", size: "1.1 MB", upload: "20/02/2026" },
-      { name: "Bibliografia - Gestão e burocracia de clínica.docx", title: "A Clínica Psicológica: Legislação e Gestão", type: "docx", size: "950 KB", upload: "20/02/2026" },
-      { name: "DissertaoJssica.pdf", title: "Valor da Consulta: Precificação e Cobrança", type: "pdf", size: "2.8 MB", upload: "20/02/2026" },
-      { name: "RGSA+120+PORT+n10.pdf", title: "O Papel do Marketing na Gestão de Saúde", type: "pdf", size: "1.5 MB", upload: "20/02/2026" },
-      { name: "rel-latraps.pdf", title: "Modelos e Reflexões sobre Contrato Terapêutico", type: "pdf", size: "1.5 MB", upload: "20/02/2026" }
-    ]
-  }
+const DRIVE_API_KEY = "AIzaSyC_61aHyJFzGvZNg7Yg4kcWsn2o3GopCRk";
+const MATERIAIS_FOLDER_ID = "1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs";
+const REPOSITORIO_FOLDERS = [
+  { folder: "Ramificações da Clínica", id: "11bSB80E5bVkextxafBG77bD-QpSs4T1r" },
+  { folder: "Psicopatologia e Fármacos", id: "1XFr13RZGVGDAEAYmLREMYxs1PM0QUDKS" },
+  { folder: "Gestão e Burocracias da Clínica", id: "1dyBa6jrcpi1zMxhOOnqwHbfOc41FLaM-" },
 ];
+
+function getFileIcon(mimeType) {
+  if (!mimeType) return FileText;
+  if (mimeType.includes("pdf")) return FileText;
+  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return FileArchive;
+  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return FileArchive;
+  if (mimeType.includes("document") || mimeType.includes("word")) return FileText;
+  if (mimeType.includes("video")) return Video;
+  if (mimeType.includes("folder")) return Folder;
+  return File;
+}
+
+function getFileTypeLabel(mimeType) {
+  if (!mimeType) return "Arquivo";
+  if (mimeType.includes("pdf")) return "PDF";
+  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return "PPT";
+  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return "XLS";
+  if (mimeType.includes("document") || mimeType.includes("word")) return "DOC";
+  if (mimeType.includes("video")) return "Vídeo";
+  if (mimeType.includes("folder")) return "Pasta";
+  if (mimeType.includes("google-apps.document")) return "Doc";
+  if (mimeType.includes("google-apps.presentation")) return "Slides";
+  if (mimeType.includes("google-apps.spreadsheet")) return "Planilha";
+  return "Arquivo";
+}
+
+function formatDriveDate(dateStr) {
+  if (!dateStr) return "";
+  const d = new Date(dateStr);
+  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
+}
 
 const DIRETORIA = [
   { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "/diretoria/isabela.jpg" },
@@ -601,7 +607,6 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
   const [folderCounts, setFolderCounts] = useState({});
   const [search, setSearch] = useState("");
 
-  // Load file counts for all folders on mount
   useEffect(() => {
     async function loadCounts() {
       const counts = {};
@@ -613,9 +618,7 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
             const res = await fetch(url);
             const data = await res.json();
             counts[folder] = data.files ? data.files.length : 0;
-          } catch {
-            counts[folder] = null;
-          }
+          } catch { counts[folder] = null; }
         })
       );
       setFolderCounts(counts);
@@ -623,41 +626,26 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
     loadCounts();
   }, []);
 
-  // Load files when a folder is selected
   useEffect(() => {
-    if (activeFolder === null) {
-      setFolderFiles([]);
-      setSearch("");
-      return;
-    }
+    if (activeFolder === null) { setFolderFiles([]); setSearch(""); return; }
     async function fetchFiles() {
-      setLoadingFiles(true);
-      setErrorFiles(null);
+      setLoadingFiles(true); setErrorFiles(null);
       try {
         const { id } = REPOSITORIO_FOLDERS[activeFolder];
-        const fields = "files(id,name,mimeType,modifiedTime,size,webViewLink)";
+        const fields = "files(id,name,mimeType,modifiedTime,webViewLink)";
         const q = encodeURIComponent(`'${id}' in parents and trashed = false`);
         const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
         const res = await fetch(url);
-        if (!res.ok) {
-          const err = await res.json();
-          throw new Error(err?.error?.message || "Erro ao buscar arquivos");
-        }
+        if (!res.ok) { const err = await res.json(); throw new Error(err?.error?.message || "Erro ao buscar arquivos"); }
         const data = await res.json();
         setFolderFiles(data.files || []);
-      } catch (err) {
-        setErrorFiles(err.message || "Não foi possível carregar os arquivos.");
-      } finally {
-        setLoadingFiles(false);
-      }
+      } catch (err) { setErrorFiles(err.message || "Não foi possível carregar."); }
+      finally { setLoadingFiles(false); }
     }
     fetchFiles();
   }, [activeFolder]);
 
-  const filtered = folderFiles.filter(f =>
-    f.name.toLowerCase().includes(search.toLowerCase())
-  );
-
+  const filtered = folderFiles.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
   const eixoInfo = activeFolder !== null ? EIXOS[REPOSITORIO_FOLDERS[activeFolder].folder] : null;
 
   return (
@@ -673,63 +661,30 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
             </p>
           </div>
           {activeFolder !== null && !loadingFiles && !errorFiles && folderFiles.length > 0 && (
-            <div style={{
-              display: "flex", alignItems: "center", gap: "8px",
-              padding: "8px 14px", borderRadius: "10px",
-              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-            }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 14px", borderRadius: "10px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}` }}>
               <Search size={14} color={colors.warmGray} />
-              <input
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Buscar arquivo..."
-                style={{
-                  border: "none", outline: "none", fontSize: "13px",
-                  fontFamily: "'DM Sans', sans-serif", background: "transparent",
-                  color: colors.charcoal, width: "160px",
-                }}
-              />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar arquivo..."
+                style={{ border: "none", outline: "none", fontSize: "13px", fontFamily: "'DM Sans', sans-serif", background: "transparent", color: colors.charcoal, width: "160px" }} />
             </div>
           )}
         </div>
 
-        {/* Folder grid view */}
         {activeFolder === null && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px" }}>
             {REPOSITORIO_FOLDERS.map(({ folder }, i) => {
               const eixo = EIXOS[folder];
               const count = folderCounts[folder];
               return (
-                <div
-                  key={i}
-                  onClick={() => setActiveFolder(i)}
-                  style={{
-                    padding: "20px", borderRadius: "16px", cursor: "pointer",
-                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                    display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s"
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.transform = "translateY(-2px)";
-                    e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`;
-                    e.currentTarget.style.borderColor = eixo ? eixo.color : colors.sage;
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.transform = "none";
-                    e.currentTarget.style.boxShadow = "none";
-                    e.currentTarget.style.borderColor = colors.creamDark;
-                  }}
+                <div key={i} onClick={() => setActiveFolder(i)}
+                  style={{ padding: "20px", borderRadius: "16px", cursor: "pointer", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s" }}
+                  onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`; e.currentTarget.style.borderColor = eixo ? eixo.color : colors.sage; }}
+                  onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = colors.creamDark; }}
                 >
-                  <div style={{
-                    width: "48px", height: "48px", borderRadius: "12px", flexShrink: 0,
-                    background: eixo ? eixo.color + "15" : colors.sage + "15",
-                    display: "flex", alignItems: "center", justifyContent: "center"
-                  }}>
+                  <div style={{ width: "48px", height: "48px", borderRadius: "12px", flexShrink: 0, background: eixo ? eixo.color + "15" : colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
                     <Folder size={24} color={eixo ? eixo.color : colors.sage} />
                   </div>
                   <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>
-                      {folder}
-                    </div>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>{folder}</div>
                     <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                       {count === null || count === undefined ? "Carregando..." : `${count} ${count === 1 ? "arquivo" : "arquivos"} disponíveis`}
                     </div>
@@ -740,44 +695,31 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
           </div>
         )}
 
-        {/* File list view */}
         {activeFolder !== null && (
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-              <button
-                onClick={() => setActiveFolder(null)}
-                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", gap: "4px", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}
-              >
+              <button onClick={() => setActiveFolder(null)}
+                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", gap: "4px", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}>
                 <ChevronDown size={16} style={{ transform: "rotate(90deg)" }} /> Voltar às Pastas
               </button>
               <span style={{ color: colors.creamDark }}>/</span>
-              <span style={{
-                fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
-                color: eixoInfo ? eixoInfo.color : colors.charcoal,
-              }}>
+              <span style={{ fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", color: eixoInfo ? eixoInfo.color : colors.charcoal }}>
                 {REPOSITORIO_FOLDERS[activeFolder].folder}
               </span>
             </div>
 
             {loadingFiles && (
               <div style={{ padding: "48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-                <div style={{
-                  width: "40px", height: "40px", borderRadius: "50%",
-                  border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`,
-                  animation: "spin 0.9s linear infinite",
-                }} />
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                  Carregando arquivos do Drive...
-                </div>
+                <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`, animation: "spin 0.9s linear infinite" }} />
+                <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Carregando arquivos do Drive...</div>
               </div>
             )}
 
             {!loadingFiles && errorFiles && (
               <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.accent}30`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
                 <AlertTriangle size={28} color={colors.accent} />
-                <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
-                  Não foi possível carregar os arquivos
-                </div>
+                <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Não foi possível carregar os arquivos</div>
                 <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
                   Verifique se a pasta está compartilhada como "Qualquer pessoa com o link".<br />
                   <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{errorFiles}</span>
@@ -788,93 +730,44 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
             {!loadingFiles && !errorFiles && folderFiles.length === 0 && (
               <div style={{ padding: "48px", borderRadius: "16px", background: colors.warmWhite, border: `1px dashed ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
                 <Folder size={32} color={colors.sage} />
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                  Esta pasta ainda não tem arquivos.
-                </div>
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Esta pasta ainda não tem arquivos.</div>
               </div>
             )}
 
             {!loadingFiles && !errorFiles && filtered.length === 0 && folderFiles.length > 0 && (
               <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center" }}>
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                  Nenhum resultado para "<strong>{search}</strong>"
-                </div>
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Nenhum resultado para "<strong>{search}</strong>"</div>
               </div>
             )}
 
             {!loadingFiles && !errorFiles && filtered.length > 0 && (
               <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {filtered.map((file) => {
+                {filtered.map(file => {
                   const IconComponent = getFileIcon(file.mimeType);
                   const typeLabel = getFileTypeLabel(file.mimeType);
                   const accentColor = eixoInfo ? eixoInfo.color : colors.accent;
                   return (
-                    <a
-                      key={file.id}
-                      href={file.webViewLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      style={{
-                        padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
-                        background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                        display: "flex", alignItems: "center", justifyContent: "space-between",
-                        transition: "all 0.2s", gap: "12px",
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = colors.cream;
-                        e.currentTarget.style.borderColor = accentColor;
-                        e.currentTarget.style.transform = "translateY(-1px)";
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background = colors.warmWhite;
-                        e.currentTarget.style.borderColor = colors.creamDark;
-                        e.currentTarget.style.transform = "none";
-                      }}
+                    <a key={file.id} href={file.webViewLink} target="_blank" rel="noopener noreferrer"
+                      style={{ padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all 0.2s", gap: "12px" }}
+                      onMouseEnter={e => { e.currentTarget.style.background = colors.cream; e.currentTarget.style.borderColor = accentColor; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                      onMouseLeave={e => { e.currentTarget.style.background = colors.warmWhite; e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none"; }}
                     >
                       <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
-                        <div style={{
-                          width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0,
-                          background: accentColor + "15",
-                          display: "flex", alignItems: "center", justifyContent: "center",
-                        }}>
+                        <div style={{ width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0, background: accentColor + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
                           <IconComponent size={20} color={accentColor} />
                         </div>
                         <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{
-                            fontSize: "14px", fontWeight: 500, color: colors.charcoal,
-                            fontFamily: "'DM Sans', sans-serif", marginBottom: "4px",
-                            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-                          }}>
-                            {file.name}
-                          </div>
-                          <div style={{
-                            fontSize: "12px", color: colors.warmGray,
-                            fontFamily: "'DM Sans', sans-serif",
-                            display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap",
-                          }}>
-                            <span style={{
-                              background: accentColor + "15", color: accentColor,
-                              padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600,
-                            }}>
-                              {typeLabel}
-                            </span>
-                            {file.modifiedTime && (
-                              <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>
-                            )}
+                          <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</div>
+                          <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
+                            <span style={{ background: accentColor + "15", color: accentColor, padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600 }}>{typeLabel}</span>
+                            {file.modifiedTime && <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>}
                           </div>
                         </div>
                       </div>
-                      <div style={{
-                        width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0,
-                        border: `1px solid ${colors.creamDark}`,
-                        display: "flex", alignItems: "center", justifyContent: "center",
-                        color: accentColor, transition: "all 0.2s",
-                      }}
+                      <div style={{ width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "center", color: accentColor, transition: "all 0.2s" }}
                         onMouseEnter={e => { e.currentTarget.style.background = accentColor; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = accentColor; }}
                         onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = accentColor; e.currentTarget.style.borderColor = colors.creamDark; }}
-                      >
-                        <ExternalLink size={15} />
-                      </div>
+                      ><ExternalLink size={15} /></div>
                     </a>
                   );
                 })}
@@ -890,40 +783,6 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
   );
 }
 
-const MATERIAIS_FOLDER_ID = "1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs";
-const DRIVE_API_KEY = "AIzaSyC_61aHyJFzGvZNg7Yg4kcWsn2o3GopCRk";
-
-function getFileIcon(mimeType) {
-  if (!mimeType) return FileText;
-  if (mimeType.includes("pdf")) return FileText;
-  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return FileArchive;
-  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return FileArchive;
-  if (mimeType.includes("document") || mimeType.includes("word")) return FileText;
-  if (mimeType.includes("video")) return Video;
-  if (mimeType.includes("folder")) return Folder;
-  return File;
-}
-
-function getFileTypeLabel(mimeType) {
-  if (!mimeType) return "Arquivo";
-  if (mimeType.includes("pdf")) return "PDF";
-  if (mimeType.includes("presentation") || mimeType.includes("powerpoint")) return "PPT";
-  if (mimeType.includes("spreadsheet") || mimeType.includes("excel")) return "XLS";
-  if (mimeType.includes("document") || mimeType.includes("word")) return "DOC";
-  if (mimeType.includes("video")) return "Vídeo";
-  if (mimeType.includes("folder")) return "Pasta";
-  if (mimeType.includes("google-apps.document")) return "Doc";
-  if (mimeType.includes("google-apps.presentation")) return "Slides";
-  if (mimeType.includes("google-apps.spreadsheet")) return "Planilha";
-  return "Arquivo";
-}
-
-function formatDriveDate(dateStr) {
-  if (!dateStr) return "";
-  const d = new Date(dateStr);
-  return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
-}
-
 function MateriaisSection() {
   const colors = useContext(ThemeContext);
   const [files, setFiles] = useState([]);
@@ -934,30 +793,21 @@ function MateriaisSection() {
   useEffect(() => {
     async function fetchFiles() {
       try {
-        setLoading(true);
-        setError(null);
-        const fields = "files(id,name,mimeType,modifiedTime,size,webViewLink,iconLink)";
+        setLoading(true); setError(null);
+        const fields = "files(id,name,mimeType,modifiedTime,webViewLink)";
         const query = `'${MATERIAIS_FOLDER_ID}' in parents and trashed = false`;
         const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
         const res = await fetch(url);
-        if (!res.ok) {
-          const errData = await res.json();
-          throw new Error(errData?.error?.message || "Erro ao buscar arquivos");
-        }
+        if (!res.ok) { const err = await res.json(); throw new Error(err?.error?.message || "Erro ao buscar arquivos"); }
         const data = await res.json();
         setFiles(data.files || []);
-      } catch (err) {
-        setError(err.message || "Não foi possível carregar os materiais.");
-      } finally {
-        setLoading(false);
-      }
+      } catch (err) { setError(err.message || "Não foi possível carregar os materiais."); }
+      finally { setLoading(false); }
     }
     fetchFiles();
   }, []);
 
-  const filtered = files.filter(f =>
-    f.name.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = files.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <FadeIn delay={0.2}>
@@ -972,165 +822,76 @@ function MateriaisSection() {
             </p>
           </div>
           {!loading && !error && files.length > 0 && (
-            <div style={{
-              display: "flex", alignItems: "center", gap: "8px",
-              padding: "8px 14px", borderRadius: "10px",
-              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-            }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 14px", borderRadius: "10px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}` }}>
               <Search size={14} color={colors.warmGray} />
-              <input
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-                placeholder="Buscar material..."
-                style={{
-                  border: "none", outline: "none", fontSize: "13px",
-                  fontFamily: "'DM Sans', sans-serif", background: "transparent",
-                  color: colors.charcoal, width: "160px",
-                }}
-              />
+              <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar material..."
+                style={{ border: "none", outline: "none", fontSize: "13px", fontFamily: "'DM Sans', sans-serif", background: "transparent", color: colors.charcoal, width: "160px" }} />
             </div>
           )}
         </div>
 
         {loading && (
-          <div style={{
-            padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
-            border: `1px solid ${colors.creamDark}`, textAlign: "center",
-            display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
-          }}>
-            <div style={{
-              width: "40px", height: "40px", borderRadius: "50%",
-              border: `3px solid ${colors.sage}30`,
-              borderTop: `3px solid ${colors.sage}`,
-              animation: "spin 0.9s linear infinite",
-            }} />
-            <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Carregando materiais do Drive...
-            </div>
+          <div style={{ padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+            <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`, animation: "spin 0.9s linear infinite" }} />
+            <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Carregando materiais do Drive...</div>
           </div>
         )}
 
         {!loading && error && (
-          <div style={{
-            padding: "32px", borderRadius: "16px", background: colors.warmWhite,
-            border: `1px solid ${colors.accent}30`, textAlign: "center",
-            display: "flex", flexDirection: "column", alignItems: "center", gap: "12px"
-          }}>
+          <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.accent}30`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
             <AlertTriangle size={28} color={colors.accent} />
-            <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
-              Não foi possível carregar os materiais
-            </div>
+            <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Não foi possível carregar os materiais</div>
             <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", maxWidth: "400px" }}>
-              Verifique se a pasta do Drive está compartilhada como "Qualquer pessoa com o link". <br />
+              Verifique se a pasta do Drive está compartilhada como "Qualquer pessoa com o link".<br />
               <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{error}</span>
             </div>
           </div>
         )}
 
         {!loading && !error && files.length === 0 && (
-          <div style={{
-            padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite,
-            border: `1px dashed ${colors.creamDark}`, textAlign: "center",
-            display: "flex", flexDirection: "column", alignItems: "center", gap: "16px"
-          }}>
+          <div style={{ padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite, border: `1px dashed ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
             <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
               <Library size={32} color={colors.sage} />
             </div>
-            <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "400px" }}>
-              Nenhum material complementar foi disponibilizado ainda.
-            </div>
-            <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>
-              Os documentos serão exibidos aqui ao decorrer do semestre.
-            </div>
+            <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "400px" }}>Nenhum material complementar foi disponibilizado ainda.</div>
+            <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>Os documentos serão exibidos aqui ao decorrer do semestre.</div>
           </div>
         )}
 
         {!loading && !error && filtered.length === 0 && files.length > 0 && (
-          <div style={{
-            padding: "32px", borderRadius: "16px", background: colors.warmWhite,
-            border: `1px solid ${colors.creamDark}`, textAlign: "center",
-          }}>
-            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Nenhum resultado para "<strong>{search}</strong>"
-            </div>
+          <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center" }}>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Nenhum resultado para "<strong>{search}</strong>"</div>
           </div>
         )}
 
         {!loading && !error && filtered.length > 0 && (
           <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            {filtered.map((file) => {
+            {filtered.map(file => {
               const IconComponent = getFileIcon(file.mimeType);
               const typeLabel = getFileTypeLabel(file.mimeType);
-              const isFolder = file.mimeType === "application/vnd.google-apps.folder";
               return (
-                <a
-                  key={file.id}
-                  href={file.webViewLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{
-                    padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
-                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                    display: "flex", alignItems: "center", justifyContent: "space-between",
-                    transition: "all 0.2s", gap: "12px",
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.background = colors.cream;
-                    e.currentTarget.style.borderColor = colors.sage;
-                    e.currentTarget.style.transform = "translateY(-1px)";
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.background = colors.warmWhite;
-                    e.currentTarget.style.borderColor = colors.creamDark;
-                    e.currentTarget.style.transform = "none";
-                  }}
+                <a key={file.id} href={file.webViewLink} target="_blank" rel="noopener noreferrer"
+                  style={{ padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all 0.2s", gap: "12px" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = colors.cream; e.currentTarget.style.borderColor = colors.sage; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = colors.warmWhite; e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none"; }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0,
-                      background: isFolder ? colors.sage + "15" : colors.accent + "15",
-                      display: "flex", alignItems: "center", justifyContent: "center",
-                    }}>
-                      <IconComponent size={20} color={isFolder ? colors.sage : colors.accent} />
+                    <div style={{ width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0, background: colors.accent + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <IconComponent size={20} color={colors.accent} />
                     </div>
                     <div style={{ minWidth: 0, flex: 1 }}>
-                      <div style={{
-                        fontSize: "14px", fontWeight: 500, color: colors.charcoal,
-                        fontFamily: "'DM Sans', sans-serif", marginBottom: "4px",
-                        overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
-                      }}>
-                        {file.name}
-                      </div>
-                      <div style={{
-                        fontSize: "12px", color: colors.warmGray,
-                        fontFamily: "'DM Sans', sans-serif",
-                        display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap",
-                      }}>
-                        <span style={{
-                          background: isFolder ? colors.sage + "15" : colors.accent + "15",
-                          color: isFolder ? colors.sage : colors.accent,
-                          padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600,
-                        }}>
-                          {typeLabel}
-                        </span>
-                        {file.modifiedTime && (
-                          <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>
-                        )}
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</div>
+                      <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "10px", alignItems: "center" }}>
+                        <span style={{ background: colors.accent + "15", color: colors.accent, padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600 }}>{typeLabel}</span>
+                        {file.modifiedTime && <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>}
                       </div>
                     </div>
                   </div>
-                  <div style={{
-                    width: "36px", height: "36px", borderRadius: "50%",
-                    border: `1px solid ${colors.creamDark}`, flexShrink: 0,
-                    display: "flex", alignItems: "center", justifyContent: "center",
-                    color: colors.sage, transition: "all 0.2s",
-                  }}
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "center", color: colors.sage, transition: "all 0.2s" }}
                     onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = colors.sage; }}
                     onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; e.currentTarget.style.borderColor = colors.creamDark; }}
-                  >
-                    <ExternalLink size={15} />
-                  </div>
+                  ><ExternalLink size={15} /></div>
                 </a>
               );
             })}
