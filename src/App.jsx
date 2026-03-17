@@ -1192,61 +1192,118 @@ function LoginScreen({ onLogin }) {
 
 function AdminDriveSection() {
   const colors = useContext(ThemeContext);
+
+  const steps = [
+    {
+      icon: Folder,
+      title: "Repositório de Arquivos",
+      color: colors.sage,
+      description: "Acesse a pasta \"Espaço do Ligante → Bibliografia\" no Drive da LAPSIC. Dentro dela há três subpastas, uma para cada Eixo Temático. Basta adicionar ou remover arquivos nessas subpastas — o site atualiza automaticamente.",
+      detail: "Ramificações da Clínica · Psicopatologia e Fármacos · Gestão e Burocracias da Clínica",
+    },
+    {
+      icon: Library,
+      title: "Materiais Complementares",
+      color: colors.accent,
+      description: "Acesse a pasta \"Espaço do Ligante → Materiais Complementares\" no Drive da LAPSIC. Qualquer arquivo adicionado ou removido lá aparece ou desaparece automaticamente no site para os ligantes.",
+      detail: "Resoluções, cartilhas, manuais e publicações do CRP",
+    },
+    {
+      icon: CheckCircle,
+      title: "Virada de Semestre",
+      color: colors.moss,
+      description: "Ao final de cada semestre, mova o conteúdo das pastas para a pasta de arquivo histórico da Liga. Em seguida, adicione os novos materiais do semestre seguinte. O site refletirá as mudanças imediatamente.",
+      detail: "Não é necessário mexer no código",
+    },
+    {
+      icon: AlertTriangle,
+      title: "Atenção: Permissões do Drive",
+      color: colors.accent,
+      description: "Todas as pastas do Espaço do Ligante devem estar configuradas como \"Qualquer pessoa com o link pode visualizar\". Caso contrário, os arquivos não aparecem no site. Verifique isso sempre que criar uma pasta nova.",
+      detail: "Botão direito na pasta → Compartilhar → Acesso geral → Qualquer pessoa com o link",
+    },
+  ];
+
   return (
     <FadeIn delay={0.2}>
-      <div style={{ marginBottom: "32px", background: colors.warmWhite, padding: "32px", borderRadius: "16px", border: `2px dashed ${colors.sage}`, position: "relative", overflow: "hidden" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "16px" }}>
+      <div style={{ marginBottom: "32px" }}>
+
+        {/* Header */}
+        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
           <Shield size={28} color={colors.sage} />
           <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif" }}>
             Painel da Diretoria
           </h2>
         </div>
         <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "32px" }}>
-          Bem-vindo(a) à área restrita da Diretoria da Liga. Para atualizar os conteúdos do site de forma simples e imediata, basta inserir os arquivos diretamente nas pastas do Google Drive correspondentes abaixo. O site refletirá as novidades automaticamente!
+          Bem-vinda(o) à área restrita! Este painel é o seu guia de gestão do site. Aqui você encontra tudo o que precisa saber para manter o Espaço do Ligante atualizado — sem precisar mexer em nenhuma linha de código.
         </p>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "24px" }}>
-          {/* Card 1: Repositório */}
-          <div style={{ padding: "24px", background: colors.cream, borderRadius: "16px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-              <Folder size={22} color={colors.sage} />
-              <h3 style={{ fontSize: "18px", color: colors.charcoal, fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>1. Repositório de Arquivos</h3>
+        {/* Banner destaque */}
+        <div style={{
+          padding: "20px 24px", borderRadius: "14px", marginBottom: "28px",
+          background: `linear-gradient(135deg, ${colors.moss} 0%, ${colors.sage} 100%)`,
+          color: "white", display: "flex", alignItems: "center", gap: "16px",
+        }}>
+          <Cloud size={32} style={{ flexShrink: 0, opacity: 0.9 }} />
+          <div>
+            <div style={{ fontSize: "15px", fontWeight: 700, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
+              O site é alimentado pelo Google Drive
             </div>
-            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "20px", flex: 1 }}>
-              Adicione textos, artigos e PDFs relacionados aos nossos encontros semanais. Escolha o Eixo Temático correto para manter tudo organizado para os ligantes:
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {Object.entries(EIXOS).map(([name, { color, icon: Icon, driveLink }]) => (
-                <a key={name} href={driveLink} target="_blank" rel="noopener noreferrer" style={{
-                  display: "flex", alignItems: "center", gap: "10px", padding: "10px 14px",
-                  borderRadius: "10px", background: "white", color: color, textDecoration: "none",
-                  fontSize: "13px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
-                  border: `1px solid ${color}40`, transition: "all 0.2s"
-                }} onMouseEnter={e => { e.currentTarget.style.background = color + "10"; }} onMouseLeave={e => { e.currentTarget.style.background = "white"; }}>
-                  <Icon size={16} /> Abrir Pasta: {name}
-                </a>
-              ))}
+            <div style={{ fontSize: "13px", opacity: 0.9, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
+              Tudo o que estiver nas pastas do Drive aparece automaticamente no site. Adicione, remova ou substitua arquivos lá — sem precisar abrir o código, o GitHub ou o Vercel.
             </div>
-          </div>
-
-          {/* Card 2: Materiais */}
-          <div style={{ padding: "24px", background: colors.cream, borderRadius: "16px", border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "12px" }}>
-              <Library size={22} color={colors.sage} />
-              <h3 style={{ fontSize: "18px", color: colors.charcoal, fontFamily: "'Playfair Display', serif", fontWeight: 600 }}>2. Materiais Complementares</h3>
-            </div>
-            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5, marginBottom: "20px", flex: 1 }}>
-              Insira fluxogramas, cartilhas, mapas mentais e outros recursos visuais extracurriculares que servem de apoio para os alunos fora do cronograma fixo.
-            </p>
-            <a href="https://drive.google.com/drive/folders/1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs?usp=drive_link" target="_blank" rel="noopener noreferrer" style={{
-              display: "flex", alignItems: "center", justifyContent: "center", gap: "8px", padding: "12px 20px",
-              borderRadius: "10px", background: colors.sage, color: "white", textDecoration: "none",
-              fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", transition: "all 0.2s"
-            }} onMouseEnter={e => { e.currentTarget.style.background = colors.moss; }} onMouseLeave={e => { e.currentTarget.style.background = colors.sage; }}>
-              <Cloud size={18} /> Acessar Banco de Materiais
-            </a>
           </div>
         </div>
+
+        {/* Steps */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {steps.map((step, i) => {
+            const Icon = step.icon;
+            return (
+              <div key={i} style={{
+                padding: "24px", borderRadius: "14px",
+                background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                display: "flex", gap: "18px", alignItems: "flex-start",
+              }}>
+                <div style={{
+                  width: "44px", height: "44px", borderRadius: "12px", flexShrink: 0,
+                  background: step.color + "15", display: "flex", alignItems: "center", justifyContent: "center",
+                }}>
+                  <Icon size={22} color={step.color} />
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "6px" }}>
+                    {step.title}
+                  </div>
+                  <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "8px" }}>
+                    {step.description}
+                  </div>
+                  <div style={{
+                    fontSize: "11px", color: step.color, fontFamily: "'DM Sans', sans-serif",
+                    fontWeight: 600, background: step.color + "12",
+                    display: "inline-block", padding: "3px 10px", borderRadius: "20px",
+                  }}>
+                    {step.detail}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Footer note */}
+        <div style={{
+          marginTop: "24px", padding: "16px 20px", borderRadius: "12px",
+          background: colors.cream, border: `1px solid ${colors.creamDark}`,
+          display: "flex", gap: "12px", alignItems: "flex-start",
+        }}>
+          <ArrowRight size={16} color={colors.sage} style={{ flexShrink: 0, marginTop: "2px" }} />
+          <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, margin: 0 }}>
+            Precisa atualizar o <strong>cronograma</strong>, os <strong>dados da diretoria</strong>, adicionar <strong>e-mails autorizados</strong> ou fazer outra mudança estrutural no site? Essas alterações são feitas no arquivo <code style={{ background: colors.creamDark, padding: "1px 6px", borderRadius: "4px", fontSize: "12px" }}>src/App.jsx</code> no repositório do GitHub. Entre em contato com quem desenvolveu ou acesse o repositório em <strong>github.com/juliatakieddine/lapsic-site</strong>.
+          </p>
+        </div>
+
       </div>
     </FadeIn>
   );
