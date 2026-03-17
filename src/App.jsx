@@ -1198,7 +1198,7 @@ function AdminDriveSection() {
       icon: Folder,
       title: "Repositório de Arquivos",
       color: colors.sage,
-      description: "Acesse a pasta \"Espaço do Ligante → Bibliografia\" no Drive da LAPSIC. Dentro dela há três subpastas, uma para cada Eixo Temático. Basta adicionar ou remover arquivos nessas subpastas — o site atualiza automaticamente.",
+      description: "Acesse a pasta \"Espaço do Ligante → Bibliografia\" no Drive da LAPSIC. Dentro dela há três subpastas, uma para cada Eixo Temático. Basta adicionar ou remover arquivos nessas subpastas — o site atualiza automaticamente. Caso os nomes dos eixos temáticos mudem, renomeie as pastas diretamente no Drive: os nomes exibidos no site sempre acompanharão os nomes das pastas.",
       detail: "Ramificações da Clínica · Psicopatologia e Fármacos · Gestão e Burocracias da Clínica",
     },
     {
@@ -1212,13 +1212,20 @@ function AdminDriveSection() {
       icon: CheckCircle,
       title: "Virada de Semestre",
       color: colors.moss,
-      description: "Ao final de cada semestre, mova o conteúdo das pastas para a pasta de arquivo histórico da Liga. Em seguida, adicione os novos materiais do semestre seguinte. O site refletirá as mudanças imediatamente.",
+      description: "Ao final de cada semestre, mova o conteúdo das pastas do \"Espaço do Ligante\" para a pasta referente ao semestre da Liga. Em seguida, apague da aba do \"Espaço do Ligante\" e adicione os novos materiais do semestre seguinte. O site refletirá as mudanças imediatamente.",
       detail: "Não é necessário mexer no código",
+    },
+    {
+      icon: MessageSquare,
+      title: "Formulário de Contato",
+      color: colors.sage,
+      description: "Todas as mensagens enviadas pelos ligantes através da aba \"Contato\" do Espaço do Ligante aparecem automaticamente no formulário \"Sugestões Ligantes\", dentro da pasta \"Espaço do Ligante\" no Drive da LAPSIC. Não é necessário fazer nada — as respostas chegam lá sozinhas.",
+      detail: "Drive da LAPSIC → Espaço do Ligante → Sugestões Ligantes",
     },
     {
       icon: AlertTriangle,
       title: "Atenção: Permissões do Drive",
-      color: colors.accent,
+      color: "#C4956A",
       description: "Todas as pastas do Espaço do Ligante devem estar configuradas como \"Qualquer pessoa com o link pode visualizar\". Caso contrário, os arquivos não aparecem no site. Verifique isso sempre que criar uma pasta nova.",
       detail: "Botão direito na pasta → Compartilhar → Acesso geral → Qualquer pessoa com o link",
     },
@@ -1248,10 +1255,10 @@ function AdminDriveSection() {
           <Cloud size={32} style={{ flexShrink: 0, opacity: 0.9 }} />
           <div>
             <div style={{ fontSize: "15px", fontWeight: 700, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-              O site é alimentado pelo Google Drive
+              O site é alimentado pela pasta "Espaço do Ligante" do Google Drive da LAPSIC
             </div>
             <div style={{ fontSize: "13px", opacity: 0.9, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
-              Tudo o que estiver nas pastas do Drive aparece automaticamente no site. Adicione, remova ou substitua arquivos lá — sem precisar abrir o código, o GitHub ou o Vercel.
+              Tudo o que estiver nas pastas <strong>"Bibliografia"</strong> e <strong>"Materiais Complementares"</strong> aparece automaticamente no site. Adicione, remova ou substitua arquivos lá — sem precisar abrir o código, o GitHub ou o Vercel.
             </div>
           </div>
         </div>
