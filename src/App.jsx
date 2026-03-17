@@ -595,6 +595,70 @@ function CronogramaSection() {
 
 function RepositorioSection({ activeFolder, setActiveFolder }) {
   const colors = useContext(ThemeContext);
+  const [folderFiles, setFolderFiles] = useState([]);
+  const [loadingFiles, setLoadingFiles] = useState(false);
+  const [errorFiles, setErrorFiles] = useState(null);
+  const [folderCounts, setFolderCounts] = useState({});
+  const [search, setSearch] = useState("");
+
+  // Load file counts for all folders on mount
+  useEffect(() => {
+    async function loadCounts() {
+      const counts = {};
+      await Promise.all(
+        REPOSITORIO_FOLDERS.map(async ({ folder, id }) => {
+          try {
+            const q = encodeURIComponent(`'${id}' in parents and trashed = false`);
+            const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)&key=${DRIVE_API_KEY}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            counts[folder] = data.files ? data.files.length : 0;
+          } catch {
+            counts[folder] = null;
+          }
+        })
+      );
+      setFolderCounts(counts);
+    }
+    loadCounts();
+  }, []);
+
+  // Load files when a folder is selected
+  useEffect(() => {
+    if (activeFolder === null) {
+      setFolderFiles([]);
+      setSearch("");
+      return;
+    }
+    async function fetchFiles() {
+      setLoadingFiles(true);
+      setErrorFiles(null);
+      try {
+        const { id } = REPOSITORIO_FOLDERS[activeFolder];
+        const fields = "files(id,name,mimeType,modifiedTime,size,webViewLink)";
+        const q = encodeURIComponent(`'${id}' in parents and trashed = false`);
+        const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
+        const res = await fetch(url);
+        if (!res.ok) {
+          const err = await res.json();
+          throw new Error(err?.error?.message || "Erro ao buscar arquivos");
+        }
+        const data = await res.json();
+        setFolderFiles(data.files || []);
+      } catch (err) {
+        setErrorFiles(err.message || "Não foi possível carregar os arquivos.");
+      } finally {
+        setLoadingFiles(false);
+      }
+    }
+    fetchFiles();
+  }, [activeFolder]);
+
+  const filtered = folderFiles.filter(f =>
+    f.name.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const eixoInfo = activeFolder !== null ? EIXOS[REPOSITORIO_FOLDERS[activeFolder].folder] : null;
 
   return (
     <FadeIn delay={0.2}>
@@ -608,113 +672,217 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
               Acesso direto aos materiais e cartilhas da Liga Acadêmica, organizados por Eixo Temático.
             </p>
           </div>
+          {activeFolder !== null && !loadingFiles && !errorFiles && folderFiles.length > 0 && (
+            <div style={{
+              display: "flex", alignItems: "center", gap: "8px",
+              padding: "8px 14px", borderRadius: "10px",
+              background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+            }}>
+              <Search size={14} color={colors.warmGray} />
+              <input
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+                placeholder="Buscar arquivo..."
+                style={{
+                  border: "none", outline: "none", fontSize: "13px",
+                  fontFamily: "'DM Sans', sans-serif", background: "transparent",
+                  color: colors.charcoal, width: "160px",
+                }}
+              />
+            </div>
+          )}
         </div>
 
-        {activeFolder === null ? (
+        {/* Folder grid view */}
+        {activeFolder === null && (
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px" }}>
-            {REPOSITORIO_FILES.map((folder, i) => (
-              <div
-                key={i}
-                onClick={() => setActiveFolder(i)}
-                style={{
-                  padding: "20px", borderRadius: "16px", cursor: "pointer",
-                  background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                  display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s"
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = "translateY(-2px)";
-                  e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`;
-                  e.currentTarget.style.borderColor = colors.sage;
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = "none";
-                  e.currentTarget.style.boxShadow = "none";
-                  e.currentTarget.style.borderColor = colors.creamDark;
-                }}
-              >
-                <div style={{ width: "48px", height: "48px", borderRadius: "12px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                  <Folder size={24} color={colors.sage} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>
-                    {folder.folder}
+            {REPOSITORIO_FOLDERS.map(({ folder }, i) => {
+              const eixo = EIXOS[folder];
+              const count = folderCounts[folder];
+              return (
+                <div
+                  key={i}
+                  onClick={() => setActiveFolder(i)}
+                  style={{
+                    padding: "20px", borderRadius: "16px", cursor: "pointer",
+                    background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                    display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s"
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "translateY(-2px)";
+                    e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`;
+                    e.currentTarget.style.borderColor = eixo ? eixo.color : colors.sage;
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "none";
+                    e.currentTarget.style.boxShadow = "none";
+                    e.currentTarget.style.borderColor = colors.creamDark;
+                  }}
+                >
+                  <div style={{
+                    width: "48px", height: "48px", borderRadius: "12px", flexShrink: 0,
+                    background: eixo ? eixo.color + "15" : colors.sage + "15",
+                    display: "flex", alignItems: "center", justifyContent: "center"
+                  }}>
+                    <Folder size={24} color={eixo ? eixo.color : colors.sage} />
                   </div>
-                  <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                    {folder.files.length} arquivos disponíveis
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>
+                      {folder}
+                    </div>
+                    <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                      {count === null || count === undefined ? "Carregando..." : `${count} ${count === 1 ? "arquivo" : "arquivos"} disponíveis`}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-        ) : (
+        )}
+
+        {/* File list view */}
+        {activeFolder !== null && (
           <div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
               <button
                 onClick={() => setActiveFolder(null)}
-                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}
+                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", gap: "4px", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}
               >
                 <ChevronDown size={16} style={{ transform: "rotate(90deg)" }} /> Voltar às Pastas
               </button>
               <span style={{ color: colors.creamDark }}>/</span>
-              <span style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif" }}>
-                {REPOSITORIO_FILES[activeFolder].folder}
+              <span style={{
+                fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif",
+                color: eixoInfo ? eixoInfo.color : colors.charcoal,
+              }}>
+                {REPOSITORIO_FOLDERS[activeFolder].folder}
               </span>
             </div>
 
-            <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-              {REPOSITORIO_FILES[activeFolder].files.map((file, i) => {
-                const urlPath = REPOSITORIO_FILES[activeFolder].folder === "Ramificações da Clínica"
-                  ? "Ramificações da Clínica"
-                  : REPOSITORIO_FILES[activeFolder].folder === "Psicopatologia e Fármacos"
-                    ? "Psicopatologia e seus desdrobramentos"
-                    : "Gestão e burocracia de clínica";
+            {loadingFiles && (
+              <div style={{ padding: "48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                <div style={{
+                  width: "40px", height: "40px", borderRadius: "50%",
+                  border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`,
+                  animation: "spin 0.9s linear infinite",
+                }} />
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                  Carregando arquivos do Drive...
+                </div>
+              </div>
+            )}
 
-                return (
-                  <a
-                    key={i}
-                    href={`/docs/Bibliografia-20260221T025803Z-1-001/Bibliografia/${urlPath}/${file.name}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
-                      background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                      display: "flex", alignItems: "center", justifyContent: "space-between",
-                      transition: "all 0.2s"
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.background = colors.cream}
-                    onMouseLeave={e => e.currentTarget.style.background = colors.warmWhite}
-                  >
-                    <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
-                      <div style={{ width: "40px", height: "40px", borderRadius: "8px", background: colors.accent + "15", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
-                        <FileText size={20} color={colors.accent} />
-                      </div>
-                      <div>
-                        <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-                          {file.title || file.name}
-                        </div>
-                        <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "12px", alignItems: "center", flexWrap: "wrap" }}>
-                          <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{file.name}</span>
-                          <span>•</span>
-                          <span>{file.size}</span>
-                          <span>•</span>
-                          <span>Adicionado em {file.upload}</span>
-                        </div>
-                      </div>
-                    </div>
-                    <div style={{
-                      width: "36px", height: "36px", borderRadius: "50%", background: "transparent", border: `1px solid ${colors.creamDark}`,
-                      display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: colors.sage, transition: "all 0.2s"
-                    }}
-                      title="Abrir Arquivo"
-                      onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; }}
+            {!loadingFiles && errorFiles && (
+              <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.accent}30`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+                <AlertTriangle size={28} color={colors.accent} />
+                <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>
+                  Não foi possível carregar os arquivos
+                </div>
+                <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                  Verifique se a pasta está compartilhada como "Qualquer pessoa com o link".<br />
+                  <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{errorFiles}</span>
+                </div>
+              </div>
+            )}
+
+            {!loadingFiles && !errorFiles && folderFiles.length === 0 && (
+              <div style={{ padding: "48px", borderRadius: "16px", background: colors.warmWhite, border: `1px dashed ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+                <Folder size={32} color={colors.sage} />
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                  Esta pasta ainda não tem arquivos.
+                </div>
+              </div>
+            )}
+
+            {!loadingFiles && !errorFiles && filtered.length === 0 && folderFiles.length > 0 && (
+              <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center" }}>
+                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
+                  Nenhum resultado para "<strong>{search}</strong>"
+                </div>
+              </div>
+            )}
+
+            {!loadingFiles && !errorFiles && filtered.length > 0 && (
+              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+                {filtered.map((file) => {
+                  const IconComponent = getFileIcon(file.mimeType);
+                  const typeLabel = getFileTypeLabel(file.mimeType);
+                  const accentColor = eixoInfo ? eixoInfo.color : colors.accent;
+                  return (
+                    <a
+                      key={file.id}
+                      href={file.webViewLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit",
+                        background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
+                        display: "flex", alignItems: "center", justifyContent: "space-between",
+                        transition: "all 0.2s", gap: "12px",
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = colors.cream;
+                        e.currentTarget.style.borderColor = accentColor;
+                        e.currentTarget.style.transform = "translateY(-1px)";
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background = colors.warmWhite;
+                        e.currentTarget.style.borderColor = colors.creamDark;
+                        e.currentTarget.style.transform = "none";
+                      }}
                     >
-                      <Download size={16} />
-                    </div>
-                  </a>
-                );
-              })}
-            </div>
+                      <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
+                        <div style={{
+                          width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0,
+                          background: accentColor + "15",
+                          display: "flex", alignItems: "center", justifyContent: "center",
+                        }}>
+                          <IconComponent size={20} color={accentColor} />
+                        </div>
+                        <div style={{ minWidth: 0, flex: 1 }}>
+                          <div style={{
+                            fontSize: "14px", fontWeight: 500, color: colors.charcoal,
+                            fontFamily: "'DM Sans', sans-serif", marginBottom: "4px",
+                            overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                          }}>
+                            {file.name}
+                          </div>
+                          <div style={{
+                            fontSize: "12px", color: colors.warmGray,
+                            fontFamily: "'DM Sans', sans-serif",
+                            display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap",
+                          }}>
+                            <span style={{
+                              background: accentColor + "15", color: accentColor,
+                              padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600,
+                            }}>
+                              {typeLabel}
+                            </span>
+                            {file.modifiedTime && (
+                              <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{
+                        width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0,
+                        border: `1px solid ${colors.creamDark}`,
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        color: accentColor, transition: "all 0.2s",
+                      }}
+                        onMouseEnter={e => { e.currentTarget.style.background = accentColor; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = accentColor; }}
+                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = accentColor; e.currentTarget.style.borderColor = colors.creamDark; }}
+                      >
+                        <ExternalLink size={15} />
+                      </div>
+                    </a>
+                  );
+                })}
+                <div style={{ fontSize: "12px", color: colors.warmGray, textAlign: "right", fontFamily: "'DM Sans', sans-serif", paddingTop: "4px", opacity: 0.7 }}>
+                  {filtered.length} {filtered.length === 1 ? "arquivo disponível" : "arquivos disponíveis"} — sincronizado com o Google Drive
+                </div>
+              </div>
+            )}
           </div>
         )}
       </div>
@@ -1375,7 +1543,7 @@ export default function LapsicApp() {
   const goToRepositorioEixo = (eixoName) => {
     scrollToSection("repositorio");
     if (eixoName) {
-      const folderIndex = REPOSITORIO_FILES.findIndex(f => f.folder === eixoName);
+      const folderIndex = REPOSITORIO_FOLDERS.findIndex(f => f.folder === eixoName);
       if (folderIndex !== -1) {
         setActiveFolder(folderIndex);
       } else {
