@@ -60,8 +60,8 @@ const CRONOGRAMA = [
   { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Vídeo Complementar", url: "https://www.youtube.com/watch?v=2qQXsjUqSeQ" }] },
   { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas.", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro.", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
   { data: "23/03", tema: "Psicoterapia e Luto", bib: "LUTO_FREIRE, Anna.PDF", bibAbnt: "FREIRE, Anna Laura Leal; VANDENBERGHE, Luc. Perspectivas em análise do comportamento, v.16, n.02, p.154-164, 2025.", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", part: "Profa. Me. Camila Rennhard (@camilarennhard) e Nádia Faris (@psiquiatra.nadiafaris)", eixo: "Psicopatologia e Fármacos" },
+  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
+  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", part: "Profa. Me. Camila Rennhard (@camilarennhard) e Nádia Faris (@psiquiatra.nadiafaris)", eixo: "Psicopatologia e Fármacos" },
   { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
   { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
   { data: "27/04", tema: "Discussão de Caso", bib: "A Clínica do Não-Acontecido e os encontros possíveis em análise -📌 Capítulo 4: O Caso Vanessa -📌 Capítulo 6: A Clínica do Não-Acontecido", bibAbnt: "MELLO, C.R.B. A Clínica do Não-Acontecido e os encontros possíveis em análise. Dissertação (Mestrado em Psicologia Clínica) – Pontifícia Universidade Católica de São Paulo, São Paulo, 2024.", filePreview: null, part: "Profa. Me. Camila Rennhard (@camilarennhard)", eixo: "Psicopatologia e Fármacos" },
@@ -432,6 +432,15 @@ function CronogramaSection() {
   const [filterEixo, setFilterEixo] = useState(null);
   const filtered = filterEixo ? CRONOGRAMA.filter((c) => c.eixo === filterEixo) : CRONOGRAMA;
 
+  const isPast = (dataStr) => {
+    if (!dataStr) return false;
+    const [d, m] = dataStr.split("/");
+    const date = new Date(new Date().getFullYear(), parseInt(m) - 1, parseInt(d));
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  };
+
   return (
     <FadeIn delay={0.2}>
       <div style={{ marginBottom: "32px" }}>
@@ -481,14 +490,15 @@ function CronogramaSection() {
           {filtered.map((item, i) => {
             const isHoliday = item.tema.includes("Feriado");
             const isOpen = expanded === i;
+            const past = isPast(item.data);
             return (
               <div
                 key={i}
                 style={{
                   borderRadius: "12px", overflow: "hidden",
-                  background: isHoliday ? colors.cream : colors.warmWhite,
+                  background: isHoliday ? colors.cream : past ? colors.creamDark : colors.warmWhite,
                   border: `1px solid ${colors.creamDark}`,
-                  opacity: isHoliday ? 0.6 : 1,
+                  opacity: isHoliday ? 0.6 : past ? 0.5 : 1,
                   transition: "all 0.25s",
                 }}
               >
@@ -1372,10 +1382,9 @@ export default function LapsicApp() {
       if (folderIndex !== -1) {
         setActiveFolder(folderIndex);
       } else {
-        setActiveFolder(null); // Reset if folder mapping not found
+        setActiveFolder(null);
       }
     } else {
-      // Direct clicks to Repositorio overall (like 23/02 folder which has no eixo) maps to Ramificacoes as default or stay null
       setActiveFolder(0);
     }
   };
