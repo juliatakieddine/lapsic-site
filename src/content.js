@@ -191,6 +191,7 @@ export async function fetchContent() {
         return {
           data: r.data || "",
           tema: r.tema || "",
+          etiqueta: r.etiqueta || "",
           bib: r.bibliografia || r.bib || null,
           bibAbnt: r.referencia || r.referencia_abnt || r.abnt || r.bibabnt || null,
           filePreview: r.arquivo || r.arquivo_preview || r.preview || null,

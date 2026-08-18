@@ -451,6 +451,13 @@ function CronogramaSection() {
                         </span>
                       )}
                     </div>
+                    {item.etiqueta && (
+                      <div style={{ marginTop: "6px" }}>
+                        <span style={{ display: "inline-flex", alignItems: "center", padding: "3px 12px", borderRadius: "20px", background: colors.sage + "1F", color: colors.sageDark, fontWeight: 600, fontSize: "11.5px", fontFamily: "'DM Sans', sans-serif" }}>
+                          {item.etiqueta}
+                        </span>
+                      </div>
+                    )}
                   </div>
                   {item.part && (
                     <div className="palestrante-badge" style={{
