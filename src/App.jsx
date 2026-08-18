@@ -6,6 +6,7 @@ import {
   GraduationCap, Heart, Brain, Pill, Briefcase, AlertTriangle,
   CheckCircle, ArrowRight, Moon, Sun, Folder, File, Download, Play, PlayCircle, Search, FileArchive, Library, Instagram, Shield, Cloud, LogOut
 } from "lucide-react";
+import { ContentContext, useContent, fetchContent, DEFAULT_CONTENT } from "./content";
 
 const LIGHT_COLORS = {
   sage: "#7B8F6B",
@@ -48,37 +49,9 @@ const PsiIcon = ({ size = 24, color = "currentColor", style }) => (
   </span>
 );
 
-const EIXOS = {
-  "Ramificações da Clínica": { color: "#7B8F6B", icon: Brain, driveLink: "https://drive.google.com/drive/folders/11bSB80E5bVkextxafBG77bD-QpSs4T1r?usp=drive_link" },
-  "Psicopatologia e Fármacos": { color: "#8B6B5A", icon: Pill, driveLink: "https://drive.google.com/drive/folders/1XFr13RZGVGDAEAYmLREMYxs1PM0QUDKS?usp=drive_link" },
-  "Gestão e Burocracias da Clínica": { color: "#6B7B8F", icon: Briefcase, driveLink: "https://drive.google.com/drive/folders/1dyBa6jrcpi1zMxhOOnqwHbfOc41FLaM-?usp=drive_link" },
-};
 
-const CRONOGRAMA = [
-  { data: "23/02", tema: "Apresentação da Liga", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
-  { data: "02/03", tema: "Psicoterapia Online", bib: "PSICOTERAPIA ONLINE: DEMANDA CRESCENTE E SUGESTÕES PARA REGULAMENTAÇÃO", bibAbnt: "Carmelita Gomes, Marcelo de Araújo", filePreview: "Psicoterapia Online.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "09/03", tema: "Psicoterapia Infantil", bib: "A Psicoterapia Infantil no Setting Clínico: Uma Revisão Sistemática de Literatura", bibAbnt: "Rosa Angela Cortez, Sarah Montezuma, Anna Karynne Melo e Virgínia Moreira", filePreview: "psi infantil.pdf", part: null, eixo: "Ramificações da Clínica", videos: [{ title: "Vídeo Complementar", url: "https://www.youtube.com/watch?v=2qQXsjUqSeQ" }] },
-  { data: "16/03", tema: "Atendimento Emergencial", bib: "Implicações do Pronto-Atendimento Psicológico de Emergência aos que Vivenciam Perdas Significativas.", bibAbnt: "Airle Miranda de Souza e Danielle do Socorro & Victor Augusto Cavaleiro.", filePreview: "atendimento emergencial.pdf", part: null, eixo: "Ramificações da Clínica" },
-  { data: "23/03", tema: "Psicoterapia e Luto", bib: "LUTO_FREIRE, Anna.PDF", bibAbnt: "FREIRE, Anna Laura Leal; VANDENBERGHE, Luc. Perspectivas em análise do comportamento, v.16, n.02, p.154-164, 2025.", filePreview: "luto.pdf", part: "Gabriela Dantas Bertelli (@bertelligabs.psi)", eixo: "Ramificações da Clínica" },
-  { data: "30/03", tema: "Autodiagnóstico", bib: "Increasing self- and desired psychiatric diagnoses among emerging adults: Mixed-methods insights from clinical psychologists", bibAbnt: "Matthias Neumann, Verena Steiner-Hofbauer, Martin Aigner, Anna Höflich, Anita Holzinger e Gloria Mittmann", filePreview: "increasing self - sutodiagnóstico.pdf", part: null, eixo: "Psicopatologia e Fármacos" },
-  { data: "06/04", tema: "Interdisciplinaridade: Psicólogo e Psiquiatria", bib: "Interdisciplinaridade nas práticas de cuidado em saúde mental: uma revisão integrativa de literatura", bibAbnt: "Eduardo Giacomini e Maria Lucia Frizon", filePreview: "Interdisciplinaridade nas práticas de cuidado em saúde mental- uma revisão integrativa de literatura.pdf", part: "Profa. Me. Camila Rennhard (@camilarennhard) e Nádia Faris (@psiquiatra.nadiafaris)", eixo: "Psicopatologia e Fármacos" },
-  { data: "13/04", tema: "Psicoterapia e Medicalização", bib: "Da recusa à demanda de diagnóstico: novos arranjos da medicalização", bibAbnt: "Mariana Ferreira Pombo", filePreview: "bibliografia - psicopatologia e medicalização.docx", part: "Liga de Psicofarmacologia", eixo: "Psicopatologia e Fármacos" },
-  { data: "20/04", tema: "Feriado (sem encontro)", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
-  { data: "27/04", tema: "Discussão de Caso", bib: "A Clínica do Não-Acontecido e os encontros possíveis em análise -📌 Capítulo 4: O Caso Vanessa -📌 Capítulo 6: A Clínica do Não-Acontecido", bibAbnt: "MELLO, C.R.B. A Clínica do Não-Acontecido e os encontros possíveis em análise. Dissertação (Mestrado em Psicologia Clínica) – Pontifícia Universidade Católica de São Paulo, São Paulo, 2024.", filePreview: null, part: "Profa. Me. Camila Rennhard (@camilarennhard)", eixo: "Psicopatologia e Fármacos" },
-  { data: "04/05", tema: "Gestão da Clínica", bib: "A clínica psicológica: legislação, estruturação e gestão", bibAbnt: "Cleonice Barros, Daniela Rodrigues, Douglas Campos, Ildejane Gomes e Priscilla Mota", filePreview: "Bibliografia - Gestão e burocracia de clínica.docx", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "11/05", tema: "Desenvolvimento de Clínica", bib: "1. Contratos psicológicos: uma revisão da literatura.\n\n2. Reflexões sobre o contrato terapêutico como instrumento de autorregulação do terapeuta.", bibAbnt: "1. Letícia Fantinato Menegon e Tania Casado.\n\n2. Gladys Costa de Moraes.", filePreview: "Admin,+1920-5174-1-RV-34-43.pdf", part: null, eixo: "Gestão e Burocracias da Clínica", videos: [{ title: "Modelos de Contratos (Link do CRP)", url: "https://www.crp-01.org.br/page_3952/Modelos%20de%20Contratos?utm_source=chatgpt.com", isLink: true }] },
-  { data: "18/05", tema: "Educação Financeira na Clínica", bib: "\"Qual o valor da consulta?\": Crenças, Critérios e Estratégias de Precificação e Cobrança de Psicoterapeutas", bibAbnt: "Jéssica Florinda", filePreview: "DissertaoJssica.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "25/05", tema: "Marketing e Captação de Pacientes", bib: "1. Plataformização do Trabalho na Psicologia Clínica: Atendimento online, tecnoestresse e produção de conteúdos em mídias sociais.\n\n2. O PAPEL DO MARKETING NA GESTÃO DE SERVIÇOS DE SAÚDE: O CASO DO GRUPO DA CLÍNICA SANTA MADALENA.", bibAbnt: "1. Matheus Viana, Amanda Thuns, Caroline de Cuffa, Thiago Casemiro, Victor Martins e Yasmin Alexandre.\n\n2. António Morão, Carlos Brito, Sónia Nogueira, Rui Dias e Rosa Galvão.", filePreview: "13561_2018_Article_213.pdf", part: null, eixo: "Gestão e Burocracias da Clínica" },
-  { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null },
-];
 
 const DRIVE_API_KEY = "AIzaSyC_61aHyJFzGvZNg7Yg4kcWsn2o3GopCRk";
-const MATERIAIS_FOLDER_ID = "1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs";
-const REPOSITORIO_FOLDERS = [
-  { folder: "Ramificações da Clínica", id: "11bSB80E5bVkextxafBG77bD-QpSs4T1r" },
-  { folder: "Psicopatologia e Fármacos", id: "1XFr13RZGVGDAEAYmLREMYxs1PM0QUDKS" },
-  { folder: "Gestão e Burocracias da Clínica", id: "1dyBa6jrcpi1zMxhOOnqwHbfOc41FLaM-" },
-];
 
 function getFileIcon(mimeType) {
   if (!mimeType) return FileText;
@@ -111,12 +84,6 @@ function formatDriveDate(dateStr) {
   return d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric" });
 }
 
-const DIRETORIA = [
-  { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "/diretoria/isabela.jpg" },
-  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276", foto: "/diretoria/julia.png" },
-  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: "/diretoria/bruno.png" },
-  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: "/diretoria/marcella.jpg" },
-];
 
 function FadeIn({ children, delay = 0, className = "" }) {
   const [visible, setVisible] = useState(false);
@@ -144,6 +111,7 @@ function FadeIn({ children, delay = 0, className = "" }) {
   );
 }
 
+// eslint-disable-next-line no-unused-vars -- "Icon" é usado dentro do JSX abaixo (<Icon />)
 function NavItem({ icon: Icon, label, active, onClick }) {
   const colors = useContext(ThemeContext);
   return (
@@ -168,6 +136,7 @@ function NavItem({ icon: Icon, label, active, onClick }) {
 }
 
 function EixoTag({ eixo }) {
+  const { eixos: EIXOS } = useContent();
   if (!eixo || !EIXOS[eixo]) return null;
   const { color, icon: Icon } = EIXOS[eixo];
   return (
@@ -185,6 +154,7 @@ function EixoTag({ eixo }) {
 
 function HeroSection() {
   const colors = useContext(ThemeContext);
+  const { config } = useContent();
   return (
     <FadeIn>
       <div className="hero-section" style={{
@@ -223,11 +193,11 @@ function HeroSection() {
             fontSize: "15px", opacity: 0.85, maxWidth: "560px", lineHeight: 1.6,
             fontFamily: "'DM Sans', sans-serif", fontWeight: 300,
           }}>
-            Que alegria ter você com a gente. Este espaço foi pensado e organizado para ser o seu principal guia durante a nossa jornada. Aqui, você encontrará todos os materiais dos nossos encontros, bibliografias complementares, cartilhas de apoio e muito mais. Explore, estude e sinta-se em casa. A Liga é feita por todos nós!
+            {config.hero_texto}
           </p>
           <div style={{ marginTop: "24px", display: "flex", gap: "12px", flexWrap: "wrap" }}>
             <a
-              href="https://meet.google.com/mdn-ypng-bvm"
+              href={config.meet_link}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -243,7 +213,7 @@ function HeroSection() {
               Entrar no Meet
             </a>
             <a
-              href="https://instagram.com/lapsic.mackenzie"
+              href={config.instagram_url}
               target="_blank"
               rel="noopener noreferrer"
               style={{
@@ -257,7 +227,7 @@ function HeroSection() {
               onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.15)"; }}
             >
               <Instagram size={18} />
-              @lapsic.mackenzie
+              {config.instagram_handle}
             </a>
           </div>
         </div>
@@ -266,8 +236,9 @@ function HeroSection() {
   );
 }
 
-function MuralAvisos({ goToRepositorioEixo }) {
+function MuralAvisos({ goToRepositorio }) {
   const colors = useContext(ThemeContext);
+  const { cronograma: CRONOGRAMA, config } = useContent();
 
   const today = new Date();
   let nextMeeting = CRONOGRAMA.find(c => {
@@ -306,7 +277,7 @@ function MuralAvisos({ goToRepositorioEixo }) {
           }}>
             <Calendar size={18} />
             <span style={{ fontSize: "15px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", letterSpacing: "0.5px" }}>
-              Encontros: Segundas-feiras às 19h (Online)
+              {config.horario_encontros}
             </span>
           </div>
 
@@ -354,7 +325,7 @@ function MuralAvisos({ goToRepositorioEixo }) {
               <div style={{ display: "flex", gap: "10px", flexWrap: "wrap", marginBottom: (!nextMeeting.bib && (!nextMeeting.videos || nextMeeting.videos.length === 0) && !nextMeeting.filePreview) ? 0 : "16px" }}>
                 {nextMeeting.bib && (
                   <button
-                    onClick={() => goToRepositorioEixo(nextMeeting.eixo)}
+                    onClick={() => goToRepositorio()}
                     style={{
                       display: "flex", alignItems: "center", gap: "8px",
                       padding: "8px 16px", borderRadius: "8px",
@@ -398,7 +369,7 @@ function MuralAvisos({ goToRepositorioEixo }) {
                 border: `1px solid ${colors.creamDark}`, display: "flex", flexDirection: "column",
                 alignItems: "center", gap: "8px", minWidth: "140px", cursor: "pointer", transition: "all 0.2s"
               }}
-                onClick={() => goToRepositorioEixo(nextMeeting.eixo)}
+                onClick={() => goToRepositorio()}
                 onMouseEnter={(e) => { e.currentTarget.style.borderColor = colors.sage; e.currentTarget.style.transform = "translateY(-2px)" }}
                 onMouseLeave={(e) => { e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none" }}
               >
@@ -428,6 +399,7 @@ function MuralAvisos({ goToRepositorioEixo }) {
 
 function CronogramaSection() {
   const colors = useContext(ThemeContext);
+  const { cronograma: CRONOGRAMA, eixos: EIXOS, config } = useContent();
   const [expanded, setExpanded] = useState(null);
   const [filterEixo, setFilterEixo] = useState(null);
   const filtered = filterEixo ? CRONOGRAMA.filter((c) => c.eixo === filterEixo) : CRONOGRAMA;
@@ -447,7 +419,7 @@ function CronogramaSection() {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
           <div>
             <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
-              Cronograma 2026.1
+              Cronograma {config.semestre}
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
               <span style={{ fontStyle: "italic" }}>Os encontros abaixo estão categorizados e divididos pelos 3 grandes Eixos Temáticos.</span>
@@ -609,54 +581,33 @@ function CronogramaSection() {
   );
 }
 
-function RepositorioSection({ activeFolder, setActiveFolder }) {
+function RepositorioSection() {
   const colors = useContext(ThemeContext);
-  const [folderFiles, setFolderFiles] = useState([]);
-  const [loadingFiles, setLoadingFiles] = useState(false);
-  const [errorFiles, setErrorFiles] = useState(null);
-  const [folderCounts, setFolderCounts] = useState({});
+  const { bibliografiaFolderId } = useContent();
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    async function loadCounts() {
-      const counts = {};
-      await Promise.all(
-        REPOSITORIO_FOLDERS.map(async ({ folder, id }) => {
-          try {
-            const q = encodeURIComponent(`'${id}' in parents and trashed = false`);
-            const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=files(id)&key=${DRIVE_API_KEY}`;
-            const res = await fetch(url);
-            const data = await res.json();
-            counts[folder] = data.files ? data.files.length : 0;
-          } catch { counts[folder] = null; }
-        })
-      );
-      setFolderCounts(counts);
-    }
-    loadCounts();
-  }, []);
-
-  useEffect(() => {
-    if (activeFolder === null) { setFolderFiles([]); setSearch(""); return; }
     async function fetchFiles() {
-      setLoadingFiles(true); setErrorFiles(null);
+      if (!bibliografiaFolderId) { setFiles([]); setError(null); setLoading(false); return; }
       try {
-        const { id } = REPOSITORIO_FOLDERS[activeFolder];
+        setLoading(true); setError(null);
         const fields = "files(id,name,mimeType,modifiedTime,webViewLink)";
-        const q = encodeURIComponent(`'${id}' in parents and trashed = false`);
-        const url = `https://www.googleapis.com/drive/v3/files?q=${q}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
+        const query = `'${bibliografiaFolderId}' in parents and trashed = false`;
+        const url = `https://www.googleapis.com/drive/v3/files?q=${encodeURIComponent(query)}&fields=${encodeURIComponent(fields)}&orderBy=name&key=${DRIVE_API_KEY}`;
         const res = await fetch(url);
         if (!res.ok) { const err = await res.json(); throw new Error(err?.error?.message || "Erro ao buscar arquivos"); }
         const data = await res.json();
-        setFolderFiles(data.files || []);
-      } catch (err) { setErrorFiles(err.message || "Não foi possível carregar."); }
-      finally { setLoadingFiles(false); }
+        setFiles(data.files || []);
+      } catch (err) { setError(err.message || "Não foi possível carregar a bibliografia."); }
+      finally { setLoading(false); }
     }
     fetchFiles();
-  }, [activeFolder]);
+  }, [bibliografiaFolderId]);
 
-  const filtered = folderFiles.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
-  const eixoInfo = activeFolder !== null ? EIXOS[REPOSITORIO_FOLDERS[activeFolder].folder] : null;
+  const filtered = files.filter(f => f.name.toLowerCase().includes(search.toLowerCase()));
 
   return (
     <FadeIn delay={0.2}>
@@ -664,13 +615,13 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "20px", flexWrap: "wrap", gap: "12px" }}>
           <div>
             <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
-              Repositório de Arquivos
+              Bibliografia dos Encontros
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Acesso direto aos materiais e cartilhas da Liga Acadêmica, organizados por Eixo Temático.
+              Os textos e leituras de cada encontro. Os nomes seguem exatamente os arquivos da pasta no Drive da Liga.
             </p>
           </div>
-          {activeFolder !== null && !loadingFiles && !errorFiles && folderFiles.length > 0 && (
+          {!loading && !error && files.length > 0 && (
             <div style={{ display: "flex", alignItems: "center", gap: "8px", padding: "8px 14px", borderRadius: "10px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}` }}>
               <Search size={14} color={colors.warmGray} />
               <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Buscar arquivo..."
@@ -679,113 +630,74 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
           )}
         </div>
 
-        {activeFolder === null && (
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: "16px" }}>
-            {REPOSITORIO_FOLDERS.map(({ folder }, i) => {
-              const eixo = EIXOS[folder];
-              const count = folderCounts[folder];
-              return (
-                <div key={i} onClick={() => setActiveFolder(i)}
-                  style={{ padding: "20px", borderRadius: "16px", cursor: "pointer", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", gap: "16px", transition: "all 0.2s" }}
-                  onMouseEnter={e => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = `0 8px 24px ${colors.sage}20`; e.currentTarget.style.borderColor = eixo ? eixo.color : colors.sage; }}
-                  onMouseLeave={e => { e.currentTarget.style.transform = "none"; e.currentTarget.style.boxShadow = "none"; e.currentTarget.style.borderColor = colors.creamDark; }}
-                >
-                  <div style={{ width: "48px", height: "48px", borderRadius: "12px", flexShrink: 0, background: eixo ? eixo.color + "15" : colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                    <Folder size={24} color={eixo ? eixo.color : colors.sage} />
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: "14px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", lineHeight: 1.3 }}>{folder}</div>
-                    <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                      {count === null || count === undefined ? "Carregando..." : `${count} ${count === 1 ? "arquivo" : "arquivos"} disponíveis`}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+        {loading && (
+          <div style={{ padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+            <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`, animation: "spin 0.9s linear infinite" }} />
+            <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Carregando arquivos do Drive...</div>
           </div>
         )}
 
-        {activeFolder !== null && (
-          <div>
-            <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "24px" }}>
-              <button onClick={() => setActiveFolder(null)}
-                style={{ background: "transparent", border: "none", display: "flex", alignItems: "center", gap: "4px", color: colors.warmGray, cursor: "pointer", fontFamily: "'DM Sans', sans-serif", fontSize: "13px", fontWeight: 500 }}>
-                <ChevronDown size={16} style={{ transform: "rotate(90deg)" }} /> Voltar às Pastas
-              </button>
-              <span style={{ color: colors.creamDark }}>/</span>
-              <span style={{ fontSize: "14px", fontWeight: 600, fontFamily: "'DM Sans', sans-serif", color: eixoInfo ? eixoInfo.color : colors.charcoal }}>
-                {REPOSITORIO_FOLDERS[activeFolder].folder}
-              </span>
+        {!loading && error && (
+          <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.accent}30`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
+            <AlertTriangle size={28} color={colors.accent} />
+            <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Não foi possível carregar a bibliografia</div>
+            <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", maxWidth: "400px" }}>
+              Verifique se a pasta do Drive está compartilhada como "Qualquer pessoa com o link".<br />
+              <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{error}</span>
             </div>
+          </div>
+        )}
 
-            {loadingFiles && (
-              <div style={{ padding: "48px", textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-                <div style={{ width: "40px", height: "40px", borderRadius: "50%", border: `3px solid ${colors.sage}30`, borderTop: `3px solid ${colors.sage}`, animation: "spin 0.9s linear infinite" }} />
-                <style>{"@keyframes spin { to { transform: rotate(360deg); } }"}</style>
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Carregando arquivos do Drive...</div>
-              </div>
-            )}
+        {!loading && !error && files.length === 0 && (
+          <div style={{ padding: "48px 32px", borderRadius: "16px", background: colors.warmWhite, border: `1px dashed ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
+            <div style={{ width: "64px", height: "64px", borderRadius: "16px", background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Folder size={32} color={colors.sage} />
+            </div>
+            <div style={{ fontSize: "15px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", fontWeight: 500, maxWidth: "420px" }}>Nenhum arquivo na bibliografia ainda.</div>
+            <div style={{ fontSize: "13px", color: colors.warmGray, opacity: 0.8, fontFamily: "'DM Sans', sans-serif" }}>Os textos dos encontros aparecerão aqui ao decorrer do semestre.</div>
+          </div>
+        )}
 
-            {!loadingFiles && errorFiles && (
-              <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.accent}30`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "12px" }}>
-                <AlertTriangle size={28} color={colors.accent} />
-                <div style={{ fontSize: "14px", color: colors.accent, fontFamily: "'DM Sans', sans-serif", fontWeight: 500 }}>Não foi possível carregar os arquivos</div>
-                <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                  Verifique se a pasta está compartilhada como "Qualquer pessoa com o link".<br />
-                  <span style={{ fontFamily: "monospace", opacity: 0.7 }}>{errorFiles}</span>
-                </div>
-              </div>
-            )}
+        {!loading && !error && filtered.length === 0 && files.length > 0 && (
+          <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center" }}>
+            <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Nenhum resultado para "<strong>{search}</strong>"</div>
+          </div>
+        )}
 
-            {!loadingFiles && !errorFiles && folderFiles.length === 0 && (
-              <div style={{ padding: "48px", borderRadius: "16px", background: colors.warmWhite, border: `1px dashed ${colors.creamDark}`, textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", gap: "16px" }}>
-                <Folder size={32} color={colors.sage} />
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Esta pasta ainda não tem arquivos.</div>
-              </div>
-            )}
-
-            {!loadingFiles && !errorFiles && filtered.length === 0 && folderFiles.length > 0 && (
-              <div style={{ padding: "32px", borderRadius: "16px", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, textAlign: "center" }}>
-                <div style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>Nenhum resultado para "<strong>{search}</strong>"</div>
-              </div>
-            )}
-
-            {!loadingFiles && !errorFiles && filtered.length > 0 && (
-              <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-                {filtered.map(file => {
-                  const IconComponent = getFileIcon(file.mimeType);
-                  const typeLabel = getFileTypeLabel(file.mimeType);
-                  const accentColor = eixoInfo ? eixoInfo.color : colors.accent;
-                  return (
-                    <a key={file.id} href={file.webViewLink} target="_blank" rel="noopener noreferrer"
-                      style={{ padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all 0.2s", gap: "12px" }}
-                      onMouseEnter={e => { e.currentTarget.style.background = colors.cream; e.currentTarget.style.borderColor = accentColor; e.currentTarget.style.transform = "translateY(-1px)"; }}
-                      onMouseLeave={e => { e.currentTarget.style.background = colors.warmWhite; e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none"; }}
-                    >
-                      <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
-                        <div style={{ width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0, background: accentColor + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
-                          <IconComponent size={20} color={accentColor} />
-                        </div>
-                        <div style={{ minWidth: 0, flex: 1 }}>
-                          <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</div>
-                          <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "10px", alignItems: "center", flexWrap: "wrap" }}>
-                            <span style={{ background: accentColor + "15", color: accentColor, padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600 }}>{typeLabel}</span>
-                            {file.modifiedTime && <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>}
-                          </div>
-                        </div>
+        {!loading && !error && filtered.length > 0 && (
+          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+            {filtered.map(file => {
+              const IconComponent = getFileIcon(file.mimeType);
+              const typeLabel = getFileTypeLabel(file.mimeType);
+              return (
+                <a key={file.id} href={file.webViewLink} target="_blank" rel="noopener noreferrer"
+                  style={{ padding: "16px", borderRadius: "12px", textDecoration: "none", color: "inherit", background: colors.warmWhite, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "space-between", transition: "all 0.2s", gap: "12px" }}
+                  onMouseEnter={e => { e.currentTarget.style.background = colors.cream; e.currentTarget.style.borderColor = colors.sage; e.currentTarget.style.transform = "translateY(-1px)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = colors.warmWhite; e.currentTarget.style.borderColor = colors.creamDark; e.currentTarget.style.transform = "none"; }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "14px", flex: 1, minWidth: 0 }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "10px", flexShrink: 0, background: colors.sage + "15", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                      <IconComponent size={20} color={colors.sage} />
+                    </div>
+                    <div style={{ minWidth: 0, flex: 1 }}>
+                      <div style={{ fontSize: "14px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px", overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{file.name}</div>
+                      <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", display: "flex", gap: "10px", alignItems: "center" }}>
+                        <span style={{ background: colors.sage + "15", color: colors.sage, padding: "1px 8px", borderRadius: "10px", fontSize: "11px", fontWeight: 600 }}>{typeLabel}</span>
+                        {file.modifiedTime && <span>Atualizado em {formatDriveDate(file.modifiedTime)}</span>}
                       </div>
-                      <div style={{ width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "center", color: accentColor, transition: "all 0.2s" }}
-                        onMouseEnter={e => { e.currentTarget.style.background = accentColor; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = accentColor; }}
-                        onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = accentColor; e.currentTarget.style.borderColor = colors.creamDark; }}
-                      ><ExternalLink size={15} /></div>
-                    </a>
-                  );
-                })}
-                <div style={{ fontSize: "12px", color: colors.warmGray, textAlign: "right", fontFamily: "'DM Sans', sans-serif", paddingTop: "4px", opacity: 0.7 }}>
-                  {filtered.length} {filtered.length === 1 ? "arquivo disponível" : "arquivos disponíveis"} — sincronizado com o Google Drive
-                </div>
-              </div>
-            )}
+                    </div>
+                  </div>
+                  <div style={{ width: "36px", height: "36px", borderRadius: "50%", flexShrink: 0, border: `1px solid ${colors.creamDark}`, display: "flex", alignItems: "center", justifyContent: "center", color: colors.sage, transition: "all 0.2s" }}
+                    onMouseEnter={e => { e.currentTarget.style.background = colors.sage; e.currentTarget.style.color = "white"; e.currentTarget.style.borderColor = colors.sage; }}
+                    onMouseLeave={e => { e.currentTarget.style.background = "transparent"; e.currentTarget.style.color = colors.sage; e.currentTarget.style.borderColor = colors.creamDark; }}
+                  ><ExternalLink size={15} /></div>
+                </a>
+              );
+            })}
+            <div style={{ fontSize: "12px", color: colors.warmGray, textAlign: "right", fontFamily: "'DM Sans', sans-serif", paddingTop: "4px", opacity: 0.7 }}>
+              {filtered.length} {filtered.length === 1 ? "arquivo disponível" : "arquivos disponíveis"} — sincronizado com o Google Drive
+            </div>
           </div>
         )}
       </div>
@@ -795,6 +707,7 @@ function RepositorioSection({ activeFolder, setActiveFolder }) {
 
 function MateriaisSection() {
   const colors = useContext(ThemeContext);
+  const { materiaisFolderId: MATERIAIS_FOLDER_ID } = useContent();
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -917,6 +830,7 @@ function MateriaisSection() {
 
 function DiretoriaSection() {
   const colors = useContext(ThemeContext);
+  const { diretoria: DIRETORIA } = useContent();
   return (
     <FadeIn delay={0.25}>
       <div style={{ marginBottom: "32px" }}>
@@ -1000,6 +914,7 @@ function DiretoriaSection() {
 
 function ContatoSection() {
   const colors = useContext(ThemeContext);
+  const { config } = useContent();
   const [sent, setSent] = useState(false);
   const [nome, setNome] = useState("");
   const [assunto, setAssunto] = useState("");
@@ -1017,7 +932,7 @@ function ContatoSection() {
     formData.append("entry.845909834", assunto);
     formData.append("entry.1626190089", mensagem);
 
-    fetch("https://docs.google.com/forms/d/e/1FAIpQLSfMU7fC3c1V6ZR6DhC5dKiZnIS_DNZgvqasNW6T4oTfYahDDQ/formResponse", {
+    fetch(config.contato_form_url, {
       method: "POST",
       mode: "no-cors",
       body: formData
@@ -1125,21 +1040,9 @@ function ContatoSection() {
   );
 }
 
-const AUTHORIZED_EMAILS = [
-  "isabela.kondor2509@gmail.com",
-  "juliataki08@gmail.com",
-  "bruno.a.zanin2006@gmail.com",
-  "mazanatj@gmail.com"
-];
 
-// E-mails comuns aprovados pela Diretoria (não possuem acesso à aba de Administração)
-const AUTHORIZED_COMMON_EMAILS = [
-  // Adicione aqui os e-mails de fora do Mackenzie liberados para ligantes convidados
-  "suguidiane@gmail.com",
-  "yasmimsalves@hotmail.com"
-];
 
-function LoginScreen({ onLogin }) {
+function LoginScreen({ onLogin, authorizedDirectors, authorizedGuests }) {
   const colors = useContext(ThemeContext);
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
@@ -1148,8 +1051,8 @@ function LoginScreen({ onLogin }) {
     e.preventDefault();
     const cleanEmail = email.toLowerCase().trim();
     if (
-      AUTHORIZED_EMAILS.includes(cleanEmail) || 
-      AUTHORIZED_COMMON_EMAILS.includes(cleanEmail) || 
+      authorizedDirectors.includes(cleanEmail) ||
+      authorizedGuests.includes(cleanEmail) || 
       cleanEmail.endsWith("@mackenzista.com.br")
     ) {
       onLogin(cleanEmail);
@@ -1200,141 +1103,17 @@ function LoginScreen({ onLogin }) {
   );
 }
 
-function AdminDriveSection() {
-  const colors = useContext(ThemeContext);
-
-  const steps = [
-    {
-      icon: Folder,
-      title: "Repositório de Arquivos",
-      color: colors.sage,
-      description: "Acesse a pasta \"Espaço do Ligante → Bibliografia\" no Drive da LAPSIC. Dentro dela há três subpastas, uma para cada Eixo Temático. Basta adicionar ou remover arquivos nessas subpastas — o site atualiza automaticamente. Caso os nomes dos eixos temáticos mudem, renomeie as pastas diretamente no Drive: os nomes exibidos no site sempre acompanharão os nomes das pastas.",
-      detail: "Ramificações da Clínica · Psicopatologia e Fármacos · Gestão e Burocracias da Clínica",
-    },
-    {
-      icon: Library,
-      title: "Materiais Complementares",
-      color: colors.accent,
-      description: "Acesse a pasta \"Espaço do Ligante → Materiais Complementares\" no Drive da LAPSIC. Qualquer arquivo adicionado ou removido lá aparece ou desaparece automaticamente no site para os ligantes.",
-      detail: "Resoluções, cartilhas, manuais e publicações do CRP",
-    },
-    {
-      icon: CheckCircle,
-      title: "Virada de Semestre",
-      color: colors.moss,
-      description: "Ao final de cada semestre, mova o conteúdo das pastas do \"Espaço do Ligante\" para a pasta referente ao semestre da Liga. Em seguida, apague da aba do \"Espaço do Ligante\" e adicione os novos materiais do semestre seguinte. O site refletirá as mudanças imediatamente.",
-      detail: "Não é necessário mexer no código",
-    },
-    {
-      icon: MessageSquare,
-      title: "Formulário de Contato",
-      color: colors.sage,
-      description: "Todas as mensagens enviadas pelos ligantes através da aba \"Contato\" do Espaço do Ligante aparecem automaticamente no formulário \"Sugestões Ligantes\", dentro da pasta \"Espaço do Ligante\" no Drive da LAPSIC. Não é necessário fazer nada — as respostas chegam lá sozinhas.",
-      detail: "Drive da LAPSIC → Espaço do Ligante → Sugestões Ligantes",
-    },
-    {
-      icon: AlertTriangle,
-      title: "Atenção: Permissões do Drive",
-      color: "#C4956A",
-      description: "Todas as pastas do Espaço do Ligante devem estar configuradas como \"Qualquer pessoa com o link pode visualizar\". Caso contrário, os arquivos não aparecem no site. Verifique isso sempre que criar uma pasta nova.",
-      detail: "Botão direito na pasta → Compartilhar → Acesso geral → Qualquer pessoa com o link",
-    },
-  ];
-
-  return (
-    <FadeIn delay={0.2}>
-      <div style={{ marginBottom: "32px" }}>
-
-        {/* Header */}
-        <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "8px" }}>
-          <Shield size={28} color={colors.sage} />
-          <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif" }}>
-            Painel da Diretoria
-          </h2>
-        </div>
-        <p style={{ fontSize: "14px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "32px" }}>
-          Bem-vinda(o) à área restrita! Este painel é o seu guia de gestão do site. Aqui você encontra tudo o que precisa saber para manter o Espaço do Ligante atualizado — sem precisar mexer em nenhuma linha de código.
-        </p>
-
-        {/* Banner destaque */}
-        <div style={{
-          padding: "20px 24px", borderRadius: "14px", marginBottom: "28px",
-          background: `linear-gradient(135deg, ${colors.moss} 0%, ${colors.sage} 100%)`,
-          color: "white", display: "flex", alignItems: "center", gap: "16px",
-        }}>
-          <Cloud size={32} style={{ flexShrink: 0, opacity: 0.9 }} />
-          <div>
-            <div style={{ fontSize: "15px", fontWeight: 700, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-              O site é alimentado pela pasta "Espaço do Ligante" do Google Drive da LAPSIC
-            </div>
-            <div style={{ fontSize: "13px", opacity: 0.9, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.5 }}>
-              Tudo o que estiver nas pastas <strong>"Bibliografia"</strong> e <strong>"Materiais Complementares"</strong> aparece automaticamente no site. Adicione, remova ou substitua arquivos lá — sem precisar abrir o código, o GitHub ou o Vercel.
-            </div>
-          </div>
-        </div>
-
-        {/* Steps */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {steps.map((step, i) => {
-            const Icon = step.icon;
-            return (
-              <div key={i} style={{
-                padding: "24px", borderRadius: "14px",
-                background: colors.warmWhite, border: `1px solid ${colors.creamDark}`,
-                display: "flex", gap: "18px", alignItems: "flex-start",
-              }}>
-                <div style={{
-                  width: "44px", height: "44px", borderRadius: "12px", flexShrink: 0,
-                  background: step.color + "15", display: "flex", alignItems: "center", justifyContent: "center",
-                }}>
-                  <Icon size={22} color={step.color} />
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "6px" }}>
-                    {step.title}
-                  </div>
-                  <div style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, marginBottom: "8px" }}>
-                    {step.description}
-                  </div>
-                  <div style={{
-                    fontSize: "11px", color: step.color, fontFamily: "'DM Sans', sans-serif",
-                    fontWeight: 600, background: step.color + "12",
-                    display: "inline-block", padding: "3px 10px", borderRadius: "20px",
-                  }}>
-                    {step.detail}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Footer note */}
-        <div style={{
-          marginTop: "24px", padding: "16px 20px", borderRadius: "12px",
-          background: colors.cream, border: `1px solid ${colors.creamDark}`,
-          display: "flex", gap: "12px", alignItems: "flex-start",
-        }}>
-          <ArrowRight size={16} color={colors.sage} style={{ flexShrink: 0, marginTop: "2px" }} />
-          <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", lineHeight: 1.6, margin: 0 }}>
-            Precisa atualizar o <strong>cronograma</strong>, os <strong>dados da diretoria</strong>, adicionar <strong>e-mails autorizados</strong> ou fazer outra mudança estrutural no site? Essas alterações são feitas no arquivo <code style={{ background: colors.creamDark, padding: "1px 6px", borderRadius: "4px", fontSize: "12px" }}>src/App.jsx</code> no repositório do GitHub. Entre em contato com quem desenvolveu ou acesse o repositório em <strong>github.com/juliatakieddine/lapsic-site</strong>.
-          </p>
-        </div>
-
-      </div>
-    </FadeIn>
-  );
-}
-
 export default function LapsicApp() {
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  useEffect(() => {
+    let alive = true;
+    fetchContent().then((c) => { if (alive) setContent(c); });
+    return () => { alive = false; };
+  }, []);
   const [section, setSection] = useState("home");
   const [mobileNav, setMobileNav] = useState(false);
   const [darkMode, setDarkMode] = useState(() => {
     return localStorage.getItem("lapsic-darkmode") === "true";
-  });
-  const [activeFolder, setActiveFolder] = useState(null);
-  const [userEmail, setUserEmail] = useState(() => {
-    return localStorage.getItem("lapsic-email") || "";
   });
   const [isAuthenticated, setIsAuthenticated] = useState(() => {
     return localStorage.getItem("lapsic-auth") === "true";
@@ -1353,20 +1132,15 @@ export default function LapsicApp() {
 
   const colors = darkMode ? DARK_COLORS : LIGHT_COLORS;
 
-  const isDirector = AUTHORIZED_EMAILS.includes(userEmail);
-
   const navItems = [
     { id: "home", icon: BookOpen, label: "Início" },
     { id: "cronograma", icon: Calendar, label: "Cronograma" },
-    { id: "repositorio", icon: Folder, label: "Repositório de Arquivos" },
+    { id: "repositorio", icon: Folder, label: "Bibliografia dos Encontros" },
     { id: "materiais", icon: Library, label: "Materiais Complementares" },
     { id: "diretoria", icon: Users, label: "Diretoria" },
     { id: "contato", icon: MessageSquare, label: "Contato" },
   ];
 
-  if (isDirector) {
-    navItems.push({ id: "admin", icon: Shield, label: "Área da Diretoria" });
-  }
 
   const scrollToSection = (id) => {
     setSection(id);
@@ -1375,36 +1149,25 @@ export default function LapsicApp() {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  const goToRepositorioEixo = (eixoName) => {
+  const goToRepositorio = () => {
     scrollToSection("repositorio");
-    if (eixoName) {
-      const folderIndex = REPOSITORIO_FOLDERS.findIndex(f => f.folder === eixoName);
-      if (folderIndex !== -1) {
-        setActiveFolder(folderIndex);
-      } else {
-        setActiveFolder(null);
-      }
-    } else {
-      setActiveFolder(0);
-    }
   };
 
   const handleLogin = (email) => {
     localStorage.setItem("lapsic-auth", "true");
     localStorage.setItem("lapsic-email", email);
-    setUserEmail(email);
     setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
     localStorage.removeItem("lapsic-auth");
     localStorage.removeItem("lapsic-email");
-    setUserEmail("");
     setIsAuthenticated(false);
   };
 
   return (
     <ThemeContext.Provider value={colors}>
+    <ContentContext.Provider value={content}>
       <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&display=swap" rel="stylesheet" />
       <style>{`
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -1426,7 +1189,7 @@ export default function LapsicApp() {
       `}</style>
 
       {!isAuthenticated ? (
-        <LoginScreen onLogin={handleLogin} />
+        <LoginScreen onLogin={handleLogin} authorizedDirectors={content.authorizedDirectors} authorizedGuests={content.authorizedGuests} />
       ) : (
         <div style={{ display: "flex", minHeight: "100vh", background: colors.cream, transition: "background 0.3s ease" }}>
           {/* Overlay */}
@@ -1514,10 +1277,10 @@ export default function LapsicApp() {
               marginTop: "16px",
             }}>
               <div style={{ fontSize: "12px", fontWeight: 600, color: colors.sage, fontFamily: "'DM Sans', sans-serif", marginBottom: "4px" }}>
-                Semestre 2026.1
+                Semestre {content.config.semestre}
               </div>
               <div style={{ fontSize: "11px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                Segundas, 19h — Online
+                {content.config.horario_curto}
               </div>
             </div>
           </aside>
@@ -1547,13 +1310,13 @@ export default function LapsicApp() {
           >
             <div id="section-home" style={{ marginBottom: "64px" }}>
               <HeroSection />
-              <MuralAvisos goToRepositorioEixo={goToRepositorioEixo} />
+              <MuralAvisos goToRepositorio={goToRepositorio} />
             </div>
             <div id="section-cronograma" style={{ marginBottom: "64px" }}>
               <CronogramaSection />
             </div>
             <div id="section-repositorio" style={{ marginBottom: "64px" }}>
-              <RepositorioSection activeFolder={activeFolder} setActiveFolder={setActiveFolder} />
+              <RepositorioSection />
             </div>
             <div id="section-materiais" style={{ marginBottom: "64px" }}>
               <MateriaisSection />
@@ -1564,12 +1327,6 @@ export default function LapsicApp() {
             <div id="section-contato">
               <ContatoSection />
             </div>
-            {isDirector && (
-              <div id="section-admin" style={{ marginTop: "64px" }}>
-                <AdminDriveSection />
-              </div>
-            )}
-
             {/* Footer */}
             <FadeIn delay={0.35}>
               <div style={{
@@ -1577,13 +1334,14 @@ export default function LapsicApp() {
                 borderTop: `1px solid ${colors.creamDark}`,
               }}>
                 <p style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-                  LAPSIC — Liga Acadêmica de Psicologia Clínica — 2026.1
+                  LAPSIC — Liga Acadêmica de Psicologia Clínica — {content.config.semestre}
                 </p>
               </div>
             </FadeIn>
           </main>
         </div>
       )}
+    </ContentContext.Provider>
     </ThemeContext.Provider>
   );
 }
