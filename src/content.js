@@ -11,7 +11,6 @@
 // ============================================================================
 
 import { createContext, useContext } from "react";
-import { Brain, Pill, Briefcase, Heart, GraduationCap, BookOpen, Sparkles } from "lucide-react";
 
 // ID da Planilha Google da Liga (o trecho do link entre /d/ e /edit).
 export const SHEET_ID = "1NQ7ftiAUtxueWV4Gk85LCJnx4jYaLAfC1zSRAsZkEoU";
@@ -21,12 +20,8 @@ export const ABAS = {
   config: "Configuracoes",
   cronograma: "Cronograma",
   diretoria: "Diretoria",
-  eixos: "Eixos",
   convidados: "Convidados",
 };
-
-// Pool de ícones para os eixos (atribuídos por ordem). Não precisa mexer.
-const ICON_POOL = [Brain, Pill, Briefcase, Heart, GraduationCap, BookOpen, Sparkles];
 
 // ----------------------------------------------------------------------------
 //  CONTEÚDO PADRÃO (rede de segurança) — espelha o conteúdo atual 2026.1.
@@ -46,12 +41,6 @@ export const DEFAULT_CONFIG = {
   materiais_folder_id: "1-O1EP1k58z8R787cqUI5JAGf9YN_8QIs",
   bibliografia_folder_id: "",
 };
-
-const DEFAULT_EIXOS_LIST = [
-  { nome: "Ramificações da Clínica", cor: "#7B8F6B", link_pasta: "https://drive.google.com/drive/folders/11bSB80E5bVkextxafBG77bD-QpSs4T1r?usp=drive_link" },
-  { nome: "Psicopatologia e Fármacos", cor: "#8B6B5A", link_pasta: "https://drive.google.com/drive/folders/1XFr13RZGVGDAEAYmLREMYxs1PM0QUDKS?usp=drive_link" },
-  { nome: "Gestão e Burocracias da Clínica", cor: "#6B7B8F", link_pasta: "https://drive.google.com/drive/folders/1dyBa6jrcpi1zMxhOOnqwHbfOc41FLaM-?usp=drive_link" },
-];
 
 const DEFAULT_CRONOGRAMA = [
   { data: "23/02", tema: "Apresentação da Liga", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null, videos: [] },
@@ -92,29 +81,9 @@ function folderIdFromLink(link) {
   return /^[A-Za-z0-9_-]{20,}$/.test(t) ? t : "";
 }
 
-// Constrói o objeto EIXOS { nome: { color, icon, driveLink } } + a lista de pastas do repositório.
-function buildEixos(list) {
-  const eixos = {};
-  const repositorioFolders = [];
-  list.forEach((e, i) => {
-    if (!e || !e.nome) return;
-    const driveLink = e.link_pasta || "";
-    eixos[e.nome] = {
-      color: e.cor || "#7B8F6B",
-      icon: ICON_POOL[i % ICON_POOL.length],
-      driveLink,
-    };
-    const id = folderIdFromLink(driveLink);
-    if (id) repositorioFolders.push({ folder: e.nome, id });
-  });
-  return { eixos, repositorioFolders };
-}
-
 function buildDefaultContent() {
-  const { eixos } = buildEixos(DEFAULT_EIXOS_LIST);
   return {
     config: { ...DEFAULT_CONFIG },
-    eixos,
     bibliografiaFolderId: DEFAULT_CONFIG.bibliografia_folder_id,
     materiaisFolderId: DEFAULT_CONFIG.materiais_folder_id,
     cronograma: DEFAULT_CRONOGRAMA,
@@ -194,8 +163,8 @@ const isConfigured = () => SHEET_ID && !SHEET_ID.startsWith("COLE_");
 export async function fetchContent() {
   if (!isConfigured()) return DEFAULT_CONTENT;
 
-  const [configR, cronoR, diretoriaR, eixosR, convidadosR] = await Promise.all(
-    [ABAS.config, ABAS.cronograma, ABAS.diretoria, ABAS.eixos, ABAS.convidados].map((aba) =>
+  const [configR, cronoR, diretoriaR, convidadosR] = await Promise.all(
+    [ABAS.config, ABAS.cronograma, ABAS.diretoria, ABAS.convidados].map((aba) =>
       fetchAba(aba).catch(() => null)
     )
   );
@@ -207,22 +176,6 @@ export async function fetchContent() {
       const chave = normHeader(r.chave || r.campo || "");
       if (chave && r.valor !== undefined && r.valor !== "") config[chave] = r.valor;
     });
-  }
-
-  // Eixos (merge sobre o padrão, por nome — preserva link/cor padrão se a planilha não trouxer)
-  let eixosBuilt = { eixos: DEFAULT_CONTENT.eixos, repositorioFolders: DEFAULT_CONTENT.repositorioFolders };
-  if (eixosR && eixosR.length) {
-    const list = eixosR
-      .filter((r) => (r.nome || "").trim() !== "")
-      .map((r) => {
-        const def = DEFAULT_EIXOS_LIST.find((d) => d.nome === r.nome);
-        return {
-          nome: r.nome,
-          cor: r.cor || (def && def.cor) || "#7B8F6B",
-          link_pasta: r.link_pasta || r.link || r.pasta || (def && def.link_pasta) || "",
-        };
-      });
-    if (list.length) eixosBuilt = buildEixos(list);
   }
 
   // Cronograma
@@ -242,7 +195,6 @@ export async function fetchContent() {
           bibAbnt: r.referencia || r.referencia_abnt || r.abnt || r.bibabnt || null,
           filePreview: r.arquivo || r.arquivo_preview || r.preview || null,
           part: r.palestrante || r.part || null,
-          eixo: r.eixo || null,
           videos,
         };
       });
@@ -274,7 +226,6 @@ export async function fetchContent() {
 
   return {
     config,
-    eixos: eixosBuilt.eixos,
     bibliografiaFolderId: folderIdFromLink(config.bibliografia_pasta) || config.bibliografia_folder_id || DEFAULT_CONFIG.bibliografia_folder_id,
     materiaisFolderId: folderIdFromLink(config.materiais_pasta) || config.materiais_folder_id || DEFAULT_CONFIG.materiais_folder_id,
     cronograma: cronograma.length ? cronograma : DEFAULT_CRONOGRAMA,

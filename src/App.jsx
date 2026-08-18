@@ -135,23 +135,6 @@ function NavItem({ icon: Icon, label, active, onClick }) {
   );
 }
 
-function EixoTag({ eixo }) {
-  const { eixos: EIXOS } = useContent();
-  if (!eixo || !EIXOS[eixo]) return null;
-  const { color, icon: Icon } = EIXOS[eixo];
-  return (
-    <span style={{
-      display: "inline-flex", alignItems: "center", gap: "5px",
-      padding: "3px 10px", borderRadius: "20px", fontSize: "11px",
-      fontWeight: 500, background: color + "18", color: color,
-      fontFamily: "'DM Sans', sans-serif",
-    }}>
-      <Icon size={12} />
-      {eixo}
-    </span>
-  );
-}
-
 function HeroSection() {
   const colors = useContext(ThemeContext);
   const { config } = useContent();
@@ -399,10 +382,8 @@ function MuralAvisos({ goToRepositorio }) {
 
 function CronogramaSection() {
   const colors = useContext(ThemeContext);
-  const { cronograma: CRONOGRAMA, eixos: EIXOS, config } = useContent();
+  const { cronograma: CRONOGRAMA, config } = useContent();
   const [expanded, setExpanded] = useState(null);
-  const [filterEixo, setFilterEixo] = useState(null);
-  const filtered = filterEixo ? CRONOGRAMA.filter((c) => c.eixo === filterEixo) : CRONOGRAMA;
 
   const isPast = (dataStr) => {
     if (!dataStr) return false;
@@ -421,45 +402,11 @@ function CronogramaSection() {
             <h2 style={{ fontSize: "22px", fontWeight: 600, color: colors.charcoal, fontFamily: "'Playfair Display', serif", marginBottom: "4px" }}>
               Cronograma {config.semestre}
             </h2>
-            <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              <span style={{ fontStyle: "italic" }}>Os encontros abaixo estão categorizados e divididos pelos 3 grandes Eixos Temáticos.</span>
-            </p>
           </div>
         </div>
 
-        <div style={{ display: "flex", gap: "8px", marginBottom: "20px", flexWrap: "wrap" }}>
-          <button
-            onClick={() => setFilterEixo(null)}
-            style={{
-              padding: "6px 14px", borderRadius: "20px", border: `1px solid ${!filterEixo ? colors.sage : colors.creamDark}`,
-              background: !filterEixo ? colors.sage + "15" : "transparent",
-              color: !filterEixo ? colors.sage : colors.warmGray,
-              fontSize: "12px", fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-              transition: "all 0.2s",
-            }}
-          >
-            Todos
-          </button>
-          {Object.entries(EIXOS).map(([name, { color }]) => (
-            <button
-              key={name}
-              onClick={() => setFilterEixo(name)}
-              style={{
-                padding: "6px 14px", borderRadius: "20px",
-                border: `1px solid ${filterEixo === name ? color : colors.creamDark}`,
-                background: filterEixo === name ? color + "15" : "transparent",
-                color: filterEixo === name ? color : colors.warmGray,
-                fontSize: "12px", fontWeight: 500, cursor: "pointer", fontFamily: "'DM Sans', sans-serif",
-                transition: "all 0.2s",
-              }}
-            >
-              {name}
-            </button>
-          ))}
-        </div>
-
         <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-          {filtered.map((item, i) => {
+          {CRONOGRAMA.map((item, i) => {
             const isHoliday = item.tema.includes("Feriado");
             const isOpen = expanded === i;
             const past = isPast(item.data);
@@ -493,7 +440,7 @@ function CronogramaSection() {
                       /{item.data.split("/")[1]}
                     </div>
                   </div>
-                  <div style={{ width: "3px", height: "32px", borderRadius: "2px", background: item.eixo ? EIXOS[item.eixo].color + "40" : colors.creamDark, flexShrink: 0 }} />
+                  <div style={{ width: "3px", height: "32px", borderRadius: "2px", background: colors.sage + "30", flexShrink: 0 }} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={{ fontSize: "15px", fontWeight: 500, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
                       {item.tema}
@@ -504,7 +451,6 @@ function CronogramaSection() {
                         </span>
                       )}
                     </div>
-                    {item.eixo && <div style={{ marginTop: "4px" }}><EixoTag eixo={item.eixo} /></div>}
                   </div>
                   {item.part && (
                     <div className="palestrante-badge" style={{
@@ -618,7 +564,7 @@ function RepositorioSection() {
               Bibliografia dos Encontros
             </h2>
             <p style={{ fontSize: "13px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif" }}>
-              Os textos e leituras de cada encontro. Os nomes seguem exatamente os arquivos da pasta no Drive da Liga.
+              Os textos e leituras de cada encontro.
             </p>
           </div>
           {!loading && !error && files.length > 0 && (
