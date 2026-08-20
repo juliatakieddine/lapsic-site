@@ -60,11 +60,14 @@ const DEFAULT_CRONOGRAMA = [
   { data: "01/06", tema: "Encerramento e Feedback do Semestre", bib: null, bibAbnt: null, filePreview: null, part: null, eixo: null, videos: [] },
 ];
 
+// Rede de segurança da Diretoria: só aparece se a aba "Diretoria" não puder ser
+// lida por algum instante. Deve espelhar a diretoria ATUAL da planilha, sem fotos
+// (o site mostra as iniciais quando não há foto). A fonte de verdade é a planilha.
 const DEFAULT_DIRETORIA = [
-  { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "/diretoria/isabela.jpg" },
-  { nome: "Julia Takieddine", ra: "10396144", email: "juliataki08@gmail.com", tel: "(11) 94072-7276", foto: "/diretoria/julia.png" },
-  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: "/diretoria/bruno.png" },
-  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: "/diretoria/marcella.jpg" },
+  { nome: "Isabela Scaramuzza Kondor", ra: "10400944", email: "isabela.kondor2509@gmail.com", tel: "(11) 96326-5900", foto: "" },
+  { nome: "Bruno Apollaro Zanin", ra: "10723241", email: "bruno.a.zanin2006@gmail.com", tel: "(11) 98679-0264", foto: "" },
+  { nome: "Marcella Mazanati", ra: "10410025", email: "mazanatj@gmail.com", tel: "(11) 99639-9056", foto: "" },
+  { nome: "Vinicius Calado", ra: "", email: "", tel: "(11) 96357-3806", foto: "" },
 ];
 
 const DEFAULT_CONVIDADOS = ["suguidiane@gmail.com", "yasmimsalves@hotmail.com"];
@@ -146,14 +149,70 @@ function rowsToObjects(rows) {
 }
 
 function csvUrl(aba) {
+  // headers=1  -> obriga o Google a SEMPRE tratar a 1ª linha como cabeçalho.
+  //   (sem isso, colunas numéricas como RA/telefone podem fazer o Google "perder"
+  //    o cabeçalho e o site achar que a aba está vazia.)
+  // _cb        -> evita que o navegador sirva uma versão antiga (em cache) logo
+  //   depois de uma edição.
   return "https://docs.google.com/spreadsheets/d/" + SHEET_ID +
-    "/gviz/tq?tqx=out:csv&sheet=" + encodeURIComponent(aba);
+    "/gviz/tq?tqx=out:csv&headers=1&sheet=" + encodeURIComponent(aba) + "&_cb=" + Date.now();
 }
 
-async function fetchAba(aba) {
-  const resp = await fetch(csvUrl(aba));
-  if (!resp.ok) throw new Error("Falha ao ler a aba " + aba);
-  return rowsToObjects(parseCSV(await resp.text()));
+// Lê uma aba com algumas tentativas e devolve as LINHAS cruas (para permitir o
+// reparo de cabeçalho abaixo).
+async function fetchAba(aba, tries = 3) {
+  let lastErr;
+  for (let t = 0; t < tries; t++) {
+    try {
+      const resp = await fetch(csvUrl(aba), { cache: "no-store" });
+      if (!resp.ok) throw new Error("HTTP " + resp.status + " na aba " + aba);
+      return parseCSV(await resp.text());
+    } catch (e) {
+      lastErr = e;
+      if (t < tries - 1) await new Promise((r) => setTimeout(r, 700 * (t + 1)));
+    }
+  }
+  throw lastErr;
+}
+
+// Converte as linhas em objetos. Se, mesmo assim, o Google não devolver o
+// cabeçalho (a 1ª linha não contém nenhuma das colunas esperadas), assume que o
+// cabeçalho foi "engolido" e aplica a ordem de colunas conhecida daquela aba —
+// assim a leitura nunca falha por causa do formato de um número.
+function rowsToObjectsSafe(rows, mustHave, knownCols) {
+  if (!rows || rows.length < 1) return [];
+  const hdr = (rows[0] || []).map(normHeader);
+  const hasHeader = mustHave.some((k) => hdr.includes(k));
+  if (hasHeader) return rowsToObjects(rows);
+  if (!knownCols) return rowsToObjects(rows); // sem ordem conhecida: mantém o padrão
+  const out = [];
+  for (let r = 0; r < rows.length; r++) {
+    const cells = rows[r];
+    if (!cells || cells.every((c) => (c || "").trim() === "")) continue;
+    const obj = {};
+    knownCols.forEach((h, i) => { obj[h] = (cells[i] || "").trim(); });
+    out.push(obj);
+  }
+  return out;
+}
+
+// ----------------------------------------------------------------------------
+//  Memória do último conteúdo lido com sucesso (guardada no próprio navegador).
+//  Se em algum momento a planilha não puder ser lida, o site usa a ÚLTIMA versão
+//  boa que já viu — não uma cópia antiga do código. É isto que impede o site de
+//  "voltar para a versão antiga" durante os segundos seguintes a uma edição.
+// ----------------------------------------------------------------------------
+const CACHE_KEY = "lapsic_conteudo_v1";
+function loadCache() {
+  try {
+    const s = typeof localStorage !== "undefined" ? localStorage.getItem(CACHE_KEY) : null;
+    return s ? JSON.parse(s) : null;
+  } catch (_) { return null; }
+}
+function saveCache(obj) {
+  try {
+    if (typeof localStorage !== "undefined") localStorage.setItem(CACHE_KEY, JSON.stringify(obj));
+  } catch (_) { /* ignora */ }
 }
 
 const isConfigured = () => SHEET_ID && !SHEET_ID.startsWith("COLE_");
@@ -163,25 +222,36 @@ const isConfigured = () => SHEET_ID && !SHEET_ID.startsWith("COLE_");
 export async function fetchContent() {
   if (!isConfigured()) return DEFAULT_CONTENT;
 
-  const [configR, cronoR, diretoriaR, convidadosR] = await Promise.all(
+  const cache = loadCache() || {};
+
+  const [configRows, cronoRows, diretoriaRows, convidadosRows] = await Promise.all(
     [ABAS.config, ABAS.cronograma, ABAS.diretoria, ABAS.convidados].map((aba) =>
       fetchAba(aba).catch(() => null)
     )
   );
 
-  // Config
-  const config = { ...DEFAULT_CONFIG };
+  // Converte linhas em objetos, com reparo de cabeçalho quando necessário.
+  const configR = configRows ? rowsToObjectsSafe(configRows, ["chave", "campo", "valor"], null) : null;
+  const cronoR = cronoRows ? rowsToObjectsSafe(cronoRows, ["data", "tema"], null) : null;
+  const diretoriaR = diretoriaRows ? rowsToObjectsSafe(diretoriaRows, ["nome"], ["nome", "ra", "email", "telefone"]) : null;
+  const convidadosR = convidadosRows ? rowsToObjectsSafe(convidadosRows, ["email", "e-mail", "convidado"], ["email"]) : null;
+
+  // Config — só considera "lido com sucesso" se a aba respondeu.
+  let configFresh = null;
   if (configR) {
+    const c = { ...DEFAULT_CONFIG };
     configR.forEach((r) => {
       const chave = normHeader(r.chave || r.campo || "");
-      if (chave && r.valor !== undefined && r.valor !== "") config[chave] = r.valor;
+      if (chave && r.valor !== undefined && r.valor !== "") c[chave] = r.valor;
     });
+    configFresh = c;
   }
+  const config = configFresh || cache.config || { ...DEFAULT_CONFIG };
 
   // Cronograma
-  let cronograma = DEFAULT_CRONOGRAMA;
+  let cronogramaFresh = null;
   if (cronoR && cronoR.length) {
-    cronograma = cronoR
+    cronogramaFresh = cronoR
       .filter((r) => (r.data || "").trim() !== "" || (r.tema || "").trim() !== "")
       .map((r) => {
         const videoUrl = r.video_url || r.video || "";
@@ -200,11 +270,14 @@ export async function fetchContent() {
         };
       });
   }
+  const cronograma = (cronogramaFresh && cronogramaFresh.length)
+    ? cronogramaFresh
+    : ((cache.cronograma && cache.cronograma.length) ? cache.cronograma : DEFAULT_CRONOGRAMA);
 
   // Diretoria (+ e-mails de diretores)
-  let diretoria = DEFAULT_DIRETORIA;
+  let diretoriaFresh = null;
   if (diretoriaR && diretoriaR.length) {
-    diretoria = diretoriaR
+    const d = diretoriaR
       .filter((r) => (r.nome || "").trim() !== "")
       .map((r) => ({
         nome: r.nome || "",
@@ -213,24 +286,36 @@ export async function fetchContent() {
         tel: r.telefone || r.tel || "",
         foto: r.foto || r.foto_url || "",
       }));
+    if (d.length) diretoriaFresh = d;
   }
+  const diretoria = diretoriaFresh
+    || ((cache.diretoria && cache.diretoria.length) ? cache.diretoria : DEFAULT_DIRETORIA);
   const authorizedDirectors = diretoria.map((d) => (d.email || "").toLowerCase()).filter(Boolean);
 
-  // Convidados
-  let authorizedGuests = DEFAULT_CONTENT.authorizedGuests;
+  // Convidados (a aba pode existir e estar vazia — isso é uma leitura válida)
+  let guestsFresh = null;
   if (convidadosR) {
-    const list = convidadosR
+    guestsFresh = convidadosR
       .map((r) => (r.email || r["e-mail"] || r.convidado || "").toLowerCase().trim())
       .filter(Boolean);
-    authorizedGuests = list; // aba existe → usa exatamente o que estiver nela (pode estar vazia)
   }
+  const authorizedGuests = guestsFresh || cache.authorizedGuests || DEFAULT_CONTENT.authorizedGuests;
+
+  // Guarda na memória do navegador SÓ o que foi lido com sucesso agora; o que
+  // falhou mantém o valor bom anterior. Assim a memória nunca guarda a cópia antiga.
+  saveCache({
+    config: configFresh || cache.config || null,
+    cronograma: (cronogramaFresh && cronogramaFresh.length) ? cronogramaFresh : (cache.cronograma || null),
+    diretoria: diretoriaFresh || cache.diretoria || null,
+    authorizedGuests: guestsFresh || cache.authorizedGuests || null,
+  });
 
   return {
     config,
     bibliografiaFolderId: folderIdFromLink(config.bibliografia_pasta) || config.bibliografia_folder_id || DEFAULT_CONFIG.bibliografia_folder_id,
     materiaisFolderId: folderIdFromLink(config.materiais_pasta) || config.materiais_folder_id || DEFAULT_CONFIG.materiais_folder_id,
-    cronograma: cronograma.length ? cronograma : DEFAULT_CRONOGRAMA,
-    diretoria: diretoria.length ? diretoria : DEFAULT_DIRETORIA,
+    cronograma,
+    diretoria,
     authorizedDirectors: authorizedDirectors.length ? authorizedDirectors : DEFAULT_CONTENT.authorizedDirectors,
     authorizedGuests,
   };

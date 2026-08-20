@@ -829,32 +829,48 @@ function DiretoriaSection() {
                 <div style={{ fontSize: "15px", fontWeight: 600, color: colors.charcoal, fontFamily: "'DM Sans', sans-serif", marginBottom: "2px" }}>
                   {d.nome}
                 </div>
-                <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "14px" }}>
-                  RA: {d.ra}
-                </div>
+                {d.ra && (
+                  <div style={{ fontSize: "12px", color: colors.warmGray, fontFamily: "'DM Sans', sans-serif", marginBottom: "14px" }}>
+                    RA: {d.ra}
+                  </div>
+                )}
                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
-                  <a href={`mailto:${d.email}`} style={{
-                    display: "flex", alignItems: "center", gap: "8px",
-                    fontSize: "12px", color: colors.sage, textDecoration: "none",
-                    fontFamily: "'DM Sans', sans-serif", transition: "color 0.2s"
-                  }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
-                    onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
-                  >
-                    <Mail size={13} />
-                    <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.email}</span>
-                  </a>
-                  <a href={`https://wa.me/55${d.tel.replace(/\D/g, '')}`} target="_blank" rel="noopener noreferrer" style={{
-                    display: "flex", alignItems: "center", gap: "8px",
-                    fontSize: "12px", color: colors.sage, textDecoration: "none",
-                    fontFamily: "'DM Sans', sans-serif", cursor: "pointer", transition: "color 0.2s"
-                  }}
-                    onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
-                    onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
-                  >
-                    <Phone size={13} />
-                    {d.tel}
-                  </a>
+                  {d.email && (
+                    <a href={`mailto:${d.email}`} style={{
+                      display: "flex", alignItems: "center", gap: "8px",
+                      fontSize: "12px", color: colors.sage, textDecoration: "none",
+                      fontFamily: "'DM Sans', sans-serif", transition: "color 0.2s"
+                    }}
+                      onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
+                      onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
+                    >
+                      <Mail size={13} />
+                      <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{d.email}</span>
+                    </a>
+                  )}
+                  {d.tel && (() => {
+                    // Aceita o telefone em QUALQUER formato: extrai só os dígitos.
+                    // Se parecer um telefone válido, vira link do WhatsApp; se não,
+                    // mostra o texto do jeito que está (sem link quebrado, sem erro).
+                    const digits = String(d.tel).replace(/\D/g, "");
+                    const wa = digits.startsWith("55") ? digits : "55" + digits;
+                    const pareceTelefone = digits.length >= 10 && digits.length <= 13;
+                    const estilo = {
+                      display: "flex", alignItems: "center", gap: "8px",
+                      fontSize: "12px", color: colors.sage, textDecoration: "none",
+                      fontFamily: "'DM Sans', sans-serif",
+                      cursor: pareceTelefone ? "pointer" : "default", transition: "color 0.2s"
+                    };
+                    const conteudo = (<><Phone size={13} />{d.tel}</>);
+                    return pareceTelefone ? (
+                      <a href={`https://wa.me/${wa}`} target="_blank" rel="noopener noreferrer" style={estilo}
+                        onMouseEnter={(e) => e.currentTarget.style.color = colors.moss}
+                        onMouseLeave={(e) => e.currentTarget.style.color = colors.sage}
+                      >{conteudo}</a>
+                    ) : (
+                      <span style={estilo}>{conteudo}</span>
+                    );
+                  })()}
                 </div>
               </div>
             </FadeIn>
